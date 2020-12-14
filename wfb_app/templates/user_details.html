@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<h1>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</h1>
+    <div class="col-1">
+        {% if user.username == request.user.username %}
+        <div class="nav nav-pills nav-justified">
+            <a class="nav-link active" href="/ranking/add_result/">Dodaj wynik</a>
+        </div>
+        {% endif %}
+    </div>
+        <table class="table border-bottom schedules-content">
+
+            <tr>
+                <th>Punkty</th>
+                <th>Czy wykonany objective</th>
+                <th>Jaki Objective</th>
+                <th>Ranga turnieju/gry</th>
+                <th>Przeciwnik</th>
+                <th>Data</th>
+            </tr>
+            {% for result in ranking %}
+            <tr>
+                <td>{{ result.battle_points }}</td>
+                {% if result.objective  %}
+                    <td style="color: green">Tak</td>
+                {% else %}
+                    <td style="color: red">Nie</td>
+                {% endif %}
+                <td>{{ result.get_objective_type_display  }}</td>
+                <td>{{ result.get_game_rank_display  }}</td>
+                <td>{{ result.opponent  }}</td>
+                <td>{{ result.date  }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Total: {{ total }}</td>
+            </tr>
+        </table>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link active" href="/">Back</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

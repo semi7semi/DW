@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<h1>Lista</h1>
+
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa Armii</th>
+                <th>Skrot</th>
+                <th>Opis</th>
+            </tr>
+            {% for army in army_list %}
+            <tr>
+                <td><a href="/army_details/{{ army.id }}/">{{ army.name }}</a></td>
+                <td>{{ army.short_name }}</td>
+                <td>{{ army.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link active" href="/">Back</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

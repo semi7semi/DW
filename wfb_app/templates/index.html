@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+{% block content %}
+                <div class="dashboard-header m-2 p-2">
+                    <div class="col-1">
+                        {% if request.user.is_authenticated %}
+                        <div class="nav nav-pills nav-justified">
+                            <a class="nav-link active" href="/ranking/add_result/">Dodaj wynik</a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="dashboard-alerts">
+                        <div class="alert-item alert-info">
+                            <span class="font-weight-bold">Liczba graczy w rankingu: {{ no_of_users }}</span>
+                        </div>
+                        <div class="alert-item alert-light">
+                            <span class="font-weight-bold">Liczba gier w rankingu: {{ no_of_games }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-4 p-4 border-dashed">
+                    <h2 class="dashboard-content-title">
+                        <span>Pieciu najlepszych</span>
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-3">Ksywka</th>
+                                <th class="col-2">Punkty</th>
+                                <th class="col-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in result %}
+                            <tr class="d-flex">
+                                <td class="col-3">{{ user.2.username }}</td>
+                                <td class="col-2">{{ user.0 }}</td>
+                                <td class="col-2"><a href="/user_details/{{ user.2.id }}/"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+{% endblock content %}

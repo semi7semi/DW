@@ -1,0 +1,7 @@
+django
+psycopg2-binary
+pytest
+pytest-django
+flake8
+gunicorn
+django-heroku

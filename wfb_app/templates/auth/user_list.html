@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<h1>Lista Uzytkownikow</h1>
+
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nickname</th>
+                <th>pass</th>
+                <th>Army</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.profile.user_army  }}</td>
+                <td><a class="btn btn-primary rounded-1" href="/user_details/{{ user.id }}/">Szczegóły</a></td>
+                {% if request.user.username == user.username %}
+                <td><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
+                <td><a class="btn btn-secondary rounded-1 disabled" href="/users/delete/{{ user.id }}/">Usuń</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link active" href="/">Back</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
