@@ -17,7 +17,7 @@ ARMIES_CHOICE = (
     ("UD", "Undying Dynasties", "Khemri"),
     ("VC", "Vampire Covenant", "Wampiry"),
     ("VS", "Vermin Swarm", "Skaveni"),
-    ("WDG", "Warriors of the Dark Gods", "Wojownicy CHaosu")
+    ("WDG", "Warriors of the Dark Gods", "Wojownicy Chaosu")
 )
 
 
