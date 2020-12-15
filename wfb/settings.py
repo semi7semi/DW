@@ -14,6 +14,8 @@ from pathlib import Path
 import django_heroku
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from decouple import config
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -21,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8a0)*ee_iax1ehvhgls%$h5f%!+9k=+l58$0)oq4h5+-d5k90s'
-
+# SECRET_KEY = '8a0)*ee_iax1ehvhgls%$h5f%!+9k=+l58$0)oq4h5+-d5k90s'
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -82,18 +85,22 @@ WSGI_APPLICATION = 'wfb.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
 DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'wfb_dw',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': 'postgres',
-        'PASSWORD': 'marcin7',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
-# Parse database configuration from $DATABASE_URL
-DATABASES['default'] =  dj_database_url.config()
+# DATABASES = {
+#     'default': {
+#         'HOST': '127.0.0.1',
+#         'NAME': 'wfb_dw',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'USER': 'postgres',
+#         'PASSWORD': 'marcin7',
+#     }
+# }
+# # Parse database configuration from $DATABASE_URL
+# DATABASES['default'] =  dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -130,9 +137,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]

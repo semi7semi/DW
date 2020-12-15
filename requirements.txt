@@ -5,3 +5,6 @@ pytest-django
 flake8
 gunicorn
 django-heroku
+python-decouple
+dj-database-url
+dj-static
