@@ -76,8 +76,6 @@ WSGI_APPLICATION = 'wfb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,16 +83,17 @@ DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'HOST': '127.0.0.1',
-#         'NAME': 'wfb_dw',
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'USER': 'postgres',
-#         'PASSWORD': 'marcin7',
-#     }
-# }
-
+DATABASES = {
+    'default': {
+        'HOST': '127.0.0.1',
+        'NAME': 'wfb_dw',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'postgres',
+        'PASSWORD': 'marcin7',
+    }
+}
+# Parse database configuration from $DATABASE_URL
+DATABASES['default'] =  dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
