@@ -47,9 +47,13 @@
             </tr>
             {% for result in ranking %}
             <tr>
-                <td><a href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
+                <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>
-                <td>{{ result.objective  }}</td>
+                {% if result.objective %}
+                    <td style="color: green">Tak</td>
+                {% else %}
+                    <td style="color: red">Nie</td>
+                {% endif %}
                 <td>{{ result.get_objective_type_display  }}</td>
                 <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.opponent  }}</td>

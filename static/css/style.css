@@ -33,6 +33,11 @@ p {
   font-size: 1.2rem;
 }
 
+.user-color {
+  font-weight: bold;
+  color: var(--lighter-background-color);
+}
+
 .bg-light {
 background: #EAEAEA;
 }

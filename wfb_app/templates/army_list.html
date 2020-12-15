@@ -11,7 +11,7 @@
             </tr>
             {% for army in army_list %}
             <tr>
-                <td><a href="/army_details/{{ army.id }}/">{{ army.name }}</a></td>
+                <td><button class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4"><a href="/army_details/{{ army.id }}/">{{ army.name }}</a></button></td>
                 <td>{{ army.short_name }}</td>
                 <td>{{ army.description }}</td>
             </tr>

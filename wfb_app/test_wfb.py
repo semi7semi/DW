@@ -40,7 +40,7 @@ def test_add_user(client, army):
 
 
 @pytest.mark.django_db
-def test_add_unit(client, user):
+def test_add_unit(client, user, army):
     # sprawdzamy czy baza jest pusta
     assert len(Units.objects.all()) == 0
     # logujemy uzytkownika bo widok jest zabezpieczony
@@ -51,6 +51,8 @@ def test_add_unit(client, user):
         "offensive": 4,
         "strength": 3,
         "ap": 0,
+        "reflex": False,
+        "army": army.id
     })
     assert response.status_code == 302
     assert len(Units.objects.all()) == 1
@@ -60,7 +62,7 @@ def test_add_unit(client, user):
     assert unit.strength == 3
     assert unit.ap == 0
     assert unit.reflex == False
-    assert unit.army.name == "Beast Herds"
+    assert unit.army.name == "Warriors of the Dark Gods"
 
 
 @pytest.mark.django_db
