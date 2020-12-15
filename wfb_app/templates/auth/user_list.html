@@ -14,8 +14,9 @@
                 <td><a class="user-color" href="/user_details/{{ user.id }}">{{ user.username }}</a></td>
 <!--                <td>{{ user.email }}</td>-->
                 <td>{{ user.profile.user_army  }}</td>
-                <td><a class="btn btn-primary rounded-1" href="/user_details/{{ user.id }}/">Szczegóły</a></td>
+<!--                <td><a class="btn btn-primary rounded-1" href="/user_details/{{ user.id }}/">Szczegóły</a></td>-->
                 {% if request.user.username == user.username %}
+                <td><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
 <!--                <td><a class="btn btn-secondary rounded-1 disabled" href="/users/delete/{{ user.id }}/">Usuń</a></td>-->
                 {% endif %}
             </tr>
