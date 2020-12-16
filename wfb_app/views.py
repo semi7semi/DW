@@ -14,7 +14,7 @@ class Index(View):
     # strona główna, 5ciu najleprzysz graczy, logowanie, linki
     def get(self, request):
         result = []
-        users = User.objects.all()
+        users = User.objects.all().exclude(username="admin")
         no_of_games = GameResults.objects.all().count()
         for user in users:
             games = GameResults.objects.filter(user=user)
@@ -208,12 +208,12 @@ class EditUserView(LoginRequiredMixin, View):
             return redirect("users-list")
 
 
-class UsersList(LoginRequiredMixin, ListView):
-    # lista zarejestrowanych uzytkownikow
+class UsersList(LoginRequiredMixin, View):
+    # Lista wszystkich uzytkownkow
     # tylko dla zalogowanych
-    model = User
-    context_object_name = "users"
-    ordering = "username"
+    def get(self, request):
+        users = User.objects.all().order_by("username").exclude(username="admin")
+        return render(request, "user_list.html", {"users": users})
 
 
 class UserDetailsView(View):
