@@ -45,7 +45,7 @@
                 <th>Przeciwnik</th>
                 <th>Data</th>
             </tr>
-            {% for result in ranking %}
+            {% for result in page_obj %}
             <tr>
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>
@@ -61,6 +61,29 @@
             </tr>
             {% endfor %}
         </table>
+<div class="pagination">
+        <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"> < Poprzednia </a> |
+        {% endif %}
+
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+            <span>
+                 {{ page }} |
+            </span>
+            {% else %}
+            <span>
+                <a href="?page={{ page }}"> {{ page }} </a> |
+            </span>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"> Nastepna > </a>
+        {% endif %}
+        </span>
+    </div>
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">

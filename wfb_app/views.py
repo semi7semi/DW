@@ -8,7 +8,7 @@ from functions import towound, afterarmour
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm
 from wfb_app.models import Units, Armys, GameResults, Objectives, Profile
 from django.contrib.auth.models import User
-
+from django.core.paginator import Paginator
 
 class Index(View):
     # strona główna, 5ciu najleprzysz graczy, logowanie, linki
@@ -19,10 +19,11 @@ class Index(View):
         for user in users:
             games = GameResults.objects.filter(user=user)
             total = 0
+            count = games.count()
             for game in games:
                 total += game.battle_points
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user])
+            result.append([total, user.id, user, count])
         result.sort(reverse=True)
         result = result[:5]
         ctx = {"no_of_users": users.count(), "no_of_games": no_of_games, "result": result}
@@ -243,8 +244,12 @@ class RankingList(View):
     # Ranking wszsytkich uzytkownikow, z punktami
     # sortowanie po wynikach, rangze itd
     def get(self, request):
-        ranking = GameResults.objects.all()
-        return render(request, "ranking_list.html", {"ranking": ranking})
+        ranking = GameResults.objects.all().order_by("-date")
+        paginator = Paginator(ranking, 20)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        ctx = {"ranking": ranking, "page_obj": page_obj}
+        return render(request, "ranking_list.html", ctx)
     def post(self, request):
         if request.POST.get("option") == "name_sort":
             ranking = GameResults.objects.all().order_by("user", "-battle_points")
