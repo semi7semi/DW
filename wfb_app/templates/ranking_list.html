@@ -45,7 +45,7 @@
                 <th>Przeciwnik</th>
                 <th>Data</th>
             </tr>
-            {% for result in page_obj %}
+            {% for result in ranking %}
             <tr>
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>

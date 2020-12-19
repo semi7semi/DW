@@ -245,11 +245,7 @@ class RankingList(View):
     # sortowanie po wynikach, rangze itd
     def get(self, request):
         ranking = GameResults.objects.all().order_by("-date")
-        paginator = Paginator(ranking, 20)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
-        ctx = {"ranking": ranking, "page_obj": page_obj}
-        return render(request, "ranking_list.html", ctx)
+        return render(request, "ranking_list.html", {"ranking": ranking})
     def post(self, request):
         if request.POST.get("option") == "name_sort":
             ranking = GameResults.objects.all().order_by("user", "-battle_points")
