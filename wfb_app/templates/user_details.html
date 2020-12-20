@@ -18,6 +18,7 @@
                 <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
                 <th>Data</th>
+                <th></th>
             </tr>
             {% for result in ranking %}
             <tr>
@@ -31,6 +32,9 @@
                 <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.opponent  }}</td>
                 <td>{{ result.date  }}</td>
+                {% if request.user.username == result.user.username %}
+                <td><a class="btn btn-secondary rounded-1" href="/ranking/edit/{{ result.id }}/">Edytuj</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
             <tr>

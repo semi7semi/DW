@@ -77,3 +77,15 @@ class GameResultsForm(forms.ModelForm):
             "date": "Data"
         }
         
+class EditGameResultsForm(forms.ModelForm):
+    class Meta:
+        model = GameResults
+        fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent"]
+        labels = {
+            "battle_points": "Punkty",
+            "objective": "Czy Objective wykonany",
+            "objective_type": "Jaki Objective",
+            "game_rank": "Ranga turnieju",
+            "opponent": "Przeciwnik",
+
+        }
