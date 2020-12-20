@@ -5,8 +5,7 @@ from django.views import View
 from django.views.generic import FormView, ListView
 
 from functions import towound, afterarmour
-from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, \
-    EditGameResultsForm
+from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm
 from wfb_app.models import Units, Armys, GameResults, Objectives, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -284,26 +283,15 @@ class AddGameResultView(LoginRequiredMixin, View):
 class EditGameResultView(View):
     def get(self, request, id):
         game = GameResults.objects.get(pk=id)
-        form = EditGameResultsForm(instance=game)
+        form = GameResultsForm(instance=game)
         ctx = {"form": form}
         return render(request, "edit_ranking.html", ctx)
     def post(self, request, id):
         game = get_object_or_404(GameResults, pk=id)
-        form = EditGameResultsForm(request.POST, instance=game)
+        form = GameResultsForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
             return redirect("ranking-list")
 
 
 
-    # def get(self, request, id):
-    #     unit = Units.objects.get(pk=id)
-    #     form = AddUnit(instance=unit)
-    #     ctx = {"form": form}
-    #     return render(request, "edit_unit.html", ctx)
-    # def post(self, request, id):
-    #     unit = get_object_or_404(Units, pk=id)
-    #     form = AddUnit(request.POST, instance=unit)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect("units-list")

@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 from .models import Units, Profile, GameResults
@@ -64,6 +65,12 @@ class EditUserForm(forms.ModelForm):
 
 
 class GameResultsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(GameResultsForm, self).__init__(*args, **kwargs)
+        self.fields["battle_points"].widget.attrs["min"] = 0
+        self.fields["battle_points"].widget.attrs["max"] = 20
+
+
     class Meta:
         model = GameResults
         fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent"]
@@ -75,17 +82,4 @@ class GameResultsForm(forms.ModelForm):
             "game_rank": "Ranga turnieju",
             "opponent": "Przeciwnik",
             "date": "Data"
-        }
-        
-class EditGameResultsForm(forms.ModelForm):
-    class Meta:
-        model = GameResults
-        fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent"]
-        labels = {
-            "battle_points": "Punkty",
-            "objective": "Czy Objective wykonany",
-            "objective_type": "Jaki Objective",
-            "game_rank": "Ranga turnieju",
-            "opponent": "Przeciwnik",
-
         }
