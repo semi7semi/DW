@@ -18,15 +18,46 @@ class Index(View):
         no_of_games = GameResults.objects.all().count()
         for user in users:
             games = GameResults.objects.filter(user=user)
+            count_master = games.filter(game_rank="master").count()
+            count_local = games.filter(game_rank="local").count()
+            count_home = games.filter(game_rank="home").count()
             total = 0
-            count = games.count()
+            total_master = 0
+            total_local = 0
+            total_home = 0
+            ranking_points = 0
+            count = count_master + count_local + count_home
             for game in games:
-                total += game.battle_points
+                if game.game_rank == "master":
+                    total_master += game.battle_points
+                elif game.game_rank == "local":
+                    total_local += game.battle_points
+                elif game.game_rank == "home":
+                    total_home += game.battle_points
+                total = total_master + total_local + total_home
+            if count_master == 0:
+                m = 0
+            else:
+                m = total_master / count_master
+            if count_local == 0:
+                l = 0
+            else:
+                l = total_local / count_local * 0.66
+            if count_home == 0:
+                h = 0
+            else:
+                h = total_home / total_home * 0.33
+            ranking_points += m + l + h
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user, count])
+            result.append([total, user.id, user, count, round(ranking_points, 2)])
+
         result.sort(reverse=True)
-        result = result[:5]
-        ctx = {"no_of_users": users.count(), "no_of_games": no_of_games, "result": result}
+        ctx = {
+            "no_of_users": users.count(),
+            "no_of_games": no_of_games,
+            "result": result[:5],
+            "result_5_plus": result[5:]
+        }
         return render(request, "index.html", ctx)
 
 

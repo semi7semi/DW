@@ -29,6 +29,7 @@
                             <tr class="d-flex">
                                 <th class="col-3">Ksywka</th>
                                 <th class="col-2">Punkty (gry)</th>
+                                <th class="col-2">Ranking value</th>
                                 <th class="col-2"></th>
                             </tr>
                         </thead>
@@ -37,10 +38,49 @@
                             <tr class="d-flex">
                                 <td class="col-3 user-color">{{ user.2.username }} </td>
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
+                                <td class="col-2">{{ user.4 }} </td>
                                 <td class="col-2"><a href="/user_details/{{ user.2.id }}/"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                </div>
+                <div class="m-4 p-4 border-dashed">
+                    <h2 class="dashboard-content-title">
+                        <span>Warzywniak</span>
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-3">Ksywka</th>
+                                <th class="col-2">Punkty (gry)</th>
+                                <th class="col-2">Ranking value</th>
+                                <th class="col-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in result_5_plus %}
+                            <tr class="d-flex">
+                                <td class="col-3 user-color">{{ user.2.username }} </td>
+                                <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
+                                <td class="col-2">{{ user.4 }} </td>
+                                <td class="col-2"><a href="/user_details/{{ user.2.id }}/"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="m-4 p-4 border-dashed">
+                    <h2 class="dashboard-content-title">
+                        <span>Ranking Value</span>
+                    </h2>
+                    <p>Punkty sa wyliczane na podstawie średniej wartosci wynikow w danej randze turnieju (Master, Local, Home)</p>
+                    <h4>RV = Av master + Av lokal * 0.66 + Av home * 0.33</h4>
+                    <ul>
+                        <li>RV - Ranking Value</li>
+                        <li>Av master - średnia z masterów (suma / ilosc gier)</li>
+                        <li>Av lokal - średnia z lokalow (suma / ilosc gier)</li>
+                        <li>Av home - średnia z domowek (suma / ilosc gier)</li>
+                    </ul>
                 </div>
 {% endblock content %}
