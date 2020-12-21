@@ -46,7 +46,7 @@ class Index(View):
             if count_home == 0:
                 h = 0
             else:
-                h = total_home / total_home * 0.33
+                h = total_home / count_home * 0.33
             ranking_points += m + l + h
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
             result.append([total, user.id, user, count, round(ranking_points, 2)])
