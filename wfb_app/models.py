@@ -69,6 +69,7 @@ class GameResults(models.Model):
     opponent = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
 
+    date.editable = True
 
 
 class Objectives(models.Model):

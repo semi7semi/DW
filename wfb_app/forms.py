@@ -73,7 +73,7 @@ class GameResultsForm(forms.ModelForm):
 
     class Meta:
         model = GameResults
-        fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent"]
+        fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent", "date"]
         labels = {
             "user": "Nick",
             "battle_points": "Punkty",

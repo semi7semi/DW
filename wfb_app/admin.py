@@ -5,7 +5,7 @@ from wfb_app.models import GameResults, Armys
 
 class GameResultsAdmin(admin.ModelAdmin):
     list_display = ("user", "battle_points", "objective", "objective_type", "game_rank", "opponent", "date")
-    list_editable = ("battle_points", "objective", "objective_type", "game_rank", "opponent")
+    list_editable = ("battle_points", "objective", "objective_type", "game_rank", "opponent", "date")
 
 class ArmysAdmin(admin.ModelAdmin):
     list_display = ("name", "short_name", "description")
