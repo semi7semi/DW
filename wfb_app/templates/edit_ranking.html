@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>
-    <form action="" method="POST">
+<form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input class="btn btn-secondary rounded-1" type="submit" value="Zapisz">

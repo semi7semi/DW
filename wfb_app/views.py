@@ -1,9 +1,11 @@
+
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import FormView, ListView
-
+from datetime import datetime
 from functions import towound, afterarmour
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm
 from wfb_app.models import Units, Armys, GameResults, Objectives, Profile
@@ -296,7 +298,7 @@ class AddGameResultView(LoginRequiredMixin, View):
     # dodawanie nowych wynikow do rankingu
     # tylko dla zalogowanych
     def get(self, request):
-        form = GameResultsForm()
+        form = GameResultsForm(initial={"date": datetime.now()})
         ctx = {"form": form}
         return render(request, "ranking_form.html", ctx)
     def post(self, request):

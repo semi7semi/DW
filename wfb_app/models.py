@@ -67,7 +67,7 @@ class GameResults(models.Model):
     objective_type = models.CharField(max_length=32, choices=OBJ, blank=True)
     game_rank = models.CharField(max_length=16, choices=GAME_RANK)
     opponent = models.CharField(max_length=64)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
 
     date.editable = True
 

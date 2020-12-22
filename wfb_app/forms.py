@@ -83,3 +83,4 @@ class GameResultsForm(forms.ModelForm):
             "opponent": "Przeciwnik",
             "date": "Data"
         }
+

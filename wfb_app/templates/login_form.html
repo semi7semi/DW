@@ -3,7 +3,7 @@
 <h2>Logowanie:</h2>
     <form action="" method="POST">
         {{ form.as_p }}
-        <input type="submit" value="Login">
+        <input class="btn btn-secondary rounded-1" type="submit" value="Login">
         {% csrf_token %}
     </form>
 {% endblock %}

@@ -74,14 +74,15 @@ def test_add_result(client, user):
     response = client.post("/ranking/add_result/", {
         "user": user.id,
         "battle_points": 10,
-        "objective": True,
         "objective_type": "1",
-        "game_rank": "master",
-        "opponent": "Przeciwnik",
+        "game_rank": "local",
+        "opponent": "Stefan",
     })
-    assert response.status_code == 302
+    assert response.status_code == 200
     assert len(GameResults.objects.all()) == 1
     result = GameResults.objects.get(user=user.id)
     assert result.battle_points == 10
     assert result.game_rank == "master"
     assert result.objective_type == "1"
+    assert result.opponent == "Przeciwnik"
+    assert result.date == datetime.now()
