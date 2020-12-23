@@ -277,7 +277,7 @@ class RankingList(View):
     # Ranking wszsytkich uzytkownikow, z punktami
     # sortowanie po wynikach, rangze itd
     def get(self, request):
-        ranking = GameResults.objects.all().order_by("-date")
+        ranking = GameResults.objects.all().order_by("-date", "-id")
         return render(request, "ranking_list.html", {"ranking": ranking})
     def post(self, request):
         if request.POST.get("option") == "name_sort":

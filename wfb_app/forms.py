@@ -83,4 +83,7 @@ class GameResultsForm(forms.ModelForm):
             "opponent": "Przeciwnik",
             "date": "Data"
         }
+        help_texts = {
+            "date": " RRRR-MM-DD",
+        }
 
