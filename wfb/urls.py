@@ -15,7 +15,7 @@ urlpatterns = [
     path('edit_unit/<int:id>/', EditUnitView.as_view(), name="edit-unit"),
     path("delete_unit/<int:id>/", DeleteUnitView.as_view()),
     path("army_list/", ArmyListView.as_view()),
-    path("army_details/<int:id>/", ArmyDetailsView.as_view()),
+    path("army_details/<int:id>/", ArmyDetailsView.as_view(), name="army-details"),
     path('calculator/', Calc.as_view(), name="calc-view"),
 
     path("ranking/", RankingList.as_view(), name="ranking-list"),

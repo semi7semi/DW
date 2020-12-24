@@ -74,37 +74,36 @@ class Calc(LoginRequiredMixin, View):
         attacks = int(request.POST.get('attacks'))
         defensive = int(request.POST.get('defensive'))
         resistance = int(request.POST.get('resistance'))
-        if request.POST.get('option') == "fight":
-            unit = Units.objects.get(pk=unit_id)
-            if unit.reflex:
-                ref = 1 / 6
-            else:
-                ref = 0
-            if unit.offensive - defensive >= 4:
-                x = 5 / 6
-            elif 4 > unit.offensive - defensive >= 0:
-                x = 2 / 3
-            elif unit.offensive - defensive <= -4:
-                x = 1 / 3
-            else:
-                x = 1 / 2
-            hit = attacks * (x + ref)
-            if x + ref == 1:
-                hit = attacks * x
-            wounds = towound(hit, unit.strength, resistance)
-            saves = ["none", "6+", "5+", "4+", "3+", "2+", "1+"]
-            arm = []
-            for armour in range(0, 7):
-                wounds_after_armour = afterarmour(unit.ap, armour, wounds)
-                arm.append(wounds_after_armour)
-            ctx = {
-                    "hit": round(hit, 2),
-                    "wounds": round(wounds, 2),
-                    "arm": arm,
-                    "saves": saves,
-                    "unit": unit
-                }
-            return render(request, "calculator.html", ctx)
+        unit = Units.objects.get(pk=unit_id)
+        if unit.reflex:
+            ref = 1 / 6
+        else:
+            ref = 0
+        if unit.offensive - defensive >= 4:
+            x = 5 / 6
+        elif 4 > unit.offensive - defensive > 0:
+            x = 2 / 3
+        elif unit.offensive - defensive <= -4:
+            x = 1 / 3
+        else:
+            x = 1 / 2
+        hit = attacks * (x + ref)
+        if x + ref == 1:
+            hit = attacks * x
+        wounds = towound(hit, unit.strength, resistance)
+        saves = ["none", "6+", "5+", "4+", "3+", "2+", "1+"]
+        arm = []
+        for armour in range(0, 7):
+            wounds_after_armour = afterarmour(unit.ap, armour, wounds)
+            arm.append(wounds_after_armour)
+        ctx = {
+            "hit": round(hit, 2),
+            "wounds": round(wounds, 2),
+            "arm": arm,
+            "saves": saves,
+            "unit": unit
+        }
+        return render(request, "calculator.html", ctx)
 
 
 class List(LoginRequiredMixin, View):
@@ -126,7 +125,7 @@ class AddUnitView(LoginRequiredMixin, View):
         form = AddUnit(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("calc-view")
+            return redirect("units-list")
 
 
 class EditUnitView(LoginRequiredMixin, View):

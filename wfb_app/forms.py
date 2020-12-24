@@ -7,6 +7,11 @@ from .models import Units, Profile, GameResults
 
 
 class AddUnit(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AddUnit, self).__init__(*args, **kwargs)
+        self.fields["ap"].widget.attrs["min"] = 0
+        self.fields["ap"].widget.attrs["max"] = 10
+
     class Meta:
         model = Units
         fields = "__all__"
@@ -70,7 +75,6 @@ class GameResultsForm(forms.ModelForm):
         self.fields["battle_points"].widget.attrs["min"] = 0
         self.fields["battle_points"].widget.attrs["max"] = 20
 
-
     class Meta:
         model = GameResults
         fields = ["battle_points", "objective", "objective_type", "game_rank", "opponent", "date"]
@@ -86,4 +90,3 @@ class GameResultsForm(forms.ModelForm):
         help_texts = {
             "date": " RRRR-MM-DD",
         }
-

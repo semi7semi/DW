@@ -19,6 +19,12 @@ def test_users_details(client, user):
 
 
 @pytest.mark.django_db
+def test_ranking_list(client):
+    response = client.get(f"/ranking/")
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_add_user(client, army):
     # sprawdzamy czy baza jest pusta
     assert len(User.objects.all()) == 0
@@ -65,6 +71,32 @@ def test_add_unit(client, user, army):
     assert unit.army.name == "Warriors of the Dark Gods"
 
 
+# @pytest.mark.django_db
+# def test_edit_unit(client, user, army):
+#     # sprawdzamy czy baza jest pusta
+#     assert len(Units.objects.all()) == 0
+#     # logujemy uzytkownika bo widok jest zabezpieczony
+#     client.force_login(user)
+#     # tworzymy obiekty
+#     response = client.post("/add_unit/", {
+#         "name": "Barbarian",
+#         "offensive": 4,
+#         "strength": 3,
+#         "ap": 0,
+#         "reflex": False,
+#         "army": army.id
+#     })
+#     assert response.status_code == 302
+#     assert len(Units.objects.all()) == 1
+#     unit = Units.objects.get(name="Barbarian")
+#     assert unit.name == "Barbarian"
+#     assert unit.offensive == 4
+#     assert unit.strength == 3
+#     assert unit.ap == 0
+#     assert unit.reflex == False
+#     assert unit.army.name == "Warriors of the Dark Gods"
+
+
 @pytest.mark.django_db
 def test_add_result(client, user):
     assert len(GameResults.objects.all()) == 0
@@ -72,17 +104,33 @@ def test_add_result(client, user):
     client.force_login(user)
     # tworzymy obiekty
     response = client.post("/ranking/add_result/", {
-        "user": user.id,
         "battle_points": 10,
         "objective_type": "1",
         "game_rank": "local",
         "opponent": "Stefan",
+        "date":"2020-12-12"
     })
-    assert response.status_code == 200
+    assert response.status_code == 302
     assert len(GameResults.objects.all()) == 1
     result = GameResults.objects.get(user=user.id)
     assert result.battle_points == 10
-    assert result.game_rank == "master"
+    assert result.game_rank == "local"
     assert result.objective_type == "1"
-    assert result.opponent == "Przeciwnik"
-    assert result.date == datetime.now()
+    assert result.opponent == "Stefan"
+    assert str(result.date) == "2020-12-12"
+
+
+@pytest.mark.django_db
+def test_calculator(client, user, unit):
+    assert len(Units.objects.all()) == 1
+    client.force_login(user)
+    response = client.post("/calculator/", {
+        "name": unit.id,
+        "attacks": 10,
+        "defensive": 3,
+        "resistance": 3,
+    })
+    assert response.status_code == 200
+    assert response.context["hit"] == 5
+    assert response.context["wounds"] == 2.5
+
