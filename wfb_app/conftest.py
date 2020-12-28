@@ -31,3 +31,4 @@ def unit():
     army = Armys.objects.create(name="Warriors of the Dark Gods", short_name="WDG", description="Opis armii WDG")
     one_unit = Units.objects.create(name="Barbarian", offensive=3, strength=3, ap=1, reflex=False, army=army)
     return one_unit
+
