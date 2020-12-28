@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 
-from wfb_app.views import Index, List, Calc, AddUnitView, EditUnitView, RankingList, \
+from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     LoginView, LogoutView, UsersList, CreateUserView, EditUserView, AddGameResultView, DeleteUser, UserDetailsView, \
-    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView
+    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,9 +14,9 @@ urlpatterns = [
     path('units_list/', List.as_view(), name="units-list"),
     path('edit_unit/<int:id>/', EditUnitView.as_view(), name="edit-unit"),
     path("delete_unit/<int:id>/", DeleteUnitView.as_view()),
-    path("army_list/", ArmyListView.as_view()),
+    path("army_list/", ArmyListView.as_view(), name="army-list"),
     path("army_details/<int:id>/", ArmyDetailsView.as_view(), name="army-details"),
-    path('calculator/', Calc.as_view(), name="calc-view"),
+    path("calculator/", CalcView.as_view(), name="calc-view"),
 
     path("ranking/", RankingList.as_view(), name="ranking-list"),
     path("ranking/add_result/", AddGameResultView.as_view()),

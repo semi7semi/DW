@@ -11,6 +11,10 @@ class AddUnit(forms.ModelForm):
         super(AddUnit, self).__init__(*args, **kwargs)
         self.fields["ap"].widget.attrs["min"] = 0
         self.fields["ap"].widget.attrs["max"] = 10
+        self.fields["strength"].widget.attrs["min"] = 0
+        self.fields["strength"].widget.attrs["max"] = 10
+        self.fields["offensive"].widget.attrs["min"] = 0
+        self.fields["offensive"].widget.attrs["max"] = 10
 
     class Meta:
         model = Units
@@ -90,3 +94,10 @@ class GameResultsForm(forms.ModelForm):
         help_texts = {
             "date": " RRRR-MM-DD",
         }
+
+
+class CalcForm(forms.Form):
+    unit_name = forms.ModelChoiceField(queryset=Units.objects.all(), label="Nazwa Jednostki")
+    attacks = forms.IntegerField(min_value=0, max_value=100, label = "Podaj ilosc atakow")
+    defensive = forms.IntegerField(min_value=0, max_value=10, label="Podaj Defensive Skill")
+    resistance = forms.IntegerField(min_value=0, max_value=10, label="Podaj Resistance")

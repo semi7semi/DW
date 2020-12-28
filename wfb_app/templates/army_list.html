@@ -5,22 +5,22 @@
 
         <table class="table border-bottom schedules-content">
             <tr>
-                <th>Nazwa Armii</th>
+                <th>Nazwa Armii (l. jednostek)</th>
                 <th>Skrot</th>
                 <th>Opis</th>
             </tr>
-            {% for army in army_list %}
+            {% for army in list %}
             <tr>
-                <td><button class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4"><a href="/army_details/{{ army.id }}/">{{ army.name }}</a></button></td>
-                <td>{{ army.short_name }}</td>
-                <td>{{ army.description }}</td>
+                <td><button class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4"><a href="/army_details/{{ army.0.id }}/">{{ army.0.name }}</a></button> ({{ army.1 }})</td>
+                <td>{{ army.0.short_name }}</td>
+                <td>{{ army.0.description }}</td>
             </tr>
             {% endfor %}
         </table>
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">
-            <a class="nav-link active" href="/">Back</a>
+            <a class="nav-link active" href="/calculator/">Back</a>
         </div>
     </div>
 </div>

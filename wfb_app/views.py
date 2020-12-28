@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import FormView, ListView
 from datetime import datetime
 from functions import towound, afterarmour
-from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm
+from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm
 from wfb_app.models import Units, Armys, GameResults, Objectives, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -63,47 +63,48 @@ class Index(View):
         return render(request, "index.html", ctx)
 
 
-class Calc(LoginRequiredMixin, View):
-    # Funkcjionalnosc Kalkulator, wylicza statystyke walki przy podanych parametrach przez uzytkownika
-    # tylko dla zalogowanych
+class CalcView(LoginRequiredMixin, View):
     def get(self, request):
-        units_list = Units.objects.all()
-        return render(request, "calculator.html", {"units_list": units_list})
+        form = CalcForm(initial={"attacks":10, "defensive":4, "resistance":3})
+        ctx = {"form": form}
+        return render(request, "calc.html", ctx)
     def post(self, request):
-        unit_id = request.POST.get('name')
-        attacks = int(request.POST.get('attacks'))
-        defensive = int(request.POST.get('defensive'))
-        resistance = int(request.POST.get('resistance'))
-        unit = Units.objects.get(pk=unit_id)
-        if unit.reflex:
-            ref = 1 / 6
-        else:
-            ref = 0
-        if unit.offensive - defensive >= 4:
-            x = 5 / 6
-        elif 4 > unit.offensive - defensive > 0:
-            x = 2 / 3
-        elif unit.offensive - defensive <= -4:
-            x = 1 / 3
-        else:
-            x = 1 / 2
-        hit = attacks * (x + ref)
-        if x + ref == 1:
-            hit = attacks * x
-        wounds = towound(hit, unit.strength, resistance)
-        saves = ["none", "6+", "5+", "4+", "3+", "2+", "1+"]
-        arm = []
-        for armour in range(0, 7):
-            wounds_after_armour = afterarmour(unit.ap, armour, wounds)
-            arm.append(wounds_after_armour)
-        ctx = {
-            "hit": round(hit, 2),
-            "wounds": round(wounds, 2),
-            "arm": arm,
-            "saves": saves,
-            "unit": unit
-        }
-        return render(request, "calculator.html", ctx)
+        form = CalcForm(request.POST)
+        if form.is_valid():
+            unit = form.cleaned_data["unit_name"]
+            attacks = form.cleaned_data["attacks"]
+            defensive = form.cleaned_data["defensive"]
+            resistance = form.cleaned_data["resistance"]
+            if unit.reflex:
+                ref = 1 / 6
+            else:
+                ref = 0
+            if unit.offensive - defensive >= 4:
+                x = 5 / 6
+            elif 4 > unit.offensive - defensive > 0:
+                x = 2 / 3
+            elif unit.offensive - defensive <= -4:
+                x = 1 / 3
+            else:
+                x = 1 / 2
+            hit = attacks * (x + ref)
+            if x + ref == 1:
+                hit = attacks * x
+            wounds = towound(hit, unit.strength, resistance)
+            saves = ["none", "6+", "5+", "4+", "3+", "2+", "1+"]
+            arm = []
+            for armour in range(0, 7):
+                wounds_after_armour = afterarmour(unit.ap, armour, wounds)
+                arm.append(wounds_after_armour)
+            ctx = {
+                "attacks": attacks,
+                "hit": round(hit, 2),
+                "wounds": round(wounds, 3),
+                "armour": arm,
+                "saves": saves,
+                "unit": unit
+            }
+            return render(request, "calc.html", ctx)
 
 
 class List(LoginRequiredMixin, View):
@@ -124,8 +125,9 @@ class AddUnitView(LoginRequiredMixin, View):
     def post(self, request):
         form = AddUnit(request.POST)
         if form.is_valid():
+            army = form.cleaned_data["army"]
             form.save()
-            return redirect("units-list")
+            return redirect("army-details", id=army.id)
 
 
 class EditUnitView(LoginRequiredMixin, View):
@@ -140,8 +142,9 @@ class EditUnitView(LoginRequiredMixin, View):
         unit = get_object_or_404(Units, pk=id)
         form = AddUnit(request.POST, instance=unit)
         if form.is_valid():
+            army = form.cleaned_data["army"]
             form.save()
-            return redirect("units-list")
+            return redirect("army-details", id=army.id)
 
 
 class DeleteUnitView(LoginRequiredMixin, View):
@@ -159,7 +162,13 @@ class ArmyListView(LoginRequiredMixin, View):
     # tylko dla zalogowanych
     def get(self, request):
         army_list = Armys.objects.all().order_by("name")
-        return render(request, "army_list.html", {"army_list": army_list})
+        army_data = []
+        list = []
+        for army in army_list:
+            units_no = Units.objects.filter(army=army).count()
+            army_data = [army, units_no]
+            list.append(army_data)
+        return render(request, "army_list.html", {"list": list})
 
 
 class ArmyDetailsView(LoginRequiredMixin, View):

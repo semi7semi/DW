@@ -54,6 +54,9 @@ class Units(models.Model):
     reflex = models.BooleanField(default=False)
     army = models.ForeignKey(Armys, on_delete=models.CASCADE, default=1)
 
+    def __str__(self):
+        return self.name
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
