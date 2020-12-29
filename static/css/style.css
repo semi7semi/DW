@@ -2,14 +2,14 @@
 /*---- Main style ----*/
 /*------------------------------*/
 :root {
-  --link-color: #651396;
+  --link-color: #5E376D;
   --light-link-color: #fffffa;
-  --background-color: #8e42ff;
-  --lighter-background-color: #a666ec;
+  --background-color: #63277a;
+  --lighter-background-color: #747080;
   --lighter-text-color: #9fa292;
   --dark-text: #000000;
   --blue: #007bff;
-  --yellow: #ffc107;
+  --yellow: #5E376D;
   --green: #1e7e34;
   font-size: 16px;
 }

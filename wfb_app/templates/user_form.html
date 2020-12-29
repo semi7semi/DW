@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>User:</h2>
+<h2>Dodaj nowego użytkownika</h2>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         {{ profile_form.as_p }}
-        <input class="btn btn-secondary rounded-1" type="submit" value="Zapisz">
+        <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
 
     </form>
 {% endblock %}

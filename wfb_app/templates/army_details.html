@@ -4,7 +4,7 @@
 <h1>Szczegóły armii: {{ army.name }} ({{ army.short_name }})</h1>
     <div class="col-1">
         <div class="nav nav-pills nav-justified">
-            <a class="nav-link active" href="/add_unit/">Dodaj</a>
+            <a class="nav-link btn btn-color rounded-1 pt-2 pb-2" href="/add_unit/">Dodaj</a>
         </div>
     </div>
         <table class="table border-bottom schedules-content">
@@ -29,14 +29,14 @@
                     <td style="color: red">Nie</td>
                 {% endif %}
                 <td>
-                    <button type="button" class="btn btn-primary rounded-1 pt-0 pb-0 pr-4 pl-4">
+                    <button type="button" class="btn btn-color rounded-1 pt-0 pb-0">
                         <a class="nav-link active" href="/edit_unit/{{ unit.id }}/">
                             <span>Edytuj</span>
                         </a>
                     </button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-secondary rounded-1 pt-0 pb-0 pr-4 pl-4">
+                    <button type="button" class="btn btn-secondary rounded-1 pt-0 pb-0">
                         <a class="nav-link active" href="/delete_unit/{{ unit.id }}/">
                             <span>Usuń</span>
                         </a>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">
-            <a class="nav-link active" href="/army_list/">Powrót</a>
+            <a class="nav-link btn-color pt-2 pb-2" href="/army_list/">Powrót</a>
         </div>
     </div>
 </div>

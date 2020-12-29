@@ -5,7 +5,7 @@
                     <div class="col-1">
                         {% if request.user.is_authenticated %}
                         <div class="nav nav-pills nav-justified">
-                            <a class="nav-link active" href="/ranking/add_result/">Dodaj wynik</a>
+                            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
                         </div>
                         {% endif %}
                     </div>
@@ -30,16 +30,14 @@
                                 <th class="col-3">Ksywka</th>
                                 <th class="col-2">Punkty (gry)</th>
                                 <th class="col-2">Ranking value</th>
-                                <th class="col-2"></th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for user in result %}
                             <tr class="d-flex">
-                                <td class="col-3 user-color">{{ user.2.username }} </td>
+                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a> </td>
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
                                 <td class="col-2">{{ user.4 }} </td>
-                                <td class="col-2"><a href="/user_details/{{ user.2.id }}/"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -55,16 +53,14 @@
                                 <th class="col-3">Ksywka</th>
                                 <th class="col-2">Punkty (gry)</th>
                                 <th class="col-2">Ranking value</th>
-                                <th class="col-2"></th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for user in result_5_plus %}
                             <tr class="d-flex">
-                                <td class="col-3 user-color">{{ user.2.username }} </td>
+                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a> </td>
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
                                 <td class="col-2">{{ user.4 }} </td>
-                                <td class="col-2"><a href="/user_details/{{ user.2.id }}/"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

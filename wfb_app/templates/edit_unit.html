@@ -4,26 +4,7 @@
     <h1>Edytowanie Jednostek</h1>
     <form action="" method="POST">
         {{ form.as_p }}
-        <input class="btn btn-secondary rounded-1" type="submit" value="Zapisz">
+        <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
         {% csrf_token %}
     </form>
-<!--    <h1>Edytowanie Jednostek</h1>-->
-<!--    {% if error %}-->
-<!--    <h1>{{ error }}</h1>-->
-<!--    {% else %}-->
-<!--<h3>Nazwa jednostki: <span><b>{{ unit.name }}</b></span></h3>-->
-<!--        <form action="" method="POST">-->
-<!--            <label class="mt-4 ml-4 mr-4" for="offensive">Offensive Skill:</label>-->
-<!--            <input class="p-1" type="number" id="offensive" name="offensive" min="1" value="{{ unit.offensive }}"><br>-->
-<!--            <label class="mt-4 ml-4 mr-4" for="strength">Sila:</label>-->
-<!--            <input class="p-1" type="number" id="strength" name="strength" min="1" value="{{ unit.strength }}"><br>-->
-<!--            <label class="mt-4 ml-4 mr-4" for="ap">Armour Piercing:</label>-->
-<!--            <input class="p-1" type="number" id="ap" name="ap" min="0" value="{{ unit.ap }}"><br>-->
-<!--            <label class="mt-4 ml-4 mr-4" for="reflex">Czy ma Lightning Reflexes:</label>-->
-<!--            <input class="p-1" type="checkbox" id="reflex" name="reflex" {% if unit.reflex == True %} checked {% endif %}"><br>-->
-
-<!--            <button class="btn btn-secondary rounded-1" type="submit" >Zapisz</button>-->
-<!--        {% csrf_token %}-->
-<!--        </form>-->
-<!--    {% endif %}-->
 {% endblock content %}

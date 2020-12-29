@@ -16,35 +16,30 @@
 
             <a href="/" class="navbar-brand main-logo main-logo-smaller">
                 <img src="{% static 'images/bannerDWm.png' %}" alt="logo" width="80">
-                <span>Drobne Wałeczki</span>
+                <span class="main-logo"> Drobne Wałeczki</span>
 
             </a>
 
          <div class="d-flex justify-content-around">
              {% if request.user.is_authenticated %}
-             <h4 class="text-light mr-3">Witaj <a style="color: whitesmoke" href="/edit_user/{{ request.user.id }}/">{{ request.user.username }}</a></h4>
-             <h4 class="text-light mr-3">
-                 <button type="button" class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4">
-                 <a href="/logout/">
-                     <span>Logout</span>
+             <h4 class="text-color-lighter mr-3">Witaj <a class="text-color-lighter mr-2" href="/edit_user/{{ request.user.id }}/">{{ request.user.username }}</a></h4>
+             <h4 class="text-light">
+                 <a class="text-color-lighter" href="/logout/">Logout
                  </a>
-                 </button>
+
              </h4>
              {% else %}
-             <h4 class="text-light mr-3">Witaj nieznajomy</h4>
-             <h4 class="text-light mr-3">
-                 <button type="button" class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4">
+             <h4 class="text-color-lighter pr-2 pl-2">Witaj nieznajomy</h4>
+             <h4 class="text-color-lighter pr-2 pl-2">
                  <a href="/accounts/login/">
-                     <span>Login</span>
+                     <span>Login </span>
                  </a>
-                 </button>
+
              </h4>
-             <h4 class="text-light mr-3">
-                 <button type="button" class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4">
+             <h4 class="text-color-lighter pr-2 pl-2">
                  <a href="/add_user/">
-                     <span>Register</span>
+                     <span> Register</span>
                  </a>
-                 </button>
              </h4>
              {% endif %}
          </div>

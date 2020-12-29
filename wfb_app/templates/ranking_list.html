@@ -5,12 +5,11 @@
     <div class="col-1">
         {% if request.user.is_authenticated %}
         <div class="nav nav-pills nav-justified">
-            <a class="nav-link active" href="/ranking/add_result/">Dodaj wynik</a>
+            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
         </div>
         {% endif %}
     </div>
         <table class="table border-bottom schedules-content">
-
             <tr>
                 <td>
                     <form action="" method="POST">
@@ -25,7 +24,6 @@
                     </form>
                 </td>
                 <td></td>
-                <td></td>
                 <td>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="rank_sort">Sortuj</button>
@@ -33,14 +31,18 @@
                     </form>
                 </td>
                 <td></td>
-                <td></td>
+                <td>
+                    <form action="" method="POST">
+                    <button class="btn btn-secondary rounded-1" type="submit" name="option" value="date_sort">Sortuj</button>
+                    {% csrf_token %}
+                    </form>
+                </td>
             </tr>
 
             <tr>
                 <th>Nickname</th>
                 <th>Punkty</th>
-                <th>Czy wykonany objective</th>
-                <th>Jaki Objective</th>
+                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
                 <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
                 <th>Data</th>
@@ -51,11 +53,10 @@
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective %}
-                    <td style="color: green">Tak</td>
+                    <<td style="color: green">{{ result.get_objective_type_display  }}</td>
                 {% else %}
-                    <td style="color: red">Nie</td>
+                    <td style="color: red">{{ result.get_objective_type_display  }}</td>
                 {% endif %}
-                <td>{{ result.get_objective_type_display  }}</td>
                 <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.opponent  }}</td>
                 <td>{{ result.date  }}</td>
@@ -91,7 +92,7 @@
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">
-            <a class="nav-link active" href="/">Powrót</a>
+            <a class="nav-link btn-color" href="/">Powrót</a>
         </div>
     </div>
 </div>

@@ -298,7 +298,7 @@ class RankingList(View):
             ranking = GameResults.objects.all().order_by("-game_rank", "-date")
             return render(request, "ranking_list.html", {"ranking": ranking})
         else:
-            ranking = GameResults.objects.all()
+            ranking = GameResults.objects.all().order_by("-date")
             return render(request, "ranking_list.html", {"ranking": ranking})
 
 

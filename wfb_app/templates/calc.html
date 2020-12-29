@@ -4,11 +4,13 @@
 <h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>
 {% if not hit %}
     <form action="" method="POST">
-        <button type="button" class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4"><a href="../army_list/">Lista armii</a></button><br>
+
+        <button type="button" class="btn btn-color rounded-1 pt-1 pb-1"><a href="../army_list/">Lista armii</a></button>
+        <span> <= Tu możesz dodać nowe jednostki do kalkulatora</span>
         <p></p>
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="btn btn-secondary rounded-1" type="submit" value="Walka!">
+        <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Walka!">
     </form>
 {% else %}
 <h3>{{ unit.name }}</h3>
