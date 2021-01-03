@@ -17,28 +17,28 @@
             <a href="/" class="navbar-brand main-logo main-logo-smaller">
                 <img src="{% static 'images/bannerDWm.png' %}" alt="logo" width="80">
                 <span class="main-logo"> Drobne Wałeczki</span>
-
             </a>
 
          <div class="d-flex justify-content-around">
              {% if request.user.is_authenticated %}
              <h4 class="text-color-lighter mr-3">Witaj <a class="text-color-lighter mr-2" href="/edit_user/{{ request.user.id }}/">{{ request.user.username }}</a></h4>
              <h4 class="text-light">
-                 <a class="text-color-lighter" href="/logout/">Logout
+                 <a class="btn btn-secondary" href="/logout/">
+                     <span>Logout</span>
                  </a>
 
              </h4>
              {% else %}
              <h4 class="text-color-lighter pr-2 pl-2">Witaj nieznajomy</h4>
              <h4 class="text-color-lighter pr-2 pl-2">
-                 <a href="/accounts/login/">
-                     <span>Login </span>
+                 <a class="btn btn-secondary" href="/accounts/login/">
+                     <span>Login</span>
                  </a>
 
              </h4>
              <h4 class="text-color-lighter pr-2 pl-2">
-                 <a href="/add_user/">
-                     <span> Register</span>
+                 <a class="btn btn-secondary" href="/add_user/">
+                     <span>Register</span>
                  </a>
              </h4>
              {% endif %}

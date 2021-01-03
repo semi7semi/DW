@@ -62,6 +62,46 @@ class Index(View):
         }
         return render(request, "index.html", ctx)
 
+    def post(self, request):
+        result = []
+        users = User.objects.all().exclude(username="admin")
+        no_of_games = GameResults.objects.all().count()
+        for user in users:
+            games = GameResults.objects.filter(user=user)
+            count_master = games.filter(game_rank="master").count()
+            count_local = games.filter(game_rank="local").count()
+            total = 0
+            total_master = 0
+            total_local = 0
+            ranking_points = 0
+            count = count_master + count_local
+            for game in games:
+                if game.game_rank == "master":
+                    total_master += game.battle_points
+                elif game.game_rank == "local":
+                    total_local += game.battle_points
+                total = total_master + total_local
+            if count_master == 0:
+                m = 0
+            else:
+                m = total_master / count_master
+            if count_local == 0:
+                l = 0
+            else:
+                l = total_local / count_local * 0.66
+            ranking_points += m + l
+            #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
+            result.append([total, user.id, user, count, round(ranking_points, 2)])
+        result.sort(reverse=True)
+        ctx = {
+            "no_of_users": users.count(),
+            "no_of_games": no_of_games,
+            "result": result[:5],
+            "result_5_plus": result[5:],
+            "no_home": True
+        }
+        return render(request, "index.html", ctx)
+
 
 class CalcView(LoginRequiredMixin, View):
     def get(self, request):
