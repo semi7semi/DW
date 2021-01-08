@@ -4,11 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm
-from wfb_app.models import Units, Armys, GameResults, Objectives, Profile
+from wfb_app.models import Units, Armys, GameResults, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
@@ -321,25 +321,37 @@ class DeleteUser(LoginRequiredMixin, View):
         return redirect("users-list")
 
 
+def Pages(request, ranking):
+    # Stronicowanie
+    paginator = Paginator(ranking, 30)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return page_obj
+
+
 class RankingList(View):
     # Ranking wszsytkich uzytkownikow, z punktami
-    # sortowanie po wynikach, rangze itd
+    # sortowanie po wynikach, randze itd
     def get(self, request):
         ranking = GameResults.objects.all().order_by("-date", "-id")
-        return render(request, "ranking_list.html", {"ranking": ranking})
+
+        return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
     def post(self, request):
         if request.POST.get("option") == "name_sort":
             ranking = GameResults.objects.all().order_by("user", "-battle_points")
-            return render(request, "ranking_list.html", {"ranking": ranking})
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
         if request.POST.get("option") == "points_sort":
             ranking = GameResults.objects.all().order_by("-battle_points")
-            return render(request, "ranking_list.html", {"ranking": ranking})
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
+        if request.POST.get("option") == "opponent_sort":
+            ranking = GameResults.objects.all().order_by("opponent")
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
         if request.POST.get("option") == "rank_sort":
             ranking = GameResults.objects.all().order_by("-game_rank", "-date")
-            return render(request, "ranking_list.html", {"ranking": ranking})
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
         else:
             ranking = GameResults.objects.all().order_by("-date")
-            return render(request, "ranking_list.html", {"ranking": ranking})
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
 
 
 class AddGameResultView(LoginRequiredMixin, View):
