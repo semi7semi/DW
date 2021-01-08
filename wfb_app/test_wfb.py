@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth.models import User
-from wfb_app.models import Units, Armys, GameResults
+from wfb_app.models import Units, Armys, GameResults, Profile
+
 
 @pytest.mark.django_db
 def test_users_list(client, user):
@@ -13,8 +14,12 @@ def test_users_list(client, user):
 
 @pytest.mark.django_db
 def test_users_details(client, user):
-    response = client.post(f"/user_details/{user.pk}")
-    assert response.status_code == 301
+    assert len(User.objects.all()) == 1
+    client.force_login(user)
+    response = client.get(f"/user_details/{user.id}/")
+    assert response.status_code == 200
+    u = response.context["user"]
+    assert u.username == user.username
 
 
 @pytest.mark.django_db
@@ -42,6 +47,38 @@ def test_add_user(client, army):
     assert user.username == "Marcin"
     assert user.email == "aa@aa.pl"
     assert user.profile.user_army == "WDG"
+
+
+@pytest.mark.django_db
+def test_user_edit(client, army):
+    # sprawdzamy czy baza jest pusta
+    assert len(User.objects.all()) == 0
+    # tworzymy obiekty
+    user = User.objects.create(
+        username= "Marcin",
+        password= "1234",
+        email= "aa@aa.pl",
+    )
+    Profile.objects.create(
+        user_army= "HE",
+        user=user
+    )
+    assert len(User.objects.all()) == 1
+    user = User.objects.get(username="Marcin")
+    assert user.username == "Marcin"
+    assert user.email == "aa@aa.pl"
+
+    client.force_login(user)
+    response = client.post(f"/edit_user/{user.id}/", {
+        "username": "Stefan",
+        "email": "sample@gmail.pl",
+        "user_army": army.short_name
+    })
+    assert len(User.objects.all()) == 1
+    assert response.status_code == 302
+    user_edited = User.objects.get(username="Stefan")
+    assert user_edited.username == "Stefan"
+    assert user_edited.email == "sample@gmail.pl"
 
 
 @pytest.mark.django_db
@@ -181,4 +218,3 @@ def test_calculator(client, user, unit):
     assert response.context["hit"] == 5
     assert response.context["wounds"] == 2.5
     assert response.context["unit"] == unit
-
