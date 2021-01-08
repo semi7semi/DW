@@ -323,7 +323,7 @@ class DeleteUser(LoginRequiredMixin, View):
 
 def Pages(request, ranking):
     # Stronicowanie
-    paginator = Paginator(ranking, 30)
+    paginator = Paginator(ranking, 50)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return page_obj

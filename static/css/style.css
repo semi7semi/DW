@@ -32,6 +32,28 @@ body {
 p {
   font-size: 1.2rem;
 }
+.css-serial {
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+
+.css-serial td:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+  min-width: 1em;
+  margin-right: 0.5em;
+}
+
+/*table {*/
+/*counter-reset: rowNumber;*/
+/*}*/
+/*table tr {*/
+/* counter-increment: rowNumber;*/
+/*}*/
+/*table tr td:first-child::before {*/
+/*content: counter(rowNumber);*/
+/*min-width: 1em;*/
+/*margin-right: 0.5em;*/
+/*}*/
 
 .user-color {
   font-weight: bold;
@@ -85,7 +107,7 @@ hr {
   background: var(--light-link-color);
  }
 
- .borderless td, .borderless th {
+.borderless td, .borderless th {
   border: none;
 }
 

@@ -9,39 +9,39 @@
         </div>
         {% endif %}
     </div>
-        <table class="table border-bottom schedules-content">
+        <table class="table border-bottom schedules-content css-serial">
             <tr>
-                <td>
+                <th>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="name_sort">Sortuj</button>
                     {% csrf_token %}
                     </form>
-                </td>
-                <td>
+                </th>
+                <th>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="points_sort">Sortuj</button>
                     {% csrf_token %}
                     </form>
-                </td>
-                <td></td>
-                <td>
+                </th>
+                <th></th>
+                <th>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="rank_sort">Sortuj</button>
                     {% csrf_token %}
                     </form>
-                </td>
-                <td>
+                </th>
+                <th>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="opponent_sort">Sortuj</button>
                     {% csrf_token %}
                     </form>
-                </td>
-                <td>
+                </th>
+                <th>
                     <form action="" method="POST">
                     <button class="btn btn-secondary rounded-1" type="submit" name="option" value="date_sort">Sortuj</button>
                     {% csrf_token %}
                     </form>
-                </td>
+                </th>
             </tr>
 
             <tr>
@@ -54,7 +54,7 @@
 <!--                <th></th>-->
             </tr>
             {% for result in ranking %}
-            <tr>
+            <tr class="numbering">
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective %}
