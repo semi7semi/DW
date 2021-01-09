@@ -58,11 +58,11 @@
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective %}
-                    <<td style="color: green">{{ result.get_objective_type_display  }}</td>
+                    <td style="color: green">{{ result.get_objective_type_display  }}</td>
                 {% else %}
                     <td style="color: red">{{ result.get_objective_type_display  }}</td>
                 {% endif %}
-                <td>{{ result.get_game_rank_display  }}</td>
+                <td>{{ result.get_game_rank_display }}</td>
                 <td>{{ result.opponent  }}</td>
                 <td>{{ result.date  }}</td>
 <!--                {% if request.user.username == result.user.username %}-->
