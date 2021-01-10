@@ -337,21 +337,19 @@ class RankingList(View):
 
         return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
     def post(self, request):
-        if request.POST.get("option") == "name_sort":
-            ranking = GameResults.objects.all().order_by("user", "-battle_points")
-            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
-        if request.POST.get("option") == "points_sort":
-            ranking = GameResults.objects.all().order_by("-battle_points")
-            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
-        if request.POST.get("option") == "opponent_sort":
-            ranking = GameResults.objects.all().order_by("opponent")
-            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
-        if request.POST.get("option") == "rank_sort":
-            ranking = GameResults.objects.all().order_by("-game_rank", "-date")
-            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
+        sort_option = request.POST.get("sort_option")
+        sort_option_sec = request.POST.get("sort_option_sec")
+        desc = request.POST.get("desc")
+        desc2 = request.POST.get("desc2")
+        if desc == "+":
+            desc = ""
+        if desc2 == "+":
+            desc2 = ""
+        if sort_option == sort_option_sec:
+            ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}")
         else:
-            ranking = GameResults.objects.all().order_by("-date")
-            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
+            ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
+        return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
 
 
 class AddGameResultView(LoginRequiredMixin, View):
