@@ -382,7 +382,7 @@ class EditGameResultView(View):
         form = GameResultsForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            return redirect("ranking-list")
+            return redirect("user-details", id=game.user.id)
 
 
 
