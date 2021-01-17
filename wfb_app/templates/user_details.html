@@ -12,6 +12,7 @@
         <table class="table border-bottom schedules-content">
 
             <tr>
+                <th>Czym grałeś</th>
                 <th>Punkty</th>
                 <th>Czy wykonany objective</th>
                 <th>Jaki Objective</th>
@@ -22,6 +23,7 @@
             </tr>
             {% for result in ranking %}
             <tr>
+                <td>{{ result.army }}</td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective  %}
                     <td style="color: green">Tak</td>
@@ -31,7 +33,7 @@
                 <td>{{ result.get_objective_type_display  }}</td>
                 <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.opponent  }}</td>
-                <td>{{ result.date  }}</td>
+                <td>{{ result.date }}</td>
                 {% if request.user.username == result.user.username %}
                 <td><a class="btn btn-secondary rounded-1" href="/ranking/edit/{{ result.id }}/">Edytuj</a></td>
                 {% endif %}

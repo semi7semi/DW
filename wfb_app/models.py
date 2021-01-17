@@ -65,6 +65,7 @@ class Profile(models.Model):
 
 class GameResults(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    army = models.CharField(max_length=32, choices=ARMIES_CHOICE, null=True, blank=True, default=None)
     battle_points = models.IntegerField()
     objective = models.BooleanField(default=False)
     objective_type = models.CharField(max_length=32, choices=OBJ, blank=True)

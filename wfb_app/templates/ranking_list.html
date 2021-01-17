@@ -17,6 +17,7 @@
 
             <select id="sort" name="sort_option">
                 <option value="user">Nickname</option>
+                <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
                 <option value="opponent">Przeciwnik</option>
@@ -30,6 +31,7 @@
             <label for="sort_sec">2nd:</label>
             <select id="sort_sec" name="sort_option_sec">
                 <option value="user" selected>Nickname</option>
+                <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
                 <option value="opponent">Przeciwnik</option>
@@ -49,15 +51,18 @@
         <table class="table border-bottom schedules-content css-serial">
             <tr>
                 <th>Nickname</th>
+                <th>Armia</th>
                 <th>Punkty</th>
                 <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
                 <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
+
                 <th>Data</th>
             </tr>
             {% for result in ranking %}
             <tr class="numbering">
                 <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
+                <td>{{ result.army }}</td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective %}
                     <td style="color: green">{{ result.get_objective_type_display  }}</td>
@@ -65,7 +70,7 @@
                     <td style="color: red">{{ result.get_objective_type_display  }}</td>
                 {% endif %}
                 <td>{{ result.get_game_rank_display }}</td>
-                <td>{{ result.opponent  }}</td>
+                <td>{{ result.opponent }}</td>
                 <td>{{ result.date  }}</td>
             </tr>
             {% endfor %}
