@@ -484,3 +484,22 @@ margin: 0 auto !important;
 .schedules-content-header {
   margin-bottom: 50px;
 }
+
+.icon {
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  margin: 10px;
+}
+
+.icon-gen {
+  background-image: url(../images/crown.png);
+}
+
+.icon-cup {
+  background-image: url(../images/cup.png);
+}
+
+.icon-veg {
+  background-image: url(../images/carrot.png);
+}

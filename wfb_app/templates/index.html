@@ -39,14 +39,25 @@
                                 <th class="col-3">Ksywka</th>
                                 <th class="col-2">Punkty (gry)</th>
                                 <th class="col-2">Ranking value</th>
+                                <th>Średnie (M / L / H)</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for user in result %}
                             <tr class="d-flex">
-                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a> </td>
+
+                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a></td>
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
                                 <td class="col-2">{{ user.4 }} </td>
+                                <td class="col-2"> {{ user.5 }} / {{ user.6 }} / {{ user.7 }} </td>
+                                {% if user.1 == best_gen_id %}
+                                <td class="icon icon-gen"></td>
+                                {% endif %}
+                                {% if user.1 == best_gamer_id %}
+                                <td class="icon icon-cup"></td>
+                                {% endif %}
+
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -62,6 +73,8 @@
                                 <th class="col-3">Ksywka</th>
                                 <th class="col-2">Punkty (gry)</th>
                                 <th class="col-2">Ranking value</th>
+                                <th>Średnie (M / L / H)</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,17 +83,39 @@
                                 <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a> </td>
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
                                 <td class="col-2">{{ user.4 }} </td>
+                                <td class="col-2"> {{ user.5 }} / {{ user.6 }} / {{ user.7 }} </td>
+                                {% if user.1 == best_veg_id %}
+                                <td class="icon icon-veg"></td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="m-4 p-4 border-dashed">
+                    <table>
+                        <tr>
+                            <td class="icon icon-gen"></td>
+                            <td>   -  Najleprzy generał (najwięcej punktów)</td>
+                        </tr>
+                        <tr>
+                            <td class="icon icon-cup"></td>
+                            <td>   -  Szalony gamer (najwięcej gier)</td>
+                        </tr>
+                        <tr>
+                            <td class="icon icon-veg"></td>
+                            <td>   -  Mistrz vege (najmniej punktów)</td>
+                        </tr>
+
+                    </table>
+
+
                     <h2 class="dashboard-content-title">
                         <span>Ranking Value</span>
                     </h2>
+
                     <p>Punkty sa wyliczane na podstawie średniej wartosci wynikow w danej randze turnieju (Master, Local, Home)</p>
-                    <h4>RV = Av master + Av lokal * 0.66 + Av home * 0.33</h4>
+                    <h4>RV = Av master + Av lokal + Av home </h4>
                     <ul>
                         <li>RV - Ranking Value</li>
                         <li>Av master - średnia z masterów (suma / ilosc gier)</li>

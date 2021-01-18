@@ -31,3 +31,9 @@ def afterarmour(ap, arm, wounds):
 
 def takeSecond(elem):
     return elem[1]
+
+def sort_count(elem):
+    return elem[3]
+
+def sort_rv(elem):
+    return elem[4]

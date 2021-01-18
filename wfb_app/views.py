@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import FormView
 from datetime import datetime
-from functions import towound, afterarmour
+from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm
 from wfb_app.models import Units, Armys, GameResults, Profile
 from django.contrib.auth.models import User
@@ -18,6 +18,7 @@ class Index(View):
         result = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GameResults.objects.all().count()
+        best_gen = GameResults.objects.all()
         for user in users:
             games = GameResults.objects.filter(user=user)
             count_master = games.filter(game_rank="master").count()
@@ -44,21 +45,25 @@ class Index(View):
             if count_local == 0:
                 l = 0
             else:
-                l = total_local / count_local * 0.66
+                l = total_local / count_local
             if count_home == 0:
                 h = 0
             else:
-                h = total_home / count_home * 0.33
+                h = total_home / count_home
             ranking_points += m + l + h
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user, count, round(ranking_points, 2)])
-
+            result.append([total, user.id, user, count, round(ranking_points, 2), round(m, 2), round(l, 2), round(h,2)])
         result.sort(reverse=True)
+        result_by_count = sorted(result)
+        result_by_count.sort(key=sort_count, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result[:5],
-            "result_5_plus": result[5:]
+            "result_5_plus": result[5:],
+            "best_gen_id": result[0][1],
+            "best_gamer_id": result_by_count[0][1],
+            "best_veg_id": result[-1][1]
         }
         return render(request, "index.html", ctx)
 
@@ -88,17 +93,22 @@ class Index(View):
             if count_local == 0:
                 l = 0
             else:
-                l = total_local / count_local * 0.66
+                l = total_local / count_local
             ranking_points += m + l
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
             result.append([total, user.id, user, count, round(ranking_points, 2)])
         result.sort(reverse=True)
+        result_by_count = sorted(result)
+        result_by_count.sort(key=sort_count, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result[:5],
             "result_5_plus": result[5:],
-            "no_home": True
+            "no_home": True,
+            "best_gen_id": result[0][1],
+            "best_gamer_id": result_by_count[0][1],
+            "best_veg_id": result[-1][1]
         }
         return render(request, "index.html", ctx)
 
