@@ -57,6 +57,9 @@
                                 {% if user.1 == best_gamer_id %}
                                 <td class="icon icon-cup"></td>
                                 {% endif %}
+                                {% if user.1 == best_veg_id %}
+                                <td class="icon icon-veg"></td>
+                                {% endif %}
 
                             </tr>
                         {% endfor %}
@@ -84,6 +87,12 @@
                                 <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
                                 <td class="col-2">{{ user.4 }} </td>
                                 <td class="col-2"> {{ user.5 }} / {{ user.6 }} / {{ user.7 }} </td>
+                                {% if user.1 == best_gen_id %}
+                                <td class="icon icon-gen"></td>
+                                {% endif %}
+                                {% if user.1 == best_gamer_id %}
+                                <td class="icon icon-cup"></td>
+                                {% endif %}
                                 {% if user.1 == best_veg_id %}
                                 <td class="icon icon-veg"></td>
                                 {% endif %}

@@ -61,8 +61,8 @@ class Index(View):
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
-            "result": result[:5],
-            "result_5_plus": result[5:],
+            "result": result_by_rv[:5],
+            "result_5_plus": result_by_rv[5:],
             "best_gen_id": result_by_rv[0][1],
             "best_gamer_id": result_by_count[0][1],
             "best_veg_id": result_by_rv[-1][1]
@@ -107,8 +107,8 @@ class Index(View):
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
-            "result": result[:5],
-            "result_5_plus": result[5:],
+            "result": result_by_rv[:5],
+            "result_5_plus": result_by_rv[5:],
             "no_home": True,
             "best_gen_id": result_by_rv[0][1],
             "best_gamer_id": result_by_count[0][1],
