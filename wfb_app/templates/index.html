@@ -18,84 +18,53 @@
                         </div>
                     </div>
                 </div>
-                {% if not no_home %}
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Wyniki bez 'home'"><br>
-                </form>
-                {% else %}
-                <div>
-                    <a class="btn btn-color rounded-1 pt-1 pb-1" href="/">Cofnij</a>
-                </div>
-                {% endif %}
+<!--                {% if not no_home %}-->
+<!--                <form action="" method="POST">-->
+<!--                    {% csrf_token %}-->
+<!--                    <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Wyniki bez 'home'"><br>-->
+<!--                </form>-->
+<!--                {% else %}-->
+<!--                <div>-->
+<!--                    <a class="btn btn-color rounded-1 pt-1 pb-1" href="/">Cofnij</a>-->
+<!--                </div>-->
+<!--                {% endif %}-->
 
                 <div class="m-4 p-4 border-dashed">
                     <h2 class="dashboard-content-title">
-                        <span>Pieciu najlepszych</span>
+                        <span>Ranking Wałeczków</span>
                     </h2>
                     <table class="table css-serial">
                         <thead>
                             <tr class="d-flex">
-                                <th class="col-3">Ksywka</th>
-                                <th class="col-2">Punkty (gry)</th>
-                                <th class="col-2">Ranking value</th>
-                                <th>Średnie (M / L / H)</th>
+                                <th class="col-2">Ksywka</th>
+                                <th class="col-1">Av Master</th>
+                                <th class="col-1">Av Lokal</th>
+                                <th class="col-1">Av Home</th>
+                                <th class="col-1">Ranking value</th>
+                                <th class="col-1">Suma (gry)</th>
+                                <th>Achievement</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for user in result %}
                             <tr class="d-flex">
-
-                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a></td>
-                                <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
-                                <td class="col-2">{{ user.4 }} </td>
-                                <td class="col-2"> {{ user.5 }} / {{ user.6 }} / {{ user.7 }} </td>
-                                {% if user.1 == best_gen_id %}
+                                <td class="col-2"><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
+                                <td class="col-1">{{ user.0 }} </td>
+                                <td class="col-1">{{ user.1 }} </td>
+                                <td class="col-1"> {{ user.2 }} </td>
+                                <td class="col-1">{{ user.3 }} </td>
+                                <td class="col-1">{{ user.4 }} ({{ user.5 }})</td>
+                                {% if user.6 == best_gen_id %}
                                 <td class="icon icon-gen"></td>
                                 {% endif %}
-                                {% if user.1 == best_gamer_id %}
+                                {% if user.6 == best_gamer_id %}
                                 <td class="icon icon-cup"></td>
                                 {% endif %}
-                                {% if user.1 == best_veg_id %}
+                                {% if user.6 == best_veg_id %}
                                 <td class="icon icon-veg"></td>
                                 {% endif %}
 
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="m-4 p-4 border-dashed">
-                    <h2 class="dashboard-content-title">
-                        <span>Warzywniak</span>
-                    </h2>
-                    <table class="table css-serial">
-                        <thead>
-                            <tr class="d-flex">
-                                <th class="col-3">Ksywka</th>
-                                <th class="col-2">Punkty (gry)</th>
-                                <th class="col-2">Ranking value</th>
-                                <th>Średnie (M / L / H)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in result_5_plus %}
-                            <tr class="d-flex">
-                                <td class="col-3"><a class="user-color" href="/user_details/{{ user.2.id }}/">{{ user.2.username }}</a> </td>
-                                <td class="col-2">{{ user.0 }} ({{ user.3 }})</td>
-                                <td class="col-2">{{ user.4 }} </td>
-                                <td class="col-2"> {{ user.5 }} / {{ user.6 }} / {{ user.7 }} </td>
-                                {% if user.1 == best_gen_id %}
-                                <td class="icon icon-gen"></td>
-                                {% endif %}
-                                {% if user.1 == best_gamer_id %}
-                                <td class="icon icon-cup"></td>
-                                {% endif %}
-                                {% if user.1 == best_veg_id %}
-                                <td class="icon icon-veg"></td>
-                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -115,9 +84,7 @@
                             <td class="icon icon-veg"></td>
                             <td>   -  Mistrz vege (najmniejszy RV)</td>
                         </tr>
-
                     </table>
-
 
                     <h2 class="dashboard-content-title">
                         <span>Ranking Value</span>

@@ -18,7 +18,6 @@ class Index(View):
         result = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GameResults.objects.all().count()
-        best_gen = GameResults.objects.all()
         for user in users:
             games = GameResults.objects.filter(user=user)
             count_master = games.filter(game_rank="master").count()
@@ -52,67 +51,20 @@ class Index(View):
                 h = total_home / count_home
             ranking_points += m + l + h
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user, count, round(ranking_points, 2), round(m, 2), round(l, 2), round(h,2)])
+            result.append([round(m, 2), round(l, 2), round(h,2), round(ranking_points, 2), total, count, user.id, user])
         result.sort(reverse=True)
         result_by_count = sorted(result)
         result_by_count.sort(key=sort_count, reverse=True)
         result_by_rv = sorted(result)
         result_by_rv.sort(key=sort_rv, reverse=True)
+        print(result_by_rv[-1])
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
-            "result": result_by_rv[:5],
-            "result_5_plus": result_by_rv[5:],
-            "best_gen_id": result_by_rv[0][1],
-            "best_gamer_id": result_by_count[0][1],
-            "best_veg_id": result_by_rv[-1][1]
-        }
-        return render(request, "index.html", ctx)
-
-    def post(self, request):
-        result = []
-        users = User.objects.all().exclude(username="admin")
-        no_of_games = GameResults.objects.all().count()
-        for user in users:
-            games = GameResults.objects.filter(user=user)
-            count_master = games.filter(game_rank="master").count()
-            count_local = games.filter(game_rank="local").count()
-            total = 0
-            total_master = 0
-            total_local = 0
-            ranking_points = 0
-            count = count_master + count_local
-            for game in games:
-                if game.game_rank == "master":
-                    total_master += game.battle_points
-                elif game.game_rank == "local":
-                    total_local += game.battle_points
-                total = total_master + total_local
-            if count_master == 0:
-                m = 0
-            else:
-                m = total_master / count_master
-            if count_local == 0:
-                l = 0
-            else:
-                l = total_local / count_local
-            ranking_points += m + l
-            #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user, count, round(ranking_points, 2), round(m, 2), round(l, 2)])
-        result.sort(reverse=True)
-        result_by_count = sorted(result)
-        result_by_count.sort(key=sort_count, reverse=True)
-        result_by_rv = sorted(result)
-        result_by_rv.sort(key=sort_rv, reverse=True)
-        ctx = {
-            "no_of_users": users.count(),
-            "no_of_games": no_of_games,
-            "result": result_by_rv[:5],
-            "result_5_plus": result_by_rv[5:],
-            "no_home": True,
-            "best_gen_id": result_by_rv[0][1],
-            "best_gamer_id": result_by_count[0][1],
-            "best_veg_id": result_by_rv[-1][1]
+            "result": result,
+            "best_gen_id": result_by_rv[0][6],
+            "best_gamer_id": result_by_count[0][6],
+            "best_veg_id": result_by_rv[-1][6]
         }
         return render(request, "index.html", ctx)
 

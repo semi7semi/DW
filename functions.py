@@ -33,7 +33,7 @@ def takeSecond(elem):
     return elem[1]
 
 def sort_count(elem):
-    return elem[3]
+    return elem[5]
 
 def sort_rv(elem):
-    return elem[4]
+    return elem[3]
