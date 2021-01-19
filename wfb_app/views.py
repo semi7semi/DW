@@ -56,14 +56,16 @@ class Index(View):
         result.sort(reverse=True)
         result_by_count = sorted(result)
         result_by_count.sort(key=sort_count, reverse=True)
+        result_by_rv = sorted(result)
+        result_by_rv.sort(key=sort_rv, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result[:5],
             "result_5_plus": result[5:],
-            "best_gen_id": result[0][1],
+            "best_gen_id": result_by_rv[0][1],
             "best_gamer_id": result_by_count[0][1],
-            "best_veg_id": result[-1][1]
+            "best_veg_id": result_by_rv[-1][1]
         }
         return render(request, "index.html", ctx)
 
@@ -96,19 +98,21 @@ class Index(View):
                 l = total_local / count_local
             ranking_points += m + l
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([total, user.id, user, count, round(ranking_points, 2)])
+            result.append([total, user.id, user, count, round(ranking_points, 2), round(m, 2), round(l, 2)])
         result.sort(reverse=True)
         result_by_count = sorted(result)
         result_by_count.sort(key=sort_count, reverse=True)
+        result_by_rv = sorted(result)
+        result_by_rv.sort(key=sort_rv, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result[:5],
             "result_5_plus": result[5:],
             "no_home": True,
-            "best_gen_id": result[0][1],
+            "best_gen_id": result_by_rv[0][1],
             "best_gamer_id": result_by_count[0][1],
-            "best_veg_id": result[-1][1]
+            "best_veg_id": result_by_rv[-1][1]
         }
         return render(request, "index.html", ctx)
 
