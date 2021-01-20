@@ -61,8 +61,8 @@ class Index(View):
                 user.id,
                 user,
                 count_master,
-                count_home,
-                count_local
+                count_local,
+                count_home
             ])
         result.sort(reverse=True)
         result_by_count = sorted(result)
