@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<h1>Lista</h1>
-
+<div class="m-4 p-4 border-dashed">
+    <h2 class="dashboard-content-title">
+                        <span>Lista armii</span>
+                    </h2>
         <table class="table border-bottom schedules-content css-serial">
             <tr>
                 <th>Nazwa Armii (l. jednostek)</th>
@@ -17,6 +19,7 @@
             </tr>
             {% endfor %}
         </table>
+</div>
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">

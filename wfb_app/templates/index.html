@@ -18,17 +18,6 @@
                         </div>
                     </div>
                 </div>
-<!--                {% if not no_home %}-->
-<!--                <form action="" method="POST">-->
-<!--                    {% csrf_token %}-->
-<!--                    <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Wyniki bez 'home'"><br>-->
-<!--                </form>-->
-<!--                {% else %}-->
-<!--                <div>-->
-<!--                    <a class="btn btn-color rounded-1 pt-1 pb-1" href="/">Cofnij</a>-->
-<!--                </div>-->
-<!--                {% endif %}-->
-
                 <div class="m-4 p-4 border-dashed">
                     <h2 class="dashboard-content-title">
                         <span>Ranking Wałeczków</span>
@@ -37,12 +26,12 @@
                         <thead>
                             <tr class="d-flex">
                                 <th class="col-2">Ksywka</th>
-                                <th class="col-1">Av Master</th>
-                                <th class="col-1">Av Lokal</th>
-                                <th class="col-1">Av Home</th>
+                                <th class="col-1">Av Master </th>
+                                <th class="col-1">Av Lokal </th>
+                                <th class="col-1">Av Home </th>
                                 <th class="col-1">Ranking value</th>
                                 <th class="col-1">Suma (gry)</th>
-                                <th>Achievement</th>
+                                <th class="col-1">Achievement</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -50,9 +39,9 @@
                         {% for user in result %}
                             <tr class="d-flex">
                                 <td class="col-2"><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
-                                <td class="col-1">{{ user.0 }} </td>
-                                <td class="col-1">{{ user.1 }} </td>
-                                <td class="col-1"> {{ user.2 }} </td>
+                                <td class="col-1">{{ user.0 }} ({{ user.8 }}) </td>
+                                <td class="col-1">{{ user.1 }} ({{ user.9 }}) </td>
+                                <td class="col-1"> {{ user.2 }} ({{ user.10 }}) </td>
                                 <td class="col-1">{{ user.3 }} </td>
                                 <td class="col-1">{{ user.4 }} ({{ user.5 }})</td>
                                 {% if user.6 == best_gen_id %}
@@ -70,7 +59,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="m-4 p-4 border-dashed">
+
                     <table>
                         <tr>
                             <td class="icon icon-gen"></td>
@@ -85,7 +74,7 @@
                             <td>   -  Mistrz vege (najmniejszy RV)</td>
                         </tr>
                     </table>
-
+<div class="m-4 p-4 border-dashed">
                     <h2 class="dashboard-content-title">
                         <span>Ranking Value</span>
                     </h2>

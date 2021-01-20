@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<h1>Ranking</h1>
 <div class="dashboard-header m-2 p-2">
     <div class="col-1">
         {% if request.user.is_authenticated %}
@@ -48,6 +47,10 @@
         </form>
     </div>
     </div>
+<div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+                        <span>Ranking</span>
+                    </h1>
         <table class="table border-bottom schedules-content css-serial">
             <tr>
                 <th>Nickname</th>
@@ -98,6 +101,7 @@
                         {% endif %}
                         </span>
         </div>
+</div>
         <div class="row">
             <div class="col-2">
                 <div class="nav flex-column nav-pills">

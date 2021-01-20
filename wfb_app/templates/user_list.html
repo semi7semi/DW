@@ -1,29 +1,36 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<h1>Lista Użytkownikow</h1>
-
-        <table class="table border-bottom schedules-content css-serial">
-            <tr>
-                <th>Nickname</th>
-<!--                <th>pass</th>-->
-                <th>Army</th>
+<div class="m-2 p-2 border-dashed">
+    <h2 class="dashboard-content-title">
+                        <span>Lista Użytkownikow</span>
+                    </h2>
+        <table class="table css-serial">
+            <thead>
+            <tr class="d-flex">
+                <th class="col-2">Nickname</th>
+                <th class="col-1">Army</th>
+                <th class="col-1"></th>
             </tr>
+            </thead>
+<tbody>
             {% for user in users %}
-            <tr>
-                <td><a class="user-color" href="/user_details/{{ user.id }}">{{ user.username }}</a></td>
+            <tr class="d-flex">
+                <td class="col-2">
+                    <a class="user-color" href="/user_details/{{ user.id }}">{{ user.username }}</a></td>
 <!--                <td>{{ user.email }}</td>-->
-                <td>{{ user.profile.user_army  }}</td>
-<!--                <td><a class="btn btn-primary rounded-1" href="/user_details/{{ user.id }}/">Szczegóły</a></td>-->
+                <td class="col-1">{{ user.profile.user_army  }}</td>
                 {% if request.user.username == user.username %}
-                <td><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
+                <td class="col-1"><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
 <!--                <td><a class="btn btn-secondary rounded-1 disabled" href="/users/delete/{{ user.id }}/">Usuń</a></td>-->
                 {% endif %}
             </tr>
             {% endfor %}
+            </tbody>
         </table>
+</div>
 <div class="row">
-    <div class="col-2">
+    <div class="col-1">
         <div class="nav flex-column nav-pills">
             <a class="nav-link btn-color" href="/">Powrót</a>
         </div>

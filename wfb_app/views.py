@@ -51,13 +51,24 @@ class Index(View):
                 h = total_home / count_home
             ranking_points += m + l + h
             #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
-            result.append([round(m, 2), round(l, 2), round(h,2), round(ranking_points, 2), total, count, user.id, user])
+            result.append([
+                round(m, 2),
+                round(l, 2),
+                round(h,2),
+                round(ranking_points, 2),
+                total,
+                count,
+                user.id,
+                user,
+                count_master,
+                count_home,
+                count_local
+            ])
         result.sort(reverse=True)
         result_by_count = sorted(result)
         result_by_count.sort(key=sort_count, reverse=True)
         result_by_rv = sorted(result)
         result_by_rv.sort(key=sort_rv, reverse=True)
-        print(result_by_rv[-1])
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,

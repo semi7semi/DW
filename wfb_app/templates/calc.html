@@ -3,6 +3,7 @@
 <h1>WFB Battle Calculator</h1>
 <h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>
 {% if not hit %}
+
     <form action="" method="POST">
 
         <button type="button" class="btn btn-color rounded-1 pt-1 pb-1"><a href="../army_list/">Lista armii</a></button>
@@ -13,33 +14,38 @@
         <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Walka!">
     </form>
 {% else %}
-<h3>{{ unit.name }}</h3>
+
+<div class="m-4 p-4 border-dashed">
+            <h1 class="dashboard-content-title">
+                        <span>{{ unit.name }}</span>
+                    </h1>
         <table class="table border-bottom schedules-content">
-            <tr>
-                <th>Ataki</th>
-                <td>{{ attacks }}</td>
+            <tr class="d-flex">
+                <th class="col-2">Ataki</th>
+                <td class="col-1">{{ attacks }}</td>
             </tr>
-            <tr>
-                <th>Trafienia</th>
-                <td>{{ hit }}</td>
+            <tr class="d-flex">
+                <th class="col-2">Trafienia</th>
+                <td class="col-1">{{ hit }}</td>
             </tr>
-            <tr>
-                <th>Zadane rany</th>
-                <td>{{ wounds }}</td>
+            <tr class="d-flex">
+                <th class="col-2">Zadane rany</th>
+                <td class="col-1">{{ wounds }}</td>
             </tr>
-            <tr>
-                <th>Armour Save: </th>
+            <tr class="d-flex">
+                <th class="col-2">Armour Save: </th>
                 {% for save in saves %}
-                <td>{{ save }}</td>
+                <td class="col-1">{{ save }}</td>
                 {% endfor %}
             </tr>
-            <tr>
-                <th>Rany: </th>
+            <tr class="d-flex">
+                <th class="col-2">Rany: </th>
                 {% for arm in armour %}
-                <td>{{ arm }}</td>
+                <td class="col-1">{{ arm }}</td>
                 {% endfor %}
             </tr>
 
         </table><br>
+</div>
 {% endif %}
 {% endblock %}
