@@ -24,36 +24,35 @@
                     </h2>
                     <table class="table css-serial">
                         <thead>
-                            <tr class="d-flex">
-                                <th class="col-2">Ksywka</th>
-                                <th class="col-1">Av Master </th>
-                                <th class="col-1">Av Lokal </th>
-                                <th class="col-1">Av Home </th>
-                                <th class="col-1">Ranking value</th>
-                                <th class="col-1">Suma (gry)</th>
-                                <th class="col-1">Achievement</th>
-                                <th></th>
+                            <tr>
+                                <th>Ksywka</th>
+                                <th>Av Master </th>
+                                <th>Av Lokal </th>
+                                <th>Av Home </th>
+                                <th>Ranking value</th>
+                                <th>Suma (gry)</th>
+                                <th>Achievement</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for user in result %}
-                            <tr class="d-flex">
-                                <td class="col-2"><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
-                                <td class="col-1">{{ user.0 }} ({{ user.8 }}) </td>
-                                <td class="col-1">{{ user.1 }} ({{ user.9 }}) </td>
-                                <td class="col-1"> {{ user.2 }} ({{ user.10 }}) </td>
-                                <td class="col-1">{{ user.3 }} </td>
-                                <td class="col-1">{{ user.4 }} ({{ user.5 }})</td>
+                            <tr>
+                                <td><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
+                                <td>{{ user.0 }} ({{ user.8 }}) </td>
+                                <td>{{ user.1 }} ({{ user.9 }}) </td>
+                                <td> {{ user.2 }} ({{ user.10 }}) </td>
+                                <td>{{ user.3 }} </td>
+                                <td>{{ user.4 }} ({{ user.5 }})</td>
                                 {% if user.6 == best_gen_id %}
-                                <td class="icon icon-gen"></td>
+                                <td class="icon icon-gen d-flex"></td>
                                 {% endif %}
                                 {% if user.6 == best_gamer_id %}
-                                <td class="icon icon-cup"></td>
+                                <td class="icon icon-cup d-flex"></td>
                                 {% endif %}
                                 {% if user.6 == best_veg_id %}
-                                <td class="icon icon-veg"></td>
+                                <td class="icon icon-veg d-flex"></td>
                                 {% endif %}
-
+<!--                                <td class="col-2"></td>-->
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -62,15 +61,15 @@
 
                     <table>
                         <tr>
-                            <td class="icon icon-gen"></td>
+                            <td class="icon icon-gen d-flex"></td>
                             <td>   -  Najleprzy generał (najlepszy RV)</td>
                         </tr>
                         <tr>
-                            <td class="icon icon-cup"></td>
+                            <td class="icon icon-cup d-flex"></td>
                             <td>   -  Szalony gamer (najwięcej gier)</td>
                         </tr>
                         <tr>
-                            <td class="icon icon-veg"></td>
+                            <td class="icon icon-veg d-flex"></td>
                             <td>   -  Mistrz vege (najmniejszy RV)</td>
                         </tr>
                     </table>

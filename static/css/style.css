@@ -105,6 +105,7 @@ hr {
 .border-dashed{
   border: .5px dashed  var(--lighter-background-color);
   background: var(--light-link-color);
+  display: inline-block;
  }
 
 .borderless td, .borderless th {
@@ -430,8 +431,9 @@ margin: 0 auto !important;
 }
 
 .dashboard-alerts {
-  margin-left: 50px;
-  width: 70%;
+  margin-right: 40%;
+  width: 30%;
+
 }
 .alert-item {
   padding: 10px;
@@ -490,10 +492,10 @@ margin: 0 auto !important;
 }
 
 .icon {
-  width: 30px;
-  height: 30px;
+  width: 10px;
+  height: 10px;
   background-size: cover;
-  margin: 10px;
+  margin: 15px;
 }
 
 .icon-gen {

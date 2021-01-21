@@ -1,33 +1,35 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<div class="m-2 p-2 border-dashed">
+<div class="m-4 p-4 border-dashed">
     <h2 class="dashboard-content-title">
-                        <span>Lista Użytkownikow</span>
-                    </h2>
-        <table class="table css-serial">
-            <thead>
-            <tr class="d-flex">
-                <th class="col-2">Nickname</th>
-                <th class="col-1">Army</th>
-                <th class="col-1"></th>
+        <span>Lista Użytkownikow</span>
+    </h2>
+    <table class="table css-serial">
+        <thead>
+            <tr>
+                <th>Nickname</th>
+                <th>Army</th>
+                <th>Data utworzenia</th>
+                <th>Ostatnio zalogowany</th>
+                <th></th>
             </tr>
-            </thead>
-<tbody>
-            {% for user in users %}
-            <tr class="d-flex">
-                <td class="col-2">
-                    <a class="user-color" href="/user_details/{{ user.id }}">{{ user.username }}</a></td>
-<!--                <td>{{ user.email }}</td>-->
-                <td class="col-1">{{ user.profile.user_army  }}</td>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a class="user-color" href="/user_details/{{ user.id }}">{{ user.username }}</a></td>
+                <td>{{ user.profile.user_army }}</td>
+                <td>{{ user.date_joined|date:"d M Y" }}</td>
+                <td>{{ user.last_login|date:"d M Y" }}</td>
                 {% if request.user.username == user.username %}
-                <td class="col-1"><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
-<!--                <td><a class="btn btn-secondary rounded-1 disabled" href="/users/delete/{{ user.id }}/">Usuń</a></td>-->
-                {% endif %}
+                <td><a class="btn btn-secondary rounded-1" href="/edit_user/{{ user.id }}/">Edytuj</a></td>
+                <!--                <td><a class="btn btn-secondary rounded-1 disabled" href="/users/delete/{{ user.id }}/">Usuń</a></td>-->
+            {% endif %}
             </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 <div class="row">
     <div class="col-1">

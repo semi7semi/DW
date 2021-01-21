@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<h1>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</h1>
     <div class="col-1">
         {% if user.username == request.user.username %}
         <div class="nav nav-pills nav-justified">
@@ -9,12 +8,16 @@
         </div>
         {% endif %}
     </div>
-        <table class="table border-bottom schedules-content">
+<div class="m-4 p-4 border-dashed">
+                    <h2 class="dashboard-content-title">
+                        <span>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</span>
+                    </h2>
+        <table class="table border-bottom schedules-content css-serial">
 
             <tr>
                 <th>Czym grałeś</th>
                 <th>Punkty</th>
-                <th>Czy wykonany objective</th>
+                <th>Wykonany objective?</th>
                 <th>Jaki Objective</th>
                 <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>

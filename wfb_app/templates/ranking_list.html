@@ -9,6 +9,61 @@
         </div>
         {% endif %}
     </div>
+</div>
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+            <span>Ranking</span>
+        </h1>
+        <table class="table border-bottom schedules-content css-serial">
+            <tr>
+                <th>Nickname</th>
+                <th>Armia</th>
+                <th>Punkty</th>
+                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
+                <th>Ranga turnieju/gry</th>
+                <th>Przeciwnik</th>
+                <th>Data</th>
+            </tr>
+            {% for result in ranking %}
+            <tr class="numbering">
+                <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
+                <td>{{ result.army }}</td>
+                <td>{{ result.battle_points }}</td>
+                {% if result.objective %}
+                <td style="color: green">{{ result.get_objective_type_display }}</td>
+                {% else %}
+                <td style="color: red">{{ result.get_objective_type_display }}</td>
+                {% endif %}
+                <td>{{ result.get_game_rank_display }}</td>
+                <td>{{ result.opponent }}</td>
+                <td>{{ result.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="pagination">
+                        <span class="step-links">
+                        {% if ranking.has_previous %}
+                            <a href="?page={{ ranking.previous_page_number }}"> < Poprzednia </a> |
+                        {% endif %}
+                        {% for page in ranking.paginator.page_range %}
+                            {% if ranking.number == page %}
+                            <span>
+                                 {{ page }} |
+                            </span>
+                            {% else %}
+                            <span>
+                                <a href="?page={{ page }}"> {{ page }} </a> |
+                            </span>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if ranking.has_next %}
+                            <a href="?page={{ ranking.next_page_number }}"> Nastepna > </a>
+                        {% endif %}
+                        </span>
+        </div>
+    </div>
     <div class=dashboard-alerts">
         <h4>Sortowanie</h4>
         <form action="" method="POST">
@@ -46,68 +101,13 @@
             {% csrf_token %}
         </form>
     </div>
-    </div>
-<div class="m-4 p-4 border-dashed">
-        <h1 class="dashboard-content-title">
-                        <span>Ranking</span>
-                    </h1>
-        <table class="table border-bottom schedules-content css-serial">
-            <tr>
-                <th>Nickname</th>
-                <th>Armia</th>
-                <th>Punkty</th>
-                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
-                <th>Ranga turnieju/gry</th>
-                <th>Przeciwnik</th>
-
-                <th>Data</th>
-            </tr>
-            {% for result in ranking %}
-            <tr class="numbering">
-                <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
-                <td>{{ result.army }}</td>
-                <td>{{ result.battle_points }}</td>
-                {% if result.objective %}
-                    <td style="color: green">{{ result.get_objective_type_display  }}</td>
-                {% else %}
-                    <td style="color: red">{{ result.get_objective_type_display  }}</td>
-                {% endif %}
-                <td>{{ result.get_game_rank_display }}</td>
-                <td>{{ result.opponent }}</td>
-                <td>{{ result.date  }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <div class="pagination">
-                        <span class="step-links">
-                        {% if ranking.has_previous %}
-                            <a href="?page={{ ranking.previous_page_number }}"> < Poprzednia </a> |
-                        {% endif %}
-
-                        {% for page in ranking.paginator.page_range %}
-                            {% if ranking.number == page %}
-                            <span>
-                                 {{ page }} |
-                            </span>
-                            {% else %}
-                            <span>
-                                <a href="?page={{ page }}"> {{ page }} </a> |
-                            </span>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if ranking.has_next %}
-                            <a href="?page={{ ranking.next_page_number }}"> Nastepna > </a>
-                        {% endif %}
-                        </span>
-        </div>
 </div>
-        <div class="row">
-            <div class="col-2">
-                <div class="nav flex-column nav-pills">
-                    <a class="nav-link btn-color" href="/">Powrót</a>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-1">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link btn-color" href="/">Powrót</a>
         </div>
+    </div>
+</div>
 
 {% endblock %}
