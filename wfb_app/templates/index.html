@@ -1,90 +1,98 @@
 {% extends "base.html" %}
 {% block title %}{% endblock title %}
 {% block content %}
-                <div class="dashboard-header m-2 p-2">
-                    <div class="col-1">
-                        {% if request.user.is_authenticated %}
-                        <div class="nav nav-pills nav-justified">
-                            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="dashboard-alerts">
-                        <div class="alert-item alert-info">
-                            <span class="font-weight-bold">Liczba graczy w rankingu: {{ no_of_users }}</span>
-                        </div>
-                        <div class="alert-item alert-light">
-                            <span class="font-weight-bold">Liczba gier w rankingu: {{ no_of_games }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-4 p-4 border-dashed">
-                    <h2 class="dashboard-content-title">
-                        <span>Ranking Wałeczków</span>
-                    </h2>
-                    <table class="table css-serial">
-                        <thead>
-                            <tr>
-                                <th>Ksywka</th>
-                                <th>Av Master </th>
-                                <th>Av Lokal </th>
-                                <th>Av Home </th>
-                                <th>Ranking value</th>
-                                <th>Suma (gry)</th>
-                                <th>Achievement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in result %}
-                            <tr>
-                                <td><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
-                                <td>{{ user.0 }} ({{ user.8 }}) </td>
-                                <td>{{ user.1 }} ({{ user.9 }}) </td>
-                                <td> {{ user.2 }} ({{ user.10 }}) </td>
-                                <td>{{ user.3 }} </td>
-                                <td>{{ user.4 }} ({{ user.5 }})</td>
-                                {% if user.6 == best_gen_id %}
-                                <td class="icon icon-gen d-flex"></td>
-                                {% endif %}
-                                {% if user.6 == best_gamer_id %}
-                                <td class="icon icon-cup d-flex"></td>
-                                {% endif %}
-                                {% if user.6 == best_veg_id %}
-                                <td class="icon icon-veg d-flex"></td>
-                                {% endif %}
-<!--                                <td class="col-2"></td>-->
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<div class="dashboard-header m-2 p-2">
+    <div class="col-1">
+        {% if request.user.is_authenticated %}
+        <div class="nav nav-pills nav-justified">
+            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
+        </div>
+        {% endif %}
+    </div>
 
+</div>
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <h2 class="dashboard-content-title">
+            <span>Ranking Wałeczków</span>
+        </h2>
+        <table class="table css-serial">
+            <thead>
+            <tr>
+                <th>Ksywka</th>
+                <th>Av Master</th>
+                <th>Av Lokal</th>
+                <th>Av Home</th>
+                <th>Ranking value</th>
+                <th>Suma (gry)</th>
+                <th>Achievement</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in result %}
+            <tr>
+                <td><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
+                <td>{{ user.0 }} ({{ user.8 }})</td>
+                <td>{{ user.1 }} ({{ user.9 }})</td>
+                <td> {{ user.2 }} ({{ user.10 }})</td>
+                <td>{{ user.3 }}</td>
+                <td>{{ user.4 }} ({{ user.5 }})</td>
+                {% if user.6 == best_gen_id %}
+                <td class="icon icon-gen d-flex"></td>
+                {% endif %}
+                {% if user.6 == best_gamer_id %}
+                <td class="icon icon-cup d-flex"></td>
+                {% endif %}
+                {% if user.6 == best_veg_id %}
+                <td class="icon icon-veg d-flex"></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+        <div class="dashboard-alerts row">
+            <div class="m-4 p-4 alert-item alert-info">
+                <span class="font-weight-bold">Liczba graczy w rankingu: {{ no_of_users }}</span>
+            </div>
+            <div class="m-4 p-4 alert-item alert-light">
+                <span class="font-weight-bold">Liczba gier w rankingu: {{ no_of_games }}</span>
+            </div>
+        </div>
+        <div class="m-2 p-2 border-dashed">
+            <h3 class="dashboard-content-title">
+                <span>Ranking Value</span>
+            </h3>
+
+            <p>Punkty sa wyliczane na podstawie średniej wartosci wynikow w danej randze turnieju (Master, Local,
+                Home)</p>
+            <h4>RV = Av master + Av lokal + Av home </h4>
+            <table>
+                <tr><td>RV - Ranking Value</td></tr>
+                <tr><td>Av master - średnia z masterów (suma / ilosc gier)</td></tr>
+                <tr><td>Av lokal - średnia z lokalow (suma / ilosc gier)</td></tr>
+                <tr><td>Av home - średnia z domowek (suma / ilosc gier)</td></tr>
+
+            </table>
                     <table>
-                        <tr>
-                            <td class="icon icon-gen d-flex"></td>
-                            <td>   -  Najleprzy generał (najlepszy RV)</td>
-                        </tr>
-                        <tr>
-                            <td class="icon icon-cup d-flex"></td>
-                            <td>   -  Szalony gamer (najwięcej gier)</td>
-                        </tr>
-                        <tr>
-                            <td class="icon icon-veg d-flex"></td>
-                            <td>   -  Mistrz vege (najmniejszy RV)</td>
-                        </tr>
-                    </table>
-<div class="m-4 p-4 border-dashed">
-                    <h2 class="dashboard-content-title">
-                        <span>Ranking Value</span>
-                    </h2>
+            <tr>
+                <td class="icon icon-gen d-flex"></td>
+                <td> - Najleprzy generał (najlepszy RV)</td>
+            </tr>
+            <tr>
+                <td class="icon icon-cup d-flex"></td>
+                <td> - Szalony gamer (najwięcej gier)</td>
+            </tr>
+            <tr>
+                <td class="icon icon-veg d-flex"></td>
+                <td> - Mistrz vege (najmniejszy RV)</td>
+            </tr>
+        </table>
+        </div>
 
-                    <p>Punkty sa wyliczane na podstawie średniej wartosci wynikow w danej randze turnieju (Master, Local, Home)</p>
-                    <h4>RV = Av master + Av lokal + Av home </h4>
-                    <ul>
-                        <li>RV - Ranking Value</li>
-                        <li>Av master - średnia z masterów (suma / ilosc gier)</li>
-                        <li>Av lokal - średnia z lokalow (suma / ilosc gier)</li>
-                        <li>Av home - średnia z domowek (suma / ilosc gier)</li>
-                    </ul>
-                </div>
+    </div>
+</div>
+
+
 {% endblock content %}
