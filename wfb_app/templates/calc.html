@@ -20,28 +20,28 @@
                         <span>{{ unit.name }}</span>
                     </h1>
         <table class="table border-bottom schedules-content">
-            <tr class="d-flex">
-                <th class="col-2">Ataki</th>
-                <td class="col-1">{{ attacks }}</td>
+            <tr >
+                <th>Ataki</th>
+                <td>{{ attacks }}</td>
             </tr>
-            <tr class="d-flex">
-                <th class="col-2">Trafienia</th>
-                <td class="col-1">{{ hit }}</td>
+            <tr>
+                <th>Trafienia</th>
+                <td>{{ hit }}</td>
             </tr>
-            <tr class="d-flex">
-                <th class="col-2">Zadane rany</th>
-                <td class="col-1">{{ wounds }}</td>
+            <tr>
+                <th>Zadane rany</th>
+                <td>{{ wounds }}</td>
             </tr>
-            <tr class="d-flex">
-                <th class="col-2">Armour Save: </th>
+            <tr>
+                <th>Armour Save: </th>
                 {% for save in saves %}
-                <td class="col-1">{{ save }}</td>
+                <td>{{ save }}</td>
                 {% endfor %}
             </tr>
-            <tr class="d-flex">
-                <th class="col-2">Rany: </th>
+            <tr>
+                <th>Rany: </th>
                 {% for arm in armour %}
-                <td class="col-1">{{ arm }}</td>
+                <td>{{ arm }}</td>
                 {% endfor %}
             </tr>
 
