@@ -4,6 +4,8 @@
     <h1>Edytowanie Uzytkownika</h1>
     <form action="" method="POST">
         {{ form.as_p }}
+        {{ profile_form.as_p }}
+        <p style="color: red">{{ error }}</p>
         <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
         {% csrf_token %}
     </form>

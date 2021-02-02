@@ -253,7 +253,7 @@ class EditUserView(LoginRequiredMixin, View):
         user = User.objects.get(pk=id)
         form = EditUserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
-        return render(request, "user_form.html", {
+        return render(request, "edit_user.html", {
             "form": form,
             "profile_form": profile_form
         })
@@ -262,9 +262,21 @@ class EditUserView(LoginRequiredMixin, View):
         form = EditUserForm(request.POST, instance=user)
         profile_form = ProfileForm(request.POST, instance=user.profile)
         if form.is_valid() and profile_form.is_valid():
-            form.save()
-            profile_form.save()
-            return redirect("users-list")
+            password = form.cleaned_data["password"]
+            password2 = form.cleaned_data["password2"]
+            if password == password2:
+                user = form.save()
+                user.set_password(password)
+                user.save()
+                profile_form.save()
+                return redirect("users-list")
+            else:
+                return render(request, "edit_user.html", {
+                    "form": form,
+                    "profile_form": profile_form,
+                    "error": "Hasla musza byc takie same"
+                })
+
 
 
 class UsersList(LoginRequiredMixin, View):

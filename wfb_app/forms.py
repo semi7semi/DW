@@ -64,12 +64,14 @@ class ProfileForm(forms.ModelForm):
 
 
 class EditUserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Nowe hasło")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz nowe hasło")
     class Meta:
         model = User
         fields = ["username", "email"]
         labels = {
             "username": "Nickname",
-            "email": "Podaj email"
+            "email": "Podaj email",
         }
 
 

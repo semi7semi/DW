@@ -26,6 +26,11 @@
                  <a class="btn btn-secondary" href="/logout/">
                      <span>Logout</span>
                  </a>
+                 {% if request.user.is_superuser %}
+                 <a class="btn btn-secondary" href="../admin/">
+                     <span>Admin panel</span>
+                 </a>
+                 {% endif %}
 
              </h4>
              {% else %}
