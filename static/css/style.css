@@ -352,7 +352,7 @@ margin: 0 auto !important;
 }
 .dashboard-section .nav-item {
   display: block;
-  width: 260px;
+  width: auto;
   margin-bottom: 20px;
 }
 .dashboard-section .nav-item i.fa-angle-right {
@@ -503,9 +503,9 @@ margin: 0 auto !important;
 }
 
 .icon-cup {
-  background-image: url(../images/cup.png);
+  background-image: url(../images/dice.png);
 }
 
 .icon-veg {
-  background-image: url(../images/carrot.png);
+  background-image: url(../images/salad.png);
 }
