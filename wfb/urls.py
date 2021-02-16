@@ -3,11 +3,12 @@ from django.urls import path
 
 from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     LoginView, LogoutView, UsersList, CreateUserView, EditUserView, AddGameResultView, DeleteUser, UserDetailsView, \
-    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView
+    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView, Landing_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Index.as_view(), name="main"),
+    path('dashboard/', Landing_page.as_view(), name="dashboard"),
 
 
     path("add_unit/", AddUnitView.as_view(), name="add-unit"),
@@ -22,10 +23,10 @@ urlpatterns = [
     path("ranking/add_result/", AddGameResultView.as_view()),
     path("ranking/edit/<int:id>/", EditGameResultView.as_view()),
 
-    path("accounts/login/", LoginView.as_view()),
+    path("accounts/login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout-user"),
     path("users/", UsersList.as_view(), name="users-list"),
-    path("add_user/", CreateUserView.as_view()),
+    path("add_user/", CreateUserView.as_view(), name="register"),
     path("edit_user/<int:id>/", EditUserView.as_view()),
     path("user_details/<int:id>/", UserDetailsView.as_view(), name="user-details"),
     path("users/delete/<int:id>/", DeleteUser.as_view()),

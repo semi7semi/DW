@@ -12,6 +12,13 @@ from wfb_app.models import Units, Armys, GameResults, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
+class Landing_page(View):
+    def get(self, request):
+        ctx = {
+        }
+        return render(request, "dashboard.html", ctx)
+
+
 class Index(View):
     # strona główna, 5ciu najleprzysz graczy, logowanie, linki
     def get(self, request):
@@ -372,6 +379,3 @@ class EditGameResultView(View):
         if form.is_valid():
             form.save()
             return redirect("user-details", id=game.user.id)
-
-
-

@@ -2,14 +2,24 @@
 {% block title %}{% endblock title %}
 {% block content %}
 <div class="dashboard-header m-2 p-2">
-    <div class="col-1">
-        {% if request.user.is_authenticated %}
-        <div class="nav nav-pills nav-justified">
-            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
+    <div class="dashboard-menu">
+        <div class="menu-item">
+            {% if request.user.is_authenticated %}
+            <div class="nav nav-pills nav-justified">
+                <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
+        <div class="menu-item">
+            {% if request.user.is_authenticated %}
+            <div class="nav nav-pills nav-justified">
+                <a class="nav-link btn-color-excel"
+                   href="https://drive.google.com/file/d/1uVOaH1UD0JWOciopjKO85SbIDS6wBgDH/view?usp=sharing">Excel
+                    ligowy</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
-
 </div>
 <div class="row">
     <div class="m-4 p-4 border-dashed">

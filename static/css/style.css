@@ -82,12 +82,26 @@ background: #EAEAEA;
 }
 .btn-color a {
   text-decoration: none;
-  color: var(--light-link-color); 
+  color: var(--light-link-color);
 }
-
 .btn-color:hover {
   opacity: 0.8;
 }
+.btn-color-excel {
+  background-color: var(--green);
+  color: var(--light-link-color);
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px 18px;
+}
+.btn-color-excel a {
+  text-decoration: none;
+  color: var(--light-link-color);
+}
+.btn-color-excel:hover {
+  opacity: 0.8;
+}
+
 .label-size {
   font-size: 1.4rem;
   color: var(--background-color);
@@ -508,4 +522,8 @@ margin: 0 auto !important;
 
 .icon-veg {
   background-image: url(../images/salad.png);
+}
+
+.icon-logo {
+  background-image: url(../images/dice.png);
 }
