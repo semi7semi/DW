@@ -21,9 +21,9 @@
 
          <div class="d-flex justify-content-around">
              {% if request.user.is_authenticated %}
-             <h4 class="text-color-lighter mr-3">Witaj <a class="text-color-lighter mr-2" href="/edit_user/{{ request.user.id }}/">{{ request.user.username }}</a></h4>
+             <h4 class="text-color-lighter mr-3">Witaj <a class="text-color-lighter mr-2" href="{% url 'edit-user' user.id %}">{{ request.user.username }}</a></h4>
              <h4 class="text-light">
-                 <a class="btn btn-secondary" href="/logout/">
+                 <a class="btn btn-secondary" href="{% url 'logout' %}">
                      <span>Logout</span>
                  </a>
                  {% if request.user.is_superuser %}
@@ -36,13 +36,13 @@
              {% else %}
              <h4 class="text-color-lighter pr-2 pl-2">Witaj nieznajomy</h4>
              <h4 class="text-color-lighter pr-2 pl-2">
-                 <a class="btn btn-secondary" href="/accounts/login/">
+                 <a class="btn btn-secondary" href="{% url 'login' %}">
                      <span>Login</span>
                  </a>
 
              </h4>
              <h4 class="text-color-lighter pr-2 pl-2">
-                 <a class="btn btn-secondary" href="/add_user/">
+                 <a class="btn btn-secondary" href="{% url 'register' %}">
                      <span>Register</span>
                  </a>
              </h4>
@@ -56,24 +56,29 @@
                 <ul class="nav flex-column long-bg">
                     <li class="nav-item">
                         <a class="nav-link" href="/">
+                            <span>Główna</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main' %}">
                             <span>Pulpit</span>
                         </a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/">
+                        <a class="nav-link" href="{% url 'users-list' %}">
                             <span>Lista graczy</span>
                         </a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/ranking/">
+                        <a class="nav-link" href="{% url 'ranking-list' %}">
                             <span>Ranking</span>
                         </a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/calculator/">
+                        <a class="nav-link" href="{% url 'calc-view' %}">
                             <span>Kalkulator</span>
                         </a>
                     </li>

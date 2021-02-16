@@ -7,8 +7,8 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', Index.as_view(), name="main"),
-    path('dashboard/', Landing_page.as_view(), name="dashboard"),
+    path('index/', Index.as_view(), name="main"),
+    path('', Landing_page.as_view(), name="dashboard"),
 
 
     path("add_unit/", AddUnitView.as_view(), name="add-unit"),
@@ -20,14 +20,14 @@ urlpatterns = [
     path("calculator/", CalcView.as_view(), name="calc-view"),
 
     path("ranking/", RankingList.as_view(), name="ranking-list"),
-    path("ranking/add_result/", AddGameResultView.as_view()),
-    path("ranking/edit/<int:id>/", EditGameResultView.as_view()),
+    path("ranking/add_result/", AddGameResultView.as_view(), name="result"),
+    path("ranking/edit/<int:id>/", EditGameResultView.as_view(), name="result-edit"),
 
     path("accounts/login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout-user"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     path("users/", UsersList.as_view(), name="users-list"),
     path("add_user/", CreateUserView.as_view(), name="register"),
-    path("edit_user/<int:id>/", EditUserView.as_view()),
+    path("edit_user/<int:id>/", EditUserView.as_view(), name="edit-user"),
     path("user_details/<int:id>/", UserDetailsView.as_view(), name="user-details"),
     path("users/delete/<int:id>/", DeleteUser.as_view()),
 ]

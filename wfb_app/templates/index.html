@@ -6,7 +6,7 @@
         <div class="menu-item">
             {% if request.user.is_authenticated %}
             <div class="nav nav-pills nav-justified">
-                <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
+                <a class="nav-link btn-color" href="{% url 'result' %}">Dodaj wynik</a>
             </div>
             {% endif %}
         </div>
@@ -41,7 +41,7 @@
             <tbody>
             {% for user in result %}
             <tr>
-                <td><a class="user-color" href="/user_details/{{ user.7.id }}/">{{ user.7.username }}</a></td>
+                <td><a class="user-color" href="{% url 'user-details' user.7.id %} ">{{ user.7.username }}</a></td>
                 <td>{{ user.0 }} ({{ user.8 }})</td>
                 <td>{{ user.1 }} ({{ user.9 }})</td>
                 <td> {{ user.2 }} ({{ user.10 }})</td>

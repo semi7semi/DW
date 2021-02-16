@@ -31,13 +31,14 @@
     <header class="page-header">
       <nav class="navbar navbar-expand-lg justify-content-around">
         <a href="/" class="navbar-brand main-logo">
-          <img src="{% static 'images/bannerDW.png' %}" alt="logo" width="500">
+          Drobne Wałeczki
+<!--          <img src="{% static 'images/bannerDW.png' %}" alt="logo" width="500">-->
         </a>
 
         <ul class="nav nounderline text-uppercase">
           {% if request.user.is_authenticated %}
           <li class="nav-item ml-4">
-          <a class="nav-link" href="/edit_user/{{ request.user.id }}/">Witaj {{ request.user.username }}</a>
+          <a class="nav-link" href="{% url 'edit-user' user.id %}">Witaj {{ request.user.username }}</a>
           </li>
             {% else %}
             <li class="nav-item ml-4">
@@ -50,9 +51,6 @@
 
           <li class="nav-item ml-4">
             <a class="nav-link" href="#about">O klubie</a>
-          </li>
-          <li class="nav-item ml-4">
-            <a class="nav-link disabled" href="{% url 'main' %}">Ranking</a>
           </li>
           <li class="nav-item ml-4">
             <a class="nav-link disabled" href="#contact">Kontakt</a>
@@ -126,7 +124,7 @@
         </div>
         <div class="ml-4 align-self-center">
           <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">
-            <a href="/">Strona rankingu</a>
+            <a href="{% url 'main' %}">Strona rankingu</a>
           </button>
         </div>
       </div>
@@ -199,16 +197,16 @@
     <section class="padding-medium story bg-light" id="about">
       <div class="container d-flex justify-content-center align-items-center">
         <div class="row">
-<!--          <div class="col-4 mr-4">-->
-<!--            <div>-->
-<!--              <img src="{% static 'images/bannerDWm.png' %}" alt="logo" width="200">-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="col-4 mr-4">
+            <div>
+              <img src="{% static 'images/kostka.jpg' %}" alt="logo" width="300">
+            </div>
+          </div>
 
           <div class="col-7 ml-4">
             <h1 class="pb-1">O Klubie</h1>
             <p>
-              Drobne Wałeczki to klub zrzeszający pasjonatów gier bitewnych w świecie
+              <strong>Drobne Wałeczki</strong> to klub zrzeszający pasjonatów gier bitewnych w świecie
               Warhammera czy The 9th Age oraz innych systemów. Nasza wspólna pasja do figurek i świata fantasy
               połączyła nas więzami przyjaźni. Klub ma wieloletnią tradycje i wyraźną pozycje
               na scenie turniejowej. W naszych szeregach można znaleźć mistrzów pędzla i wirtuozów
@@ -224,7 +222,6 @@
       <div class="container">
         <div class="row">
           <div class="col pl-4 ml-4">
-            <h3 class="mb-4">Kontakt</h3>
               <div class="row pr-2 pl-2">Odwiedz nas na
               <div>
                 <a href="https://www.facebook.com/drobnewaleczki">
