@@ -15,38 +15,45 @@
         <nav class="navbar navbar-expand-lg justify-content-between">
 
             <a href="/" class="navbar-brand main-logo main-logo-smaller">
-                <img src="{% static 'images/bannerDWm.png' %}" alt="logo" width="80">
+                <img src="{% static 'images/kostka.jpg' %}" alt="logo" width="80">
                 <span class="main-logo"> Drobne Wałeczki</span>
             </a>
 
          <div class="d-flex justify-content-around">
-             {% if request.user.is_authenticated %}
-             <h4 class="text-color-lighter mr-3">Witaj <a class="text-color-lighter mr-2" href="{% url 'edit-user' user.id %}">{{ request.user.username }}</a></h4>
-             <h4 class="text-light">
-                 <a class="btn btn-secondary" href="{% url 'logout' %}">
-                     <span>Logout</span>
-                 </a>
+             <ul class="nav nounderline text-uppercase">
+                 {% if request.user.is_authenticated %}
+                 <li class="nav-item ml-4">
+                     <a class="nav-link" href="{% url 'edit-user' user.id %}">Witaj {{ request.user.username }}</a></a>
+                 </li>
+                 <li class="nav-item ml-4">
+                     <a class="btn btn-secondary" href="{% url 'logout' %}">
+                         <span>Logout</span>
+                     </a>
+                 </li>
                  {% if request.user.is_superuser %}
-                 <a class="btn btn-secondary" href="../admin/">
-                     <span>Admin panel</span>
-                 </a>
+                 <li class="nav-item ml-4">
+                     <a class="btn btn-secondary" href="../admin/">
+                         <span>Admin panel</span>
+                     </a>
+                 </li>
                  {% endif %}
 
-             </h4>
-             {% else %}
-             <h4 class="text-color-lighter pr-2 pl-2">Witaj nieznajomy</h4>
-             <h4 class="text-color-lighter pr-2 pl-2">
-                 <a class="btn btn-secondary" href="{% url 'login' %}">
-                     <span>Login</span>
-                 </a>
-
-             </h4>
-             <h4 class="text-color-lighter pr-2 pl-2">
-                 <a class="btn btn-secondary" href="{% url 'register' %}">
-                     <span>Register</span>
-                 </a>
-             </h4>
-             {% endif %}
+                 {% else %}
+                 <li class="nav-item ml-4">
+                     <a class="nav-link">Witaj nieznajomy</a>
+                 </li>
+                 <li class="nav-item ml-4">
+                     <a class="btn btn-secondary" href="{% url 'login' %}">
+                         <span>Login</span>
+                     </a>
+                 </li>
+                 <li class="nav-item ml-4">
+                     <a class="btn btn-secondary" href="{% url 'register' %}">
+                         <span>Register</span>
+                     </a>
+                 </li>
+                 {% endif %}
+             </ul>
          </div>
         </nav>
     </header>
@@ -54,11 +61,6 @@
     <section class="dashboard-section">
         <div class="row dashboard-nowrap">
                 <ul class="nav flex-column long-bg">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <span>Główna</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'main' %}">
                             <span>Pulpit</span>

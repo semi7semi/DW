@@ -191,7 +191,7 @@ margin: 0 auto !important;
 
 .page-header .nav .nav-item .active,
 .page-header .nav .nav-item a:hover{
-    color: var(--link-color)!important;
+    color: var(--lighter-background-color)!important;
 }
 
 .main-logo {
