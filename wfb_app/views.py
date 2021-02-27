@@ -14,7 +14,19 @@ from django.core.paginator import Paginator
 
 class Landing_page(View):
     def get(self, request):
+        no_of_games = GameResults.objects.all().count()
+        no_of_users = User.objects.all().count()
+        users = User.objects.all()
+        count_master = GameResults.objects.filter(game_rank="master").count()
+        count_local = GameResults.objects.filter(game_rank="local").count()
+        count_home = GameResults.objects.filter(game_rank="home").count()
         ctx = {
+            "no_of_games": no_of_games,
+            "no_of_users": no_of_users,
+            "count_master": count_master,
+            "count_local": count_local,
+            "count_home": count_home,
+            "users": users
         }
         return render(request, "dashboard.html", ctx)
 
@@ -358,9 +370,13 @@ class AddGameResultView(LoginRequiredMixin, View):
     def post(self, request):
         form = GameResultsForm(request.POST)
         if form.is_valid():
+            # opponent = form.cleaned_data["opponent"]
+            # opp = User.objects.filter(username=opponent)
             result = form.save(commit=False)
             result.user = request.user
             result.save()
+            # if opp.exists():
+            #     print(f"{opp} istnieje")
             return redirect("ranking-list")
         else:
             ctx = {"form": form}

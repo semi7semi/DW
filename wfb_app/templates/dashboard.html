@@ -59,63 +59,56 @@
       </nav>
     </header>
 
-<!--    <section class="padding-small bg-light">-->
-<!--      <div-->
-<!--        id="carouselExampleControls"-->
-<!--        class="carousel slide main-slider"-->
-<!--        data-ride="carousel"-->
-<!--      >-->
-<!--        <div class="carousel-inner container">-->
-<!--          <div class="carousel-item active">-->
-<!--            <div class="container w-75 d-flex">-->
-<!--              <div class="carousel-caption d-block">-->
-<!--                <h1>{{recipes.0.name}}</h1>-->
-<!--                <h3>{{recipes.0.description}}</h3>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="carousel-item">-->
-<!--            <div class="container w-75 d-flex">-->
-<!--              <div class="carousel-caption d-block">-->
-<!--                <h1>{{recipes.1.name}}</h1>-->
-<!--                <h3>{{recipes.1.description}}</h3>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="carousel-item">-->
-<!--            <div class="container w-75 d-flex">-->
-<!--              <div class="carousel-caption d-block">-->
-<!--                <h1>{{recipes.2.name}}</h1>-->
-<!--                <h3>{{recipes.2.description}}</h3>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <a-->
-<!--          class="carousel-control-prev"-->
-<!--          href="#carouselExampleControls"-->
-<!--          role="button"-->
-<!--          data-slide="prev"-->
-<!--        >-->
-<!--          <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--          <span class="sr-only">Previous</span>-->
-<!--        </a>-->
-<!--        <a-->
-<!--          class="carousel-control-next"-->
-<!--          href="#carouselExampleControls"-->
-<!--          role="button"-->
-<!--          data-slide="next"-->
-<!--        >-->
-<!--          <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--          <span class="sr-only">Next</span>-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </section>-->
+    <section class="padding-small bg-light">
+      <div
+        id="carouselExampleControls"
+        class="carousel slide main-slider"
+        data-ride="carousel"
+      >
+        <div class="carousel-inner container">
+          <div class="carousel-item active">
+            <div class="container w-75 d-flex">
+              <div class="carousel-caption d-block">
+                <h2>Wałeczki rozegrały: {{no_of_games}} gier</h2>
+                <h3>Masterów: {{count_master}}, Lokali: {{count_local}}</h3>
+                <h3>oraz luźnych domówek: {{count_home}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container w-75 d-flex">
+              <div class="carousel-caption d-block">
+                <h2>Klub Drobne Wałeczki tworzy: {{no_of_users}}-ciu graczy</h2>
+                <h3>{% for user in users %} {{user.username}}, {% endfor %}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </section>
 
-    <section class="newsletter-section padding-small">
+    <section class="bg-purp padding-small">
       <div class="container d-flex justify-content-between">
         <div class="mr-4">
-          <h1 class="pb-3">Witaj na stronie klubu <span>Drobne Wałeczki</span></h1>
+          <h2 class="pb-3">Witaj na stronie klubu <span>Drobne Wałeczki</span></h2>
           <h4 class="pt-1">
             Chcesz posłuchać o wielkich zwycięstwach i sromotnych porażkach, a może
             o tym jak nawet najdoskonalszy plan potrafią zniweczyć podstępne kości?
@@ -123,7 +116,7 @@
           </h4>
         </div>
         <div class="ml-4 align-self-center">
-          <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">
+          <button class="btn btn-color-grey rounded-0 mt-4 pl-4 pr-4">
             <a href="{% url 'main' %}">Strona rankingu</a>
           </button>
         </div>
