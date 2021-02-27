@@ -15,8 +15,8 @@ from django.core.paginator import Paginator
 class Landing_page(View):
     def get(self, request):
         no_of_games = GameResults.objects.all().count()
-        no_of_users = User.objects.all().count()
-        users = User.objects.all()
+        no_of_users = User.objects.all().exclude(username="admin").count()
+        users = User.objects.all().exclude(username="admin")
         count_master = GameResults.objects.filter(game_rank="master").count()
         count_local = GameResults.objects.filter(game_rank="local").count()
         count_home = GameResults.objects.filter(game_rank="home").count()
