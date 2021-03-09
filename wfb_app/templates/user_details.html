@@ -8,6 +8,7 @@
         </div>
         {% endif %}
     </div>
+<div class="row">
 <div class="m-4 p-4 border-dashed">
                     <h2 class="dashboard-content-title">
                         <span>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</span>
@@ -15,37 +16,63 @@
         <table class="table border-bottom schedules-content css-serial">
 
             <tr>
-                <th>Czym grałeś</th>
-                <th>Punkty</th>
-                <th>Wykonany objective?</th>
-                <th>Jaki Objective</th>
-                <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
+                <th>Punkty</th>
+                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
+                <th>Czym grałeś</th>
+                <th>Ranga turnieju/gry</th>
                 <th>Data</th>
                 <th></th>
             </tr>
             {% for result in ranking %}
             <tr>
-                <td>{{ result.army }}</td>
-                <td>{{ result.battle_points }}</td>
-                {% if result.objective  %}
-                    <td style="color: green">Tak</td>
-                {% else %}
-                    <td style="color: red">Nie</td>
-                {% endif %}
-                <td>{{ result.get_objective_type_display  }}</td>
-                <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.opponent  }}</td>
+                <td>{{ result.battle_points }}</td>
+
+                {% if result.objective %}
+                <td style="color: green">{{ result.get_objective_type_display }}</td>
+                {% else %}
+                <td style="color: red">{{ result.get_objective_type_display }}</td>
+                {% endif %}
+                <td>{{ result.army }}</td>
+                <td>{{ result.get_game_rank_display  }}</td>
                 <td>{{ result.date }}</td>
                 {% if request.user.username == result.user.username %}
                 <td><a class="btn btn-secondary rounded-1" href="/ranking/edit/{{ result.id }}/">Edytuj</a></td>
                 {% endif %}
             </tr>
             {% endfor %}
-            <tr>
-                <td>Total: {{ total }}</td>
-            </tr>
+
         </table>
+    <table class="table border-bottom schedules-content">
+        <tr>
+            <td><h4>Total: {{ total }}</h4></td>
+            </tr>
+    </table>
+</div>
+    <div class=dashboard-alerts">
+        <h4>Sortowanie</h4>
+        <form action="" method="POST">
+            <label for="sort">1st:</label>
+
+            <select id="sort" name="sort_option">
+                <option value="opponent" selected>Przeciwnik</option>
+                <option value="army">Armia</option>
+                <option value="battle_points">Punkty</option>
+                <option value="game_rank">Ranga</option>
+                <option value="date">Data</option>
+            </select>
+            <label for="desc"></label>
+            <select id="desc" name="desc">
+                <option value="-">Malejaco</option>
+                <option value="+">Rosnaco</option>
+            </select><br>
+            <p></p>
+            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Search">Sortuj</button>
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">

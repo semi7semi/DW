@@ -316,6 +316,20 @@ class UserDetailsView(View):
             total += score.battle_points
         ctx = {"ranking": ranking, "total": total, "user": user}
         return render(request, "user_details.html", ctx)
+    def post(self, request, id):
+        user = User.objects.get(pk=id)
+        sort_option = request.POST.get("sort_option")
+        desc = request.POST.get("desc")
+        if desc == "+":
+            desc = ""
+        ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}")
+        total = 0
+        for score in ranking:
+            total += score.battle_points
+        ctx = {"ranking": ranking, "total": total, "user": user}
+        return render(request, "user_details.html", ctx)
+
+
 
 
 class DeleteUser(LoginRequiredMixin, View):
@@ -342,7 +356,6 @@ class RankingList(View):
     # sortowanie po wynikach, randze itd
     def get(self, request):
         ranking = GameResults.objects.all().order_by("-date", "-id")
-
         return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
     def post(self, request):
         sort_option = request.POST.get("sort_option")
