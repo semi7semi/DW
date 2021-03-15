@@ -11,6 +11,7 @@ from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditU
 from wfb_app.models import Units, Armys, GameResults, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db.models import Avg, Max, Min, Sum
 
 class Landing_page(View):
     def get(self, request):
@@ -37,64 +38,53 @@ class Index(View):
         result = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GameResults.objects.all().count()
+        max = [5, 10, 20]
         for user in users:
             games = GameResults.objects.filter(user=user)
-            count_master = games.filter(game_rank="master").count()
-            count_local = games.filter(game_rank="local").count()
-            count_home = games.filter(game_rank="home").count()
-            total = 0
-            total_master = 0
-            total_local = 0
-            total_home = 0
-            ranking_points = 0
+            master = games.filter(game_rank="master")
+            local = games.filter(game_rank="local")
+            home = games.filter(game_rank="home")
+            count_master = master.count()
+            count_local = local.count()
+            count_home = home.count()
+            total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_masters = master.order_by("-battle_points")[:max[0]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_locals = local.order_by("-battle_points")[:max[1]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_homes = home.order_by("-battle_points")[:max[2]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total = total_masters + total_locals + total_homes
             count = count_master + count_local + count_home
-            for game in games:
-                if game.game_rank == "master":
-                    total_master += game.battle_points
-                elif game.game_rank == "local":
-                    total_local += game.battle_points
-                elif game.game_rank == "home":
-                    total_home += game.battle_points
-                total = total_master + total_local + total_home
-            if count_master == 0:
-                m = 0
-            else:
-                m = total_master / count_master
-            if count_local == 0:
-                l = 0
-            else:
-                l = total_local / count_local
-            if count_home == 0:
-                h = 0
-            else:
-                h = total_home / count_home
-            ranking_points += (m * 3) + l + (h * 0.33)
-            #  user.id bo przy sortowaniu tych samych wynikow python nie ogarnia :)
+            ranking_points = best_masters + best_locals + best_homes
             result.append([
-                round(m, 2),
-                round(l, 2),
-                round(h,2),
-                round(ranking_points, 2),
+                ranking_points,
                 total,
                 count,
+                total_masters,
+                best_masters,
+                count_master,
+                total_locals,
+                best_locals,
+                count_local,
+                total_homes,
+                best_homes,
+                count_home,
                 user.id,
                 user,
-                count_master,
-                count_local,
-                count_home
             ])
         result.sort(reverse=True)
         result_by_count = sorted(result)
         result_by_count.sort(key=sort_count, reverse=True)
-        result_by_rv = sorted(result)
-        result_by_rv.sort(key=sort_rv, reverse=True)
+        # result_by_rv = sorted(result)
+        # result_by_rv.sort(key=sort_rv, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result,
-            "best_gen_id": result_by_rv[0][6],
-            "best_gamer_id": result_by_count[0][6],
-            "best_veg_id": result_by_rv[-1][6]
+            "best_gen_id": result[0][12],
+            "best_gamer_id": result_by_count[0][12],
+            "best_veg_id": result[-1][12],
+            "max": max
         }
         return render(request, "index.html", ctx)
 

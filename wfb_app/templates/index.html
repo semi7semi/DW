@@ -30,30 +30,40 @@
             <thead>
             <tr>
                 <th>Ksywka</th>
-                <th>Av Master</th>
-                <th>Av Lokal</th>
-                <th>Av Home</th>
-                <th>Ranking value</th>
+                <th>Master</th>
+                <th>Lokal</th>
+                <th>Home</th>
                 <th>Suma (gry)</th>
+                <th>RV</th>
                 <th></th>
             </tr>
+<!--            <tr>-->
+<!--                <th></th>-->
+<!--                <th>[total/best/games]</th>-->
+<!--                <th>[total/best/games]</th>-->
+<!--                <th>[total/best/games]</th>-->
+<!--                <th></th>-->
+<!--                <th></th>-->
+<!--                <th></th>-->
+<!--            </tr>-->
             </thead>
             <tbody>
             {% for user in result %}
             <tr>
-                <td><a class="user-color" href="{% url 'user-details' user.7.id %} ">{{ user.7.username }}</a></td>
-                <td>{{ user.0 }} ({{ user.8 }})</td>
-                <td>{{ user.1 }} ({{ user.9 }})</td>
-                <td> {{ user.2 }} ({{ user.10 }})</td>
-                <td>{{ user.3 }}</td>
-                <td>{{ user.4 }} ({{ user.5 }})</td>
-                {% if user.6 == best_gen_id %}
+                <td><a class="user-color" href="{% url 'user-details' user.12 %} ">{{ user.13.username }}</a></td>
+                <td><strong>{{ user.4 }}</strong> ({{ user.3 }} / {{ user.5 }})</td>
+                <td><strong>{{ user.7 }}</strong> ({{ user.6 }} / {{ user.8 }})</td>
+                <td><strong>{{ user.10 }}</strong> ({{ user.9 }} / {{ user.11 }})</td>
+                <td>{{ user.1 }} ({{ user.2 }})</td>
+                <td><strong>{{ user.0 }}</strong></td>
+
+                {% if user.12 == best_gen_id %}
                 <td class="icon icon-gen d-flex"></td>
                 {% endif %}
-                {% if user.6 == best_gamer_id %}
+                {% if user.12 == best_gamer_id %}
                 <td class="icon icon-cup d-flex"></td>
                 {% endif %}
-                {% if user.6 == best_veg_id %}
+                {% if user.12 == best_veg_id %}
                 <td class="icon icon-veg d-flex"></td>
                 {% endif %}
             </tr>
@@ -75,30 +85,34 @@
                 <span>Ranking Value</span>
             </h3>
 
-            <p>Punkty są wyliczane na podstawie średniej wartości wyników w danej randze turnieju (Master, Local,
-                Home)</p>
-            <h4>RV = (Av master * 3) + Av lokal + (Av home * 0.33) </h4>
+            <p>Do rankingu zaliczane sa najlepsze wyniki z kazdej kategorii: Master ({{ max.0 }}), Local ({{ max.1 }}), Home({{ max.2 }})</p>
+            <h4>RV = best masters + best locals + best homes </h4>
             <table>
                 <tr><td>RV - Ranking Value</td></tr>
-                <tr><td>Av master - średnia z masterów (suma / liczba gier)</td></tr>
-                <tr><td>Av lokal - średnia z lokali (suma / liczba gier)</td></tr>
-                <tr><td>Av home - średnia z domówek (suma / liczba gier)</td></tr>
-
+                <tr><td>best masters - {{ max.0 }} najlepszych wyników z Masterow</td></tr>
+                <tr><td>best lokals - {{ max.1 }} najlepszych wyników z Lokali</td></tr>
+                <tr><td>best homes - {{ max.2 }} najlepszych wyników z Domówek</td></tr>
             </table>
-                    <table>
-            <tr>
-                <td class="icon icon-gen d-flex"></td>
-                <td> - Najlepszy generał (najlepszy RV)</td>
-            </tr>
-            <tr>
-                <td class="icon icon-cup d-flex"></td>
-                <td> - Szalony gamer (najwięcej gier)</td>
-            </tr>
-            <tr>
-                <td class="icon icon-veg d-flex"></td>
-                <td> - Mistrz vege (najmniejszy RV)</td>
-            </tr>
-        </table>
+            <p></p>
+            <p>Objaśnienia:</p>
+            <table>
+                <tr>
+                    <td><strong>60</strong> (108 / <i>6</i>) </td>
+                    <td> - <strong>Suma najlepszych wyników</strong> (suma wszsytkich wyników / <i>liczba gier</i>)</td>
+                </tr>
+                <tr>
+                    <td class="icon icon-gen d-flex"></td>
+                    <td> - Najlepszy generał (najlepszy RV)</td>
+                </tr>
+                <tr>
+                    <td class="icon icon-cup d-flex"></td>
+                    <td> - Szalony gamer (najwięcej gier)</td>
+                </tr>
+                <tr>
+                    <td class="icon icon-veg d-flex"></td>
+                    <td> - Mistrz vege (najmniejszy RV)</td>
+                </tr>
+            </table>
         </div>
 
     </div>
