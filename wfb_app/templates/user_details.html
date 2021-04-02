@@ -67,10 +67,39 @@
                 <option value="-">Malejaco</option>
                 <option value="+">Rosnaco</option>
             </select><br>
+             <label for="sort_sec">2nd:</label>
+            <select id="sort_sec" name="sort_option_sec">
+                <option value="opponent" selected>Przeciwnik</option>
+                <option value="army">Armia</option>
+                <option value="battle_points">Punkty</option>
+                <option value="game_rank">Ranga</option>
+                <option value="date">Data</option>
+            </select>
+            <label for="desc2"></label>
+            <select id="desc2" name="desc2">
+                <option value="-">Malejaco</option>
+                <option value="+">Rosnaco</option>
+            </select><br>
             <p></p>
-            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Search">Sortuj</button>
+            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Sort">Sortuj</button>
             {% csrf_token %}
         </form>
+<!--        <p></p>-->
+<!--        <h4>Wyszukiwanie</h4>-->
+<!--        <form action="" method="POST">-->
+<!--            <label for="search">Po: </label>-->
+
+<!--            <select id="search" name="search_option">-->
+<!--                <option value="opponent" selected>Przeciwnik</option>-->
+<!--                <option value="army">Armia</option>-->
+<!--                <option value="battle_points">Punkty</option>-->
+<!--                <option value="game_rank">Ranga</option>-->
+<!--            </select>-->
+<!--            <label for="search_word"></label>-->
+<!--            <input id="search_word"><br>-->
+<!--            {% csrf_token %}-->
+<!--            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Search">Szukaj</button>-->
+<!--        </form>-->
     </div>
 </div>
 <div class="row">

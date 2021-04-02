@@ -309,10 +309,22 @@ class UserDetailsView(View):
     def post(self, request, id):
         user = User.objects.get(pk=id)
         sort_option = request.POST.get("sort_option")
+        sort_option_sec = request.POST.get("sort_option_sec")
         desc = request.POST.get("desc")
+        desc2 = request.POST.get("desc2")
+        search_option = request.POST.get("search_option")
+        search_word = request.POST.get("search_word")
         if desc == "+":
             desc = ""
-        ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}")
+        if desc2 == "+":
+            desc2 = ""
+        # if search_option == "opponent":
+        #     ranking = GameResults.objects.filter(user=user).filter(opponent__icontains=search_word)
+
+        if sort_option == sort_option_sec:
+            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}")
+        else:
+            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
         total = 0
         for score in ranking:
             total += score.battle_points
