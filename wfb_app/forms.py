@@ -104,3 +104,6 @@ class CalcForm(forms.Form):
     attacks = forms.IntegerField(min_value=1, max_value=100, label = "Podaj ilosc atakow")
     defensive = forms.IntegerField(min_value=1, max_value=10, label="Podaj Defensive Skill")
     resistance = forms.IntegerField(min_value=1, max_value=10, label="Podaj Resistance")
+
+class DiceRollForm(forms.Form):
+    no_of_dice = forms.IntegerField(min_value=1, max_value=100, label="Ile kości?")

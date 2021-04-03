@@ -7,11 +7,13 @@ from django.views import View
 from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
-from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm
+from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
+    DiceRollForm
 from wfb_app.models import Units, Armys, GameResults, Profile
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
+import random
 
 class Landing_page(View):
     def get(self, request):
@@ -131,6 +133,41 @@ class CalcView(LoginRequiredMixin, View):
                 "unit": unit
             }
             return render(request, "calc.html", ctx)
+
+
+class RollDiceView(View):
+    def get(self, request):
+        form = DiceRollForm(initial={"no_of_dice":10})
+        ctx = {"form": form}
+        return render(request, "dices.html", ctx)
+    def post(self, request):
+        form = DiceRollForm(request.POST)
+        if form.is_valid():
+            no_of_dices = form.cleaned_data["no_of_dice"]
+            rolls = []
+            sill = None
+            for i in range(no_of_dices):
+                dice = random.randint(1, 6)
+                rolls.append(dice)
+            rolls.sort()
+            plus2 = rolls.count(2) + rolls.count(3) + rolls.count(4) + rolls.count(5) +rolls.count(6)
+            plus3 = rolls.count(3) + rolls.count(4) + rolls.count(5) +rolls.count(6)
+            plus4 = rolls.count(4) + rolls.count(5) + rolls.count(6)
+            plus5 = rolls.count(5) + rolls.count(6)
+            plus6 = rolls.count(6)
+            if no_of_dices > 3 and no_of_dices == plus6:
+                sill = "Sill style!"
+            ctx = {
+                "rolls": rolls,
+                "plus2": plus2,
+                "plus3": plus3,
+                "plus4": plus4,
+                "plus5": plus5,
+                "plus6": plus6,
+                "sill": sill
+
+            }
+            return render(request, "dices.html", ctx)
 
 
 class List(LoginRequiredMixin, View):

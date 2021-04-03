@@ -3,7 +3,7 @@ from django.urls import path
 
 from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     LoginView, LogoutView, UsersList, CreateUserView, EditUserView, AddGameResultView, DeleteUser, UserDetailsView, \
-    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView, Landing_page
+    ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView, Landing_page, RollDiceView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path("edit_user/<int:id>/", EditUserView.as_view(), name="edit-user"),
     path("user_details/<int:id>/", UserDetailsView.as_view(), name="user-details"),
     path("users/delete/<int:id>/", DeleteUser.as_view()),
+    path("dice/", RollDiceView.as_view(), name="dice-view"),
 ]

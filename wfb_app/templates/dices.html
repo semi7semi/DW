@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dice Roll Generator</h1>
+{% if not rolls %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Roll!">
+    </form>
+{% else %}
+
+<div class="m-4 p-4 border-dashed">
+            <h1 class="dashboard-content-title">
+                {% if sill != None %}
+                        <span style="color: red">{{ sill }}</span>
+                {% endif %}
+                    </h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Wyniki: </th>
+                {% for roll in rolls %}
+                <td>{{ roll }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2+</th>
+                <td>{{ plus2 }}</td>
+            </tr>
+            <tr>
+                <th>3+</th>
+                <td>{{ plus3 }}</td>
+            </tr>
+            <tr>
+                <th>4+</th>
+                <td>{{ plus4 }}</td>
+            </tr>
+            <tr>
+                <th>5+</th>
+                <td>{{ plus5 }}</td>
+            </tr>
+            <tr>
+                <th>6+</th>
+                <td>{{ plus6 }}</td>
+            </tr>
+
+        </table><br>
+</div>
+<div class="row">
+        <div class="col-1">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link btn-color pt-2 pb-2" href="/dice/">Powrót</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
