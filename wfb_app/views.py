@@ -55,6 +55,19 @@ class Index(View):
             best_masters = master.order_by("-battle_points")[:max[0]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             best_locals = local.order_by("-battle_points")[:max[1]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             best_homes = home.order_by("-battle_points")[:max[2]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            if count_master == 0:
+                av_master = 0
+            else:
+                av_master = round(total_masters / count_master, 1)
+            if count_local == 0:
+                av_local = 0
+            else:
+                av_local = round(total_locals / count_local, 1)
+            if count_home == 0:
+                av_home = 0
+            else:
+                av_home = round(total_homes / count_home, 1)
+
             total = total_masters + total_locals + total_homes
             count = count_master + count_local + count_home
             ranking_points = best_masters + best_locals + best_homes
@@ -62,15 +75,20 @@ class Index(View):
                 ranking_points,
                 total,
                 count,
-                total_masters,
                 best_masters,
+                total_masters,
                 count_master,
-                total_locals,
+                av_master,
+
                 best_locals,
+                total_locals,
                 count_local,
-                total_homes,
+                av_local,
+
                 best_homes,
+                total_homes,
                 count_home,
+                av_home,
                 user.id,
                 user,
             ])

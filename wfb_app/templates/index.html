@@ -50,20 +50,20 @@
             <tbody>
             {% for user in result %}
             <tr>
-                <td><a class="user-color" href="{% url 'user-details' user.12 %} ">{{ user.13.username }}</a></td>
-                <td><strong>{{ user.4 }}</strong> ({{ user.3 }} / {{ user.5 }})</td>
-                <td><strong>{{ user.7 }}</strong> ({{ user.6 }} / {{ user.8 }})</td>
-                <td><strong>{{ user.10 }}</strong> ({{ user.9 }} / {{ user.11 }})</td>
+                <td><a class="user-color" href="{% url 'user-details' user.15 %} ">{{ user.16.username }}</a></td>
+                <td><strong>{{ user.3 }}</strong> ({{ user.4 }} / {{ user.5 }} / {{ user.6 }})</td>
+                <td><strong>{{ user.7 }}</strong> ({{ user.8 }} / {{ user.9 }} / {{ user.10 }})</td>
+                <td><strong>{{ user.11 }}</strong> ({{ user.12 }} / {{ user.13 }} / {{ user.14 }})</td>
                 <td>{{ user.1 }} ({{ user.2 }})</td>
                 <td><strong>{{ user.0 }}</strong></td>
 
-                {% if user.12 == best_gen_id %}
+                {% if user.15 == best_gen_id %}
                 <td class="icon icon-gen d-flex"></td>
                 {% endif %}
-                {% if user.12 == best_gamer_id %}
+                {% if user.15 == best_gamer_id %}
                 <td class="icon icon-cup d-flex"></td>
                 {% endif %}
-                {% if user.12 == best_veg_id %}
+                {% if user.15 == best_veg_id %}
                 <td class="icon icon-veg d-flex"></td>
                 {% endif %}
             </tr>
@@ -98,7 +98,7 @@
             <table>
                 <tr>
                     <td><strong>60</strong> (108 / <i>6</i>) </td>
-                    <td> - <strong>Suma najlepszych wyników</strong> (suma wszsytkich wyników / <i>liczba gier</i>)</td>
+                    <td> - <strong>Suma najlepszych wyników</strong> (suma wszsytkich wyników / <i>liczba gier</i> / średnia)</td>
                 </tr>
                 <tr>
                     <td class="icon icon-gen d-flex"></td>
