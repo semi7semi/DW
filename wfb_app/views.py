@@ -101,9 +101,9 @@ class Index(View):
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result,
-            "best_gen_id": result[0][12],
-            "best_gamer_id": result_by_count[0][12],
-            "best_veg_id": result[-1][12],
+            "best_gen_id": result[0][15],
+            "best_gamer_id": result_by_count[0][15],
+            "best_veg_id": result[-1][15],
             "max": max
         }
         return render(request, "index.html", ctx)

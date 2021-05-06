@@ -36,16 +36,9 @@
                 <th>Suma (gry)</th>
                 <th>RV</th>
                 <th></th>
+                <th></th>
+                <td></td>
             </tr>
-<!--            <tr>-->
-<!--                <th></th>-->
-<!--                <th>[total/best/games]</th>-->
-<!--                <th>[total/best/games]</th>-->
-<!--                <th>[total/best/games]</th>-->
-<!--                <th></th>-->
-<!--                <th></th>-->
-<!--                <th></th>-->
-<!--            </tr>-->
             </thead>
             <tbody>
             {% for user in result %}
@@ -56,7 +49,6 @@
                 <td><strong>{{ user.11 }}</strong> ({{ user.12 }} / {{ user.13 }} / {{ user.14 }})</td>
                 <td>{{ user.1 }} ({{ user.2 }})</td>
                 <td><strong>{{ user.0 }}</strong></td>
-
                 {% if user.15 == best_gen_id %}
                 <td class="icon icon-gen d-flex"></td>
                 {% endif %}
@@ -97,7 +89,7 @@
             <p>Objaśnienia:</p>
             <table>
                 <tr>
-                    <td><strong>60</strong> (108 / <i>6</i>) </td>
+                    <td><strong>60</strong> (108 / <i>6</i> / 18) </td>
                     <td> - <strong>Suma najlepszych wyników</strong> (suma wszsytkich wyników / <i>liczba gier</i> / średnia)</td>
                 </tr>
                 <tr>
