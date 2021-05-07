@@ -23,6 +23,7 @@
                 <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
                 <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
+                <th>Armia przeciwnika</th>
                 <th>Data</th>
             </tr>
             {% for result in ranking %}
@@ -37,6 +38,7 @@
                 {% endif %}
                 <td>{{ result.get_game_rank_display }}</td>
                 <td>{{ result.opponent }}</td>
+                <td>{{ result.opponent_army }}</td>
                 <td>{{ result.date }}</td>
             </tr>
             {% endfor %}
@@ -75,6 +77,7 @@
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
                 <option value="opponent">Przeciwnik</option>
+                <option value="opponent_army">Armia przeciwnika</option>
                 <option value="date" selected>Data</option>
             </select>
             <label for="desc"></label>
@@ -89,6 +92,7 @@
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
                 <option value="opponent">Przeciwnik</option>
+                <option value="opponent_army">Armia przeciwnika</option>
                 <option value="date">Data</option>
             </select>
             <label for="desc2"></label>

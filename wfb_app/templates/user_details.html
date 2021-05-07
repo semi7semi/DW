@@ -17,6 +17,7 @@
 
             <tr>
                 <th>Przeciwnik</th>
+                <th>Armia przeciwnika</th>
                 <th>Punkty</th>
                 <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
                 <th>Czym grałeś</th>
@@ -26,7 +27,8 @@
             </tr>
             {% for result in ranking %}
             <tr>
-                <td>{{ result.opponent  }}</td>
+                <td>{{ result.opponent }}</td>
+                <td>{{ result.opponent_army }}</td>
                 <td>{{ result.battle_points }}</td>
 
                 {% if result.objective %}
@@ -57,6 +59,7 @@
 
             <select id="sort" name="sort_option">
                 <option value="opponent" selected>Przeciwnik</option>
+                <option value="opponent_army">Armia przeciwnika</option>
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
@@ -70,6 +73,7 @@
              <label for="sort_sec">2nd:</label>
             <select id="sort_sec" name="sort_option_sec">
                 <option value="opponent" selected>Przeciwnik</option>
+                <option value="opponent_army">Armia przeciwnika</option>
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
