@@ -27,7 +27,11 @@
             </tr>
             {% for result in ranking %}
             <tr>
+                {% if result.opponent_dw %}
+                <td><a class="user-color" href="/user_details/{{ result.opponent_dw.id }}/">{{ result.opponent_dw }}</a></td>
+                {% else %}
                 <td>{{ result.opponent }}</td>
+                {% endif %}
                 <td>{{ result.opponent_army }}</td>
                 <td>{{ result.battle_points }}</td>
 
@@ -58,7 +62,7 @@
             <label for="sort">1st:</label>
 
             <select id="sort" name="sort_option">
-                <option value="opponent" selected>Przeciwnik</option>
+                <option value="opponent_dw" selected>Przeciwnik</option>
                 <option value="opponent_army">Armia przeciwnika</option>
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
@@ -72,7 +76,7 @@
             </select><br>
              <label for="sort_sec">2nd:</label>
             <select id="sort_sec" name="sort_option_sec">
-                <option value="opponent" selected>Przeciwnik</option>
+                <option value="opponent_dw" selected>Przeciwnik</option>
                 <option value="opponent_army">Armia przeciwnika</option>
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>

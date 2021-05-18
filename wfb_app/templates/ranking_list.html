@@ -37,7 +37,11 @@
                 <td style="color: red">{{ result.get_objective_type_display }}</td>
                 {% endif %}
                 <td>{{ result.get_game_rank_display }}</td>
+                {% if result.opponent_dw %}
+                <td><a class="user-color" href="/user_details/{{ result.opponent_dw.id }}/">{{ result.opponent_dw }}</a></td>
+                {% else %}
                 <td>{{ result.opponent }}</td>
+                {% endif %}
                 <td>{{ result.opponent_army }}</td>
                 <td>{{ result.date }}</td>
             </tr>
@@ -76,7 +80,7 @@
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
-                <option value="opponent">Przeciwnik</option>
+                <option value="opponent_dw">Przeciwnik</option>
                 <option value="opponent_army">Armia przeciwnika</option>
                 <option value="date" selected>Data</option>
             </select>
@@ -91,7 +95,7 @@
                 <option value="army">Armia</option>
                 <option value="battle_points">Punkty</option>
                 <option value="game_rank">Ranga</option>
-                <option value="opponent">Przeciwnik</option>
+                <option value="opponent_dw">Przeciwnik</option>
                 <option value="opponent_army">Armia przeciwnika</option>
                 <option value="date">Data</option>
             </select>

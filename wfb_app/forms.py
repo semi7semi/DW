@@ -81,9 +81,10 @@ class GameResultsForm(forms.ModelForm):
         self.fields["battle_points"].widget.attrs["min"] = 0
         self.fields["battle_points"].widget.attrs["max"] = 20
 
+
     class Meta:
         model = GameResults
-        fields = ["battle_points", "army", "objective", "objective_type", "game_rank", "opponent", "opponent_army", "date"]
+        fields = ["battle_points", "army", "objective", "objective_type", "game_rank","opponent_dw", "opponent", "opponent_army", "date"]
         labels = {
             "user": "Nick",
             "army": "Czym Grałeś",
@@ -91,7 +92,8 @@ class GameResultsForm(forms.ModelForm):
             "objective": "Czy Objective wykonany",
             "objective_type": "Jaki Objective",
             "game_rank": "Ranga turnieju",
-            "opponent": "Przeciwnik",
+            "opponent_dw": "Przeciwnik z DW",
+            "opponent": "Inny przeciwnik",
             "opponent_army": "Armia przeciwnika",
             "date": "Data"
         }

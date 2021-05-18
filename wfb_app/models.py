@@ -70,12 +70,12 @@ class GameResults(models.Model):
     objective = models.BooleanField(default=False)
     objective_type = models.CharField(max_length=32, choices=OBJ, blank=True)
     game_rank = models.CharField(max_length=16, choices=GAME_RANK)
-    opponent = models.CharField(max_length=64)
+    opponent_dw = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=None, related_name= 'from_dw')
+    opponent = models.CharField(max_length=64, blank=True, null=True)
     opponent_army = models.CharField(max_length=32, choices=ARMIES_CHOICE, null=True, blank=True, default=None)
     date = models.DateField()
 
     date.editable = True
-
 
 class Objectives(models.Model):
     name = models.CharField(max_length=32, choices=OBJ)

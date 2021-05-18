@@ -440,13 +440,37 @@ class AddGameResultView(LoginRequiredMixin, View):
     def post(self, request):
         form = GameResultsForm(request.POST)
         if form.is_valid():
-            # opponent = form.cleaned_data["opponent"]
-            # opp = User.objects.filter(username=opponent)
-            result = form.save(commit=False)
-            result.user = request.user
-            result.save()
-            # if opp.exists():
-            #     print(f"{opp} istnieje")
+            user = request.user
+            army = form.cleaned_data["army"]
+            battle_points = form.cleaned_data["battle_points"]
+            objective = form.cleaned_data["objective"]
+            objective_type = form.cleaned_data["objective_type"]
+            game_rank = form.cleaned_data["game_rank"]
+            opponent_dw = form.cleaned_data["opponent_dw"]
+            opponent = form.cleaned_data["opponent"]
+            opponent_army = form.cleaned_data["opponent_army"]
+            date = form.cleaned_data["date"]
+            if opponent == None:
+                result = form.save(commit=False)
+                result.user = request.user
+                result.save()
+            # Dla przeciwnika:
+                GameResults.objects.create(
+                    user = opponent_dw,
+                    army = opponent_army,
+                    battle_points = 20 - battle_points,
+                    objective = not objective,
+                    objective_type = objective_type,
+                    game_rank = game_rank,
+                    opponent_dw = user,
+                    opponent = opponent,
+                    opponent_army = army,
+                    date = date
+                )
+            elif opponent_dw == None:
+                result = form.save(commit=False)
+                result.user = request.user
+                result.save()
             return redirect("ranking-list")
         else:
             ctx = {"form": form}
