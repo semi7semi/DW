@@ -11,10 +11,9 @@
         <p></p>
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Walka!">
+        <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Porównaj!">
     </form>
 {% else %}
-
 <div class="m-4 p-4 border-dashed">
             <h1 class="dashboard-content-title">
                         <span>{{ unit.name }}</span>
@@ -29,7 +28,7 @@
                 <td>{{ hit }}</td>
             </tr>
             <tr>
-                <th>Zadane rany</th>
+                <th>Zranionych</th>
                 <td>{{ wounds }}</td>
             </tr>
             <tr>
@@ -42,6 +41,38 @@
                 <th>Rany: </th>
                 {% for arm in armour %}
                 <td>{{ arm }}</td>
+                {% endfor %}
+            </tr>
+
+        </table><br>
+</div>
+<div class="m-4 p-4 border-dashed">
+            <h1 class="dashboard-content-title">
+                        <span>{{ unit2.name }}</span>
+                    </h1>
+        <table class="table border-bottom schedules-content">
+            <tr >
+                <th>Ataki</th>
+                <td>{{ attacks2 }}</td>
+            </tr>
+            <tr>
+                <th>Trafienia</th>
+                <td>{{ hit2 }}</td>
+            </tr>
+            <tr>
+                <th>Zranionych</th>
+                <td>{{ wounds2 }}</td>
+            </tr>
+            <tr>
+                <th>Armour Save: </th>
+                {% for save in saves %}
+                <td>{{ save }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Rany: </th>
+                {% for arm2 in armour2 %}
+                <td>{{ arm2 }}</td>
                 {% endfor %}
             </tr>
 
