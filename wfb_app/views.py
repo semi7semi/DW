@@ -419,9 +419,14 @@ class UserDetailsView(View):
 class DeleteUser(LoginRequiredMixin, View):
     # usuwanie uzytkownika
     # tylko dla mnie
-
-    # musze zabezpieczyc jeszcze!!!!
     def get(self, request, id):
+        user = User.objects.get(pk=id)
+        ctx = {
+            "user": user
+        }
+        return render(request, "delete_user.html", ctx)
+    # musze zabezpieczyc jeszcze!!!!
+    def post(self, request, id):
         user = User.objects.get(pk=id)
         user.delete()
         return redirect("users-list")

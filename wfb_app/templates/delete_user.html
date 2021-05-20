@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+    <h1 class="color-red">Usuwanie Uzytkownika</h1>
+<p class="color-red">Czy napewno chcesz usunąc swoje konto Drobnych Wałeczków?</p>
+<p class="color-red">Wszystkie twoje dane oraz wyniki zostaną utracone!</p>
+    <form action="" method="POST">
+        <input class="btn btn-color-red rounded-1 pt-1 pb-1" type="submit" value="Tak, usuń!">
+        {% csrf_token %}
+    </form>
+<p></p>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link btn-color rounded-1 pt-1 pb-1" href="/edit_user/{{ user.id }}/">Nie, zabierz mnie stąd</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

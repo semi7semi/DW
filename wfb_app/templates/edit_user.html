@@ -9,5 +9,13 @@
         <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
         {% csrf_token %}
     </form>
+<p></p>
+<div class="row">
+    <div class="col-1">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link btn-color-red rounded-1 pt-1 pb-1" href="/edit_user/delete/{{ user.id }}/">Usun konto</a>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

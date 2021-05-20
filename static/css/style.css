@@ -11,6 +11,7 @@
   --blue: #007bff;
   --yellow: #5E376D;
   --green: #1e7e34;
+  --red: #cc0000;
   font-size: 16px;
 }
 
@@ -121,6 +122,22 @@ background: #EAEAEA;
 .btn-color-grey:hover {
   opacity: 0.8;
 }
+
+.btn-color-red {
+  background-color: var(--red);
+  color: var(--light-link-color);
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px 18px;
+}
+.btn-color-red a {
+  text-decoration: none;
+  color: var(--red);
+}
+.btn-color-red:hover {
+  opacity: 0.8;
+}
+
 .label-size {
   font-size: 1.4rem;
   color: var(--background-color);
@@ -164,6 +181,11 @@ hr {
 
 .color-king {
   color: #c8002a;
+}
+
+.color-red {
+  color: #cc0000;
+  font-weight: bold;
 }
 
 .color-header {
