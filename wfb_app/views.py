@@ -447,20 +447,41 @@ class RankingList(View):
         ranking = GameResults.objects.all().order_by("-date", "-id")
         return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
     def post(self, request):
-        sort_option = request.POST.get("sort_option")
-        sort_option_sec = request.POST.get("sort_option_sec")
-        desc = request.POST.get("desc")
-        desc2 = request.POST.get("desc2")
-        if desc == "+":
-            desc = ""
-        if desc2 == "+":
-            desc2 = ""
-        if sort_option == sort_option_sec:
-            ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}")
-        else:
-            ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
-        return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
+        if request.method == "POST" and "sort" in request.POST:
+            sort_option = request.POST.get("sort_option")
+            sort_option_sec = request.POST.get("sort_option_sec")
+            desc = request.POST.get("desc")
+            desc2 = request.POST.get("desc2")
+            if desc == "+":
+                desc = ""
+            if desc2 == "+":
+                desc2 = ""
+            if sort_option == sort_option_sec:
+                ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}")
+            else:
+                ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
+            return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
 
+        # elif request.method == "POST" and "search" in request.POST:
+        #     search_option = request.POST.get("search_option")
+        #     search_text = request.POST.get("search_text")
+        #     print(search_option)
+        #     print(search_text)
+        #     if search_option == "user":
+        #         ranking = GameResults.objects.filter(user__icontains=search_text)
+        #     elif search_option == "opponent_dw":
+        #         ranking = GameResults.objects.filter(opponent_de__icontains=search_text)
+        #     elif search_option == "game_rank":
+        #         ranking = GameResults.objects.filter(game_rank__icontains=search_text)
+        #     elif search_option == "battle_points":
+        #         ranking = GameResults.objects.filter(battle_points__icontains=search_text)
+        #     elif search_option == "army":
+        #         ranking = GameResults.objects.filter(army__icontains=search_text)
+        #     elif search_option == "opponent_army":
+        #         ranking = GameResults.objects.filter(opponent_army__icontains=search_text)
+        #     else:
+        #         ranking = GameResults.objects.all()
+        #     return render(request, "index.html")
 
 class AddGameResultView(LoginRequiredMixin, View):
     # dodawanie nowych wynikow do rankingu
