@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>WFB Battle Calculator</h1>
-<h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>
-{% if not hit %}
 
+<h2>WFB Battle Calculator</h2>
+<!--<h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>-->
+<p></p>
+    {% if not hit %}
+<div class="m-4 p-4 border-dashed">
     <form action="" method="POST">
 
         <button type="button" class="btn btn-color rounded-1 pt-1 pb-1"><a href="../army_list/">Lista armii</a></button>
@@ -13,6 +15,7 @@
         {{ form.as_p }}
         <input class="btn btn-color rounded-1 pt-2 pb-2" type="submit" value="Porównaj!">
     </form>
+</div>
 {% else %}
 <div class="m-4 p-4 border-dashed">
             <h1 class="dashboard-content-title">
@@ -77,6 +80,13 @@
             </tr>
 
         </table><br>
+</div>
+<div class="row">
+        <div class="col-1">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link btn-color pt-2 pb-2" href="/calculator/">Powrót</a>
+        </div>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

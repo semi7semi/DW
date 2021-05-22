@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
+<div class="m-4 p-4 border-dashed">
     <h1 class="color-red">Usuwanie Uzytkownika</h1>
 <p class="color-red">Czy napewno chcesz usunąc swoje konto Drobnych Wałeczków?</p>
 <p class="color-red">Wszystkie twoje dane oraz wyniki zostaną utracone!</p>
@@ -8,6 +9,7 @@
         <input class="btn btn-color-red rounded-1 pt-1 pb-1" type="submit" value="Tak, usuń!">
         {% csrf_token %}
     </form>
+</div>
 <p></p>
 <p></p>
 <div class="row">

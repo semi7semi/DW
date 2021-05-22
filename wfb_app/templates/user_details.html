@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-    <div class="col-1">
-        {% if user.username == request.user.username %}
-        <div class="nav nav-pills nav-justified">
-            <a class="nav-link btn-color rounded-1 pt-2 pb-2" href="/ranking/add_result/">Dodaj wynik</a>
-        </div>
-        {% endif %}
+<div class="col-1">
+    {% if user.username == request.user.username %}
+    <div class="nav nav-pills nav-justified">
+        <a class="nav-link btn-color rounded-1 pt-2 pb-2" href="/ranking/add_result/">Dodaj wynik</a>
     </div>
+    {% endif %}
+</div>
 <div class="row">
-<div class="m-4 p-4 border-dashed">
-                    <h2 class="dashboard-content-title">
-                        <span>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</span>
-                    </h2>
+    <div class="m-4 p-4 border-dashed">
+        <h2 class="dashboard-content-title">
+            <span>Szczegóły gracza: {{ user.username }} ( {{ user.profile.user_army }} )</span>
+        </h2>
         <table class="table border-bottom schedules-content css-serial">
 
             <tr>
@@ -28,7 +28,8 @@
             {% for result in ranking %}
             <tr>
                 {% if result.opponent_dw %}
-                <td><a class="user-color" href="/user_details/{{ result.opponent_dw.id }}/">{{ result.opponent_dw }}</a></td>
+                <td><a class="user-color" href="/user_details/{{ result.opponent_dw.id }}/">{{ result.opponent_dw }}</a>
+                </td>
                 {% else %}
                 <td>{{ result.opponent }}</td>
                 {% endif %}
@@ -41,7 +42,7 @@
                 <td style="color: red">{{ result.get_objective_type_display }}</td>
                 {% endif %}
                 <td>{{ result.army }}</td>
-                <td>{{ result.get_game_rank_display  }}</td>
+                <td>{{ result.get_game_rank_display }}</td>
                 <td>{{ result.date }}</td>
                 {% if request.user.username == result.user.username %}
                 <td><a class="btn btn-secondary rounded-1" href="/ranking/edit/{{ result.id }}/">Edytuj</a></td>
@@ -50,64 +51,68 @@
             {% endfor %}
 
         </table>
-    <table class="table border-bottom schedules-content">
-        <tr>
-            <td><h4>Total: {{ total }}</h4></td>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <td><h4>Total: {{ total }}</h4></td>
             </tr>
-    </table>
-</div>
-    <div class=dashboard-alerts">
-        <h4>Sortowanie</h4>
-        <form action="" method="POST">
-            <label for="sort">1st:</label>
+        </table>
+    </div>
+    <div class="col">
+    <div class="m-4 p-4 border-dashed">
+        <div class=dashboard-alerts">
+            <h4>Sortowanie</h4>
+            <form action="" method="POST">
+                <label for="sort">1st:</label>
 
-            <select id="sort" name="sort_option">
-                <option value="opponent_dw" selected>Przeciwnik</option>
-                <option value="opponent_army">Armia przeciwnika</option>
-                <option value="army">Armia</option>
-                <option value="battle_points">Punkty</option>
-                <option value="game_rank">Ranga</option>
-                <option value="date">Data</option>
-            </select>
-            <label for="desc"></label>
-            <select id="desc" name="desc">
-                <option value="-">Malejaco</option>
-                <option value="+">Rosnaco</option>
-            </select><br>
-             <label for="sort_sec">2nd:</label>
-            <select id="sort_sec" name="sort_option_sec">
-                <option value="opponent_dw" selected>Przeciwnik</option>
-                <option value="opponent_army">Armia przeciwnika</option>
-                <option value="army">Armia</option>
-                <option value="battle_points">Punkty</option>
-                <option value="game_rank">Ranga</option>
-                <option value="date">Data</option>
-            </select>
-            <label for="desc2"></label>
-            <select id="desc2" name="desc2">
-                <option value="-">Malejaco</option>
-                <option value="+">Rosnaco</option>
-            </select><br>
-            <p></p>
-            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Sort">Sortuj</button>
-            {% csrf_token %}
-        </form>
-<!--        <p></p>-->
-<!--        <h4>Wyszukiwanie</h4>-->
-<!--        <form action="" method="POST">-->
-<!--            <label for="search">Po: </label>-->
+                <select id="sort" name="sort_option">
+                    <option value="opponent_dw" selected>Przeciwnik</option>
+                    <option value="opponent_army">Armia przeciwnika</option>
+                    <option value="army">Armia</option>
+                    <option value="battle_points">Punkty</option>
+                    <option value="game_rank">Ranga</option>
+                    <option value="date">Data</option>
+                </select>
+                <label for="desc"></label>
+                <select id="desc" name="desc">
+                    <option value="-">Malejaco</option>
+                    <option value="+">Rosnaco</option>
+                </select><br>
+                <label for="sort_sec">2nd:</label>
+                <select id="sort_sec" name="sort_option_sec">
+                    <option value="opponent_dw" selected>Przeciwnik</option>
+                    <option value="opponent_army">Armia przeciwnika</option>
+                    <option value="army">Armia</option>
+                    <option value="battle_points">Punkty</option>
+                    <option value="game_rank">Ranga</option>
+                    <option value="date">Data</option>
+                </select>
+                <label for="desc2"></label>
+                <select id="desc2" name="desc2">
+                    <option value="-">Malejaco</option>
+                    <option value="+">Rosnaco</option>
+                </select><br>
+                <p></p>
+                <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Sort">Sortuj</button>
+                {% csrf_token %}
+            </form>
+            <!--        <p></p>-->
+            <!--        <h4>Wyszukiwanie</h4>-->
+            <!--        <form action="" method="POST">-->
+            <!--            <label for="search">Po: </label>-->
 
-<!--            <select id="search" name="search_option">-->
-<!--                <option value="opponent" selected>Przeciwnik</option>-->
-<!--                <option value="army">Armia</option>-->
-<!--                <option value="battle_points">Punkty</option>-->
-<!--                <option value="game_rank">Ranga</option>-->
-<!--            </select>-->
-<!--            <label for="search_word"></label>-->
-<!--            <input id="search_word"><br>-->
-<!--            {% csrf_token %}-->
-<!--            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Search">Szukaj</button>-->
-<!--        </form>-->
+            <!--            <select id="search" name="search_option">-->
+            <!--                <option value="opponent" selected>Przeciwnik</option>-->
+            <!--                <option value="army">Armia</option>-->
+            <!--                <option value="battle_points">Punkty</option>-->
+            <!--                <option value="game_rank">Ranga</option>-->
+            <!--            </select>-->
+            <!--            <label for="search_word"></label>-->
+            <!--            <input id="search_word"><br>-->
+            <!--            {% csrf_token %}-->
+            <!--            <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Search">Szukaj</button>-->
+            <!--        </form>-->
+        </div>
+    </div>
     </div>
 </div>
 <div class="row">

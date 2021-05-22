@@ -2,9 +2,11 @@
 {% block title %}{% endblock %}
 {% block content %}
     <h1>Dodawanie Jednostek</h1>
+<div class="m-4 p-4 border-dashed">
     <form action="" method="POST">
         {{ form.as_p }}
         <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Dodaj">
         {% csrf_token %}
     </form>
+</div>
 {% endblock content %}

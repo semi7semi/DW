@@ -2,6 +2,7 @@
 {% block title %}{% endblock %}
 {% block content %}
     <h1>Edytowanie Uzytkownika</h1>
+<div class="m-4 p-4 border-dashed">
     <form action="" method="POST">
         {{ form.as_p }}
         {{ profile_form.as_p }}
@@ -9,6 +10,7 @@
         <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
         {% csrf_token %}
     </form>
+</div>
 <p></p>
 <div class="row">
     <div class="col-1">
