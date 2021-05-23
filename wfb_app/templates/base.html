@@ -27,7 +27,7 @@
                  </li>
                  <li class="nav-item ml-4">
                      <a class="btn btn-secondary" href="{% url 'logout' %}">
-                         <span>Logout</span>
+                         <span>Wyloguj</span>
                      </a>
                  </li>
                  {% if request.user.is_superuser %}
@@ -44,12 +44,12 @@
                  </li>
                  <li class="nav-item ml-4">
                      <a class="btn btn-secondary" href="{% url 'login' %}">
-                         <span>Login</span>
+                         <span>Zaloguj</span>
                      </a>
                  </li>
                  <li class="nav-item ml-4">
                      <a class="btn btn-secondary" href="{% url 'register' %}">
-                         <span>Register</span>
+                         <span>Rejestracja</span>
                      </a>
                  </li>
                  {% endif %}
