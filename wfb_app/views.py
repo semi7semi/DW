@@ -15,6 +15,8 @@ from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
 import random
 
+MAX_GAMES = [5, 10, 20]
+
 class Landing_page(View):
     def get(self, request):
         no_of_games = GameResults.objects.all().count()
@@ -40,7 +42,7 @@ class Index(View):
         result = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GameResults.objects.all().count()
-        max = [5, 10, 20]
+        max = MAX_GAMES
         for user in users:
             games = GameResults.objects.filter(user=user)
             master = games.filter(game_rank="master")
@@ -402,7 +404,15 @@ class UserDetailsView(View):
         if sort_option == sort_option_sec:
             ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}")
         else:
-            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
+            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}",
+                                                                           f"{desc2}{sort_option_sec}")
+        if request.method == "POST" and "best_masters" in request.POST:
+            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+        elif request.method == "POST" and "best_locals" in request.POST:
+            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+        elif request.method == "POST" and "best_homes" in request.POST:
+            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+
         total = 0
         for score in ranking:
             total += score.battle_points
