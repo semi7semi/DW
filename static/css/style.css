@@ -10,8 +10,10 @@
   --dark-text: #000000;
   --blue: #007bff;
   --yellow: #5E376D;
+  --yellow2: #ffcc00;
   --green: #1e7e34;
   --red: #cc0000;
+  --light-red: #ff3333;
   font-size: 16px;
 }
 
@@ -42,6 +44,16 @@ p {
   content: counter(serial-number);  /* Display the counter */
   min-width: 1em;
   margin-right: 0.5em;
+}
+
+.tab-color-green {
+    background: var(--green);
+}
+.tab-color-yellow {
+    background: var(--yellow2);
+}
+.tab-color-red {
+    background: var(--light-red);
 }
 
 /*table {*/

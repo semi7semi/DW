@@ -5,7 +5,7 @@
     <div class="col-1">
         {% if request.user.is_authenticated %}
         <div class="nav nav-pills nav-justified">
-            <a class="nav-link btn-color" href="/ranking/add_result/">Dodaj wynik</a>
+            <a class="nav-link btn-color" href="{% url 'result' %}">Dodaj wynik</a>
         </div>
         {% endif %}
     </div>
@@ -28,7 +28,7 @@
             </tr>
             {% for result in ranking %}
             <tr class="numbering">
-                <td><a class="user-color" href="/user_details/{{ result.user.id }}/">{{ result.user }}</a></td>
+                <td><a class="user-color" href="{% url 'user-details' result.user.id %}">{{ result.user }}</a></td>
                 <td>{{ result.army }}</td>
                 <td>{{ result.battle_points }}</td>
                 {% if result.objective %}
@@ -38,7 +38,7 @@
                 {% endif %}
                 <td>{{ result.get_game_rank_display }}</td>
                 {% if result.opponent_dw %}
-                <td><a class="user-color" href="/user_details/{{ result.opponent_dw.id }}/">{{ result.opponent_dw }}</a>
+                <td><a class="user-color" href="{% url 'user-details' result.opponent_dw.id %}">{{ result.opponent_dw }}</a>
                 </td>
                 {% else %}
                 <td>{{ result.opponent }}</td>

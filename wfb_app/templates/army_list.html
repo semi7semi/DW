@@ -13,7 +13,7 @@
             </tr>
             {% for army in list %}
             <tr>
-                <td><a class="user-color" href="/army_details/{{ army.0.id }}/">{{ army.0.name }}  </a> ({{ army.1 }})</td>
+                <td><a class="user-color" href="{% url 'army-details' army.0.id%}">{{ army.0.name }}  </a> ({{ army.1 }})</td>
                 <td>{{ army.0.short_name }}</td>
                 <td>{{ army.0.description }}</td>
             </tr>
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-2">
         <div class="nav flex-column nav-pills">
-            <a class="nav-link btn-color rounded-1 pt-2 pb-2" href="/calculator/">Back</a>
+            <a class="nav-link btn-color rounded-1 pt-2 pb-2" href="{% url 'calc-view' %}">Powrót</a>
         </div>
     </div>
 </div>

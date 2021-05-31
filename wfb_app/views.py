@@ -548,3 +548,54 @@ class EditGameResultView(View):
         if form.is_valid():
             form.save()
             return redirect("user-details", id=game.user.id)
+
+
+class TableView(View):
+    def get(self, request):
+        # Charge chart
+        range_data = range(2, 13)
+        charge = [100, 97, 92, 83, 72, 58, 42, 28, 17, 8, 3]
+        charge_s = [100, 99, 98, 95, 89, 81, 68, 52, 36, 20, 7]
+        charge_rr = [100, 99, 99, 97, 92, 83, 66, 48, 31, 16, 5]
+        charge_s_rr = [100, 99, 99, 99, 99, 96, 90, 77, 59, 36, 14]
+        # Discipline chart
+        range_disc = range(2, 11)
+        dis = [3, 8, 17, 28, 42, 58, 72, 83, 92]
+        dis_rr = [5, 16, 31, 48, 66, 83, 92, 97, 99]
+        dis_min = [7, 20, 36, 52, 68, 81, 89, 95, 98]
+        dis_max = [1, 2, 5, 11, 19, 32, 48, 64, 80]
+        dis_min_rr = [14, 36, 59, 77, 90, 96, 99, 99, 99]
+        dis_max_rr = [1, 4, 10, 20, 35, 54, 73, 87, 96]
+        # Casting chart
+        range_cast = range(3, 19)
+        dice1 = [67, 50, 33, 17]
+        dice2 = [97, 92, 83, 72, 58, 42, 28, 17, 8, 3]
+        dice3 = [99, 99, 98, 95, 91, 84, 74, 63, 50, 38, 26, 16, 10, 5, 2, 1]
+        dice4 = [98, 98, 98, 98, 98, 97, 94, 90, 84, 76, 66, 56, 44, 34, 24, 16]
+        dice5 = [100, 100, 100, 99, 99, 99, 99, 98, 97, 94, 90, 85, 78, 70, 60, 50]
+        miscast = [3, 10, 21]
+        ctx = {
+            "range_data": range_data,
+            "charge": charge,
+            "charge_s": charge_s,
+            "charge_rr": charge_rr,
+            "charge_s_rr": charge_s_rr,
+
+            "range_disc": range_disc,
+            "dis": dis,
+            "dis_rr": dis_rr,
+            "dis_min": dis_min,
+            "dis_max": dis_max,
+            "dis_min_rr": dis_min_rr,
+            "dis_max_rr": dis_max_rr,
+
+            "range_cast": range_cast,
+            "dice1": dice1,
+            "dice2": dice2,
+            "dice3": dice3,
+            "dice4": dice4,
+            "dice5": dice5,
+            "miscast": miscast
+
+        }
+        return render(request, "tables.html", ctx)
