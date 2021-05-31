@@ -5,246 +5,247 @@
 <!--<h2>Uzytkownik: {{ request.user.username }} ({{ request.user.profile.user_army }})</h2>-->
 <p></p>
 <div class="col">
-<div class="m-4 p-4 border-dashed">
-    <h1 class="dashboard-content-title">
-        <span>Charge Range Roll</span>
-    </h1>
-    <table class="table border-bottom schedules-content">
-        <tr>
-            <th>Charge</th>
-            {% for range in range_data %}
-            <th>{{ range }}</th>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6</th>
-            {% for chance in charge %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + Swiftstride</th>
-            {% for chance in charge_s %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + reroll</th>
-            {% for chance in charge_rr %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + Swiftstride + reroll</th>
-            {% for chance in charge_s_rr %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-    </table>
-</div>
-<div class="m-4 p-4 border-dashed">
-    <h1 class="dashboard-content-title">
-        <span>Discipline Roll</span>
-    </h1>
-    <table class="table border-bottom schedules-content">
-        <tr>
-            <th>Discipline</th>
-            {% for range in range_disc %}
-            <th>{{ range }}</th>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6</th>
-            {% for chance in dis %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + reroll</th>
-            {% for chance in dis_rr %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + minimised</th>
-            {% for chance in dis_min %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + minimised + reroll</th>
-            {% for chance in dis_min_rr %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + maximised</th>
-            {% for chance in dis_max %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 55 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6 + maximised + reroll</th>
-            {% for chance in dis_max_rr %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 55 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-    </table>
+    <div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+            <span>Casting Roll</span>
+        </h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Casting</th>
+                {% for range in range_cast %}
+                <th>{{ range }}</th>
+                {% endfor %}
+                <th></th>
+                <th>Miscast</th>
+            </tr>
+            <tr>
+                <th>1D6</th>
+                {% for chance in dice1 %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6</th>
+                {% for chance in dice2 %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>3D6</th>
+                {% for chance in dice3 %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+                <td></td>
+                <td>{{ miscast.0 }}</td>
+            </tr>
+            <tr>
+                <th>4D6</th>
+                {% for chance in dice4 %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+                <td></td>
+                <td>{{ miscast.1 }}</td>
+            </tr>
+            <tr>
+                <th>5D6</th>
+                {% for chance in dice5 %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+                <td></td>
+                <td>{{ miscast.2 }}</td>
+            </tr>
+        </table>
     </div>
     <div class="m-4 p-4 border-dashed">
-    <h1 class="dashboard-content-title">
-        <span>Casting Roll</span>
-    </h1>
-    <table class="table border-bottom schedules-content">
-        <tr>
-            <th>Casting</th>
-            {% for range in range_cast %}
-            <th>{{ range }}</th>
-            {% endfor %}
-            <th></th>
-            <th>Miscast</th>
-        </tr>
-        <tr>
-            <th>1D6</th>
-            {% for chance in dice1 %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>2D6</th>
-            {% for chance in dice2 %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>3D6</th>
-            {% for chance in dice3 %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-            <td></td>
-            <td>{{ miscast.0 }}</td>
-        </tr>
-        <tr>
-            <th>4D6</th>
-            {% for chance in dice4 %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-            <td></td>
-            <td>{{ miscast.1 }}</td>
-        </tr>
-        <tr>
-            <th>5D6</th>
-            {% for chance in dice5 %}
-            {% if chance >= 70 %}
-            <td class="tab-color-green">{{ chance }}</td>
-            {% elif chance >= 50 %}
-            <td class="tab-color-yellow">{{ chance }}</td>
-            {% else %}
-            <td class="tab-color-red">{{ chance }}</td>
-            {% endif %}
-            {% endfor %}
-            <td></td>
-            <td >{{ miscast.2 }}</td>
-        </tr>
-    </table>
-</div>
+        <h1 class="dashboard-content-title">
+            <span>Charge Range Roll</span>
+        </h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Charge</th>
+                {% for range in range_data %}
+                <th>{{ range }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6</th>
+                {% for chance in charge %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + Swiftstride</th>
+                {% for chance in charge_s %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + reroll</th>
+                {% for chance in charge_rr %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + Swiftstride + reroll</th>
+                {% for chance in charge_s_rr %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+    <div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+            <span>Discipline Roll</span>
+        </h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Discipline</th>
+                {% for range in range_disc %}
+                <th>{{ range }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6</th>
+                {% for chance in dis %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + reroll</th>
+                {% for chance in dis_rr %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + minimised</th>
+                {% for chance in dis_min %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + minimised + reroll</th>
+                {% for chance in dis_min_rr %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 50 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + maximised</th>
+                {% for chance in dis_max %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 55 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>2D6 + maximised + reroll</th>
+                {% for chance in dis_max_rr %}
+                {% if chance >= 70 %}
+                <td class="tab-color-green">{{ chance }}</td>
+                {% elif chance >= 55 %}
+                <td class="tab-color-yellow">{{ chance }}</td>
+                {% else %}
+                <td class="tab-color-red">{{ chance }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+
 </div>
 <table>
     <tr>
         <th class="tab-color-green">100-70%</th>
-        <td></td>
+        <td> - Obszar w ktorym porusza sie większość graczy</td>
     </tr>
-        <tr>
+    <tr>
         <th class="tab-color-yellow">69-50%</th>
-        <td></td>
+        <td> - Obszar deperatów</td>
     </tr>
-        <tr>
+    <tr>
         <th class="tab-color-red">49-0%</th>
-        <td></td>
+        <td> - Obszar Sill'a</td>
     </tr>
 </table>
 <p></p>
