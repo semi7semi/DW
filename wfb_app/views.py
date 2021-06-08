@@ -16,15 +16,17 @@ from django.db.models import Avg, Max, Min, Sum
 import random
 
 MAX_GAMES = [5, 10, 20]
+GAMES_YEAR = GameResults.objects.all().filter(date__year=2021)
+
 
 class Landing_page(View):
     def get(self, request):
-        no_of_games = GameResults.objects.all().count()
+        no_of_games = GAMES_YEAR.count()
         no_of_users = User.objects.all().exclude(username="admin").count()
         users = User.objects.all().exclude(username="admin")
-        count_master = GameResults.objects.filter(game_rank="master").count()
-        count_local = GameResults.objects.filter(game_rank="local").count()
-        count_home = GameResults.objects.filter(game_rank="home").count()
+        count_master = GAMES_YEAR.filter(game_rank="master").count()
+        count_local = GAMES_YEAR.filter(game_rank="local").count()
+        count_home = GAMES_YEAR.filter(game_rank="home").count()
         ctx = {
             "no_of_games": no_of_games,
             "no_of_users": no_of_users,
@@ -41,10 +43,10 @@ class Index(View):
     def get(self, request):
         result = []
         users = User.objects.all().exclude(username="admin")
-        no_of_games = GameResults.objects.all().count()
+        no_of_games = GAMES_YEAR.count()
         max = MAX_GAMES
         for user in users:
-            games = GameResults.objects.filter(user=user)
+            games = GAMES_YEAR.filter(user=user)
             master = games.filter(game_rank="master")
             local = games.filter(game_rank="local")
             home = games.filter(game_rank="home")
@@ -109,6 +111,79 @@ class Index(View):
             "max": max
         }
         return render(request, "index.html", ctx)
+
+
+class Index_2020(View):
+    # strona główna, 5ciu najleprzysz graczy, logowanie, linki
+    def get(self, request):
+        result = []
+        users = User.objects.all().exclude(username="admin")
+        no_of_games = GameResults.objects.filter(date__year=2020).count()
+        max = MAX_GAMES
+        for user in users:
+            games = GameResults.objects.filter(date__year=2020).filter(user=user)
+            master = games.filter(game_rank="master")
+            local = games.filter(game_rank="local")
+            home = games.filter(game_rank="home")
+            count_master = master.count()
+            count_local = local.count()
+            count_home = home.count()
+            total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_masters = master.order_by("-battle_points")[:max[0]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_locals = local.order_by("-battle_points")[:max[1]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            best_homes = home.order_by("-battle_points")[:max[2]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            if count_master == 0:
+                av_master = 0
+            else:
+                av_master = round(total_masters / count_master, 1)
+            if count_local == 0:
+                av_local = 0
+            else:
+                av_local = round(total_locals / count_local, 1)
+            if count_home == 0:
+                av_home = 0
+            else:
+                av_home = round(total_homes / count_home, 1)
+
+            total = total_masters + total_locals + total_homes
+            count = count_master + count_local + count_home
+            ranking_points = best_masters + best_locals + best_homes
+            result.append([
+                ranking_points,
+                total,
+                count,
+                best_masters,
+                total_masters,
+                count_master,
+                av_master,
+
+                best_locals,
+                total_locals,
+                count_local,
+                av_local,
+
+                best_homes,
+                total_homes,
+                count_home,
+                av_home,
+                user.id,
+                user,
+            ])
+        result.sort(reverse=True)
+        result_by_count = sorted(result)
+        result_by_count.sort(key=sort_count, reverse=True)
+        ctx = {
+            "no_of_users": users.count(),
+            "no_of_games": no_of_games,
+            "result": result,
+            "best_gen_id": result[0][15],
+            "best_gamer_id": result_by_count[0][15],
+            "best_veg_id": result[-1][15],
+            "max": max
+        }
+        return render(request, "index_2020.html", ctx)
 
 
 class CalcView(LoginRequiredMixin, View):
@@ -384,7 +459,7 @@ class UserDetailsView(View):
     # Szczegoly uzytkownika, wszsytkie bitwy, punkty, armia
     def get(self, request, id):
         user = User.objects.get(pk=id)
-        ranking = GameResults.objects.filter(user=user).order_by("-date")
+        ranking = GAMES_YEAR.filter(user=user).order_by("-date")
         total = 0
         for score in ranking:
             total += score.battle_points
@@ -402,16 +477,16 @@ class UserDetailsView(View):
             desc2 = ""
 
         if sort_option == sort_option_sec:
-            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}")
+            ranking = GAMES_YEAR.filter(user=user).order_by(f"{desc}{sort_option}")
         else:
-            ranking = GameResults.objects.all().filter(user=user).order_by(f"{desc}{sort_option}",
+            ranking = GAMES_YEAR.filter(user=user).order_by(f"{desc}{sort_option}",
                                                                            f"{desc2}{sort_option_sec}")
         if request.method == "POST" and "best_masters" in request.POST:
-            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
         elif request.method == "POST" and "best_locals" in request.POST:
-            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
         elif request.method == "POST" and "best_homes" in request.POST:
-            ranking = GameResults.objects.all().filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
 
         total = 0
         for score in ranking:
@@ -420,6 +495,44 @@ class UserDetailsView(View):
         return render(request, "user_details.html", ctx)
 
 
+class UserDetailsView_2020(View):
+    # Szczegoly uzytkownika, wszsytkie bitwy, punkty, armia
+    def get(self, request, id):
+        user = User.objects.get(pk=id)
+        ranking = GameResults.objects.filter(date__year=2020).filter(user=user).order_by("-date")
+        total = 0
+        for score in ranking:
+            total += score.battle_points
+        ctx = {"ranking": ranking, "total": total, "user": user}
+        return render(request, "user_details_2020.html", ctx)
+    def post(self, request, id):
+        user = User.objects.get(pk=id)
+        sort_option = request.POST.get("sort_option")
+        sort_option_sec = request.POST.get("sort_option_sec")
+        desc = request.POST.get("desc")
+        desc2 = request.POST.get("desc2")
+        if desc == "+":
+            desc = ""
+        if desc2 == "+":
+            desc2 = ""
+
+        if sort_option == sort_option_sec:
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).order_by(f"{desc}{sort_option}")
+        else:
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).order_by(f"{desc}{sort_option}",
+                                                                           f"{desc2}{sort_option_sec}")
+        if request.method == "POST" and "best_masters" in request.POST:
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+        elif request.method == "POST" and "best_locals" in request.POST:
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+        elif request.method == "POST" and "best_homes" in request.POST:
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+
+        total = 0
+        for score in ranking:
+            total += score.battle_points
+        ctx = {"ranking": ranking, "total": total, "user": user}
+        return render(request, "user_details_2020.html", ctx)
 
 
 class DeleteUser(LoginRequiredMixin, View):
@@ -450,9 +563,11 @@ class RankingList(View):
     # Ranking wszsytkich uzytkownikow, z punktami
     # sortowanie po wynikach, randze itd
     def get(self, request):
-        ranking = GameResults.objects.all().order_by("-date", "-id")
+        ranking = GAMES_YEAR.order_by("-date", "-id")
         return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
     def post(self, request):
+        if request.method == "POST" and "2020" in request.POST:
+            return redirect("ranking-list-2020")
         if request.method == "POST" and "sort" in request.POST:
             sort_option = request.POST.get("sort_option")
             sort_option_sec = request.POST.get("sort_option_sec")
@@ -463,10 +578,36 @@ class RankingList(View):
             if desc2 == "+":
                 desc2 = ""
             if sort_option == sort_option_sec:
-                ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}")
+                ranking = GAMES_YEAR.order_by(f"{desc}{sort_option}")
             else:
-                ranking = GameResults.objects.all().order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
+                ranking = GAMES_YEAR.order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
             return render(request, "ranking_list.html", {"ranking": Pages(request, ranking)})
+
+class RankingList_2020(View):
+    # ranking archiwalny
+    def get(self, request):
+        ranking = GameResults.objects.filter(date__year=2020).order_by("-date", "-id")
+        return render(request, "ranking_list_2020.html", {"ranking": Pages(request, ranking)})
+
+    def post(self, request):
+        sort_option = request.POST.get("sort_option")
+        sort_option_sec = request.POST.get("sort_option_sec")
+        desc = request.POST.get("desc")
+        desc2 = request.POST.get("desc2")
+        if desc == "+":
+            desc = ""
+        if desc2 == "+":
+            desc2 = ""
+        if sort_option == sort_option_sec:
+            ranking = GameResults.objects.filter(date__year=2020).order_by(f"{desc}{sort_option}")
+        else:
+            ranking = GameResults.objects.filter(date__year=2020).order_by(f"{desc}{sort_option}", f"{desc2}{sort_option_sec}")
+
+        if request.method == "POST" and "2021" in request.POST:
+            return redirect("ranking-list")
+
+
+        return render(request, "ranking_list_2020.html", {"ranking": Pages(request, ranking)})
 
         # elif request.method == "POST" and "search" in request.POST:
         #     search_option = request.POST.get("search_option")
