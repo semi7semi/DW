@@ -277,7 +277,8 @@ class RollDiceView(View):
             plus4 = rolls.count(4) + rolls.count(5) + rolls.count(6)
             plus5 = rolls.count(5) + rolls.count(6)
             plus6 = rolls.count(6)
-            if no_of_dices > 3 and no_of_dices == plus6:
+            total = sum(rolls)
+            if no_of_dices > 2 and no_of_dices == plus6:
                 sill = "Sill style!"
             ctx = {
                 "rolls": rolls,
@@ -286,6 +287,7 @@ class RollDiceView(View):
                 "plus4": plus4,
                 "plus5": plus5,
                 "plus6": plus6,
+                "total": total,
                 "sill": sill
 
             }

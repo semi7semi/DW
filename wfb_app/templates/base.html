@@ -66,19 +66,18 @@
                             <span>Pulpit</span>
                         </a>
                     </li>
+
                     {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users-list' %}">
-                            <span>Lista graczy</span>
-                        </a>
-                    </li>
-                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ranking-list' %}">
                             <span>Ranking</span>
                         </a>
                     </li>
-                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users-list' %}">
+                            <span>Lista graczy</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'calc-view' %}">
                             <span>Kalkulator</span>
