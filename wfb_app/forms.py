@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 from .models import Units, Profile, GameResults
 
@@ -76,20 +77,22 @@ class EditUserForm(forms.ModelForm):
 
 
 class GameResultsForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(GameResultsForm, self).__init__(*args, **kwargs)
         self.fields["battle_points"].widget.attrs["min"] = 0
         self.fields["battle_points"].widget.attrs["max"] = 20
 
-
+    obj_opo = forms.BooleanField(label="Przeciwnik", required=False)
+    some_text = forms.BooleanField(label="Kto wykonal Objective", disabled=True, required=False)
     class Meta:
         model = GameResults
-        fields = ["battle_points", "army", "objective", "objective_type", "game_rank","opponent_dw", "opponent", "opponent_army", "date"]
+        fields = ["battle_points", "army", "some_text", "objective", "obj_opo", "objective_type", "game_rank","opponent_dw", "opponent", "opponent_army", "date"]
         labels = {
             "user": "Nick",
             "army": "Czym Grałeś",
             "battle_points": "Punkty",
-            "objective": "Czy Objective wykonany",
+            "objective": "Ja",
             "objective_type": "Jaki Objective",
             "game_rank": "Ranga turnieju",
             "opponent_dw": "Przeciwnik z DW",

@@ -646,6 +646,7 @@ class AddGameResultView(LoginRequiredMixin, View):
             army = form.cleaned_data["army"]
             battle_points = form.cleaned_data["battle_points"]
             objective = form.cleaned_data["objective"]
+            obj_opo = form.cleaned_data["obj_opo"]
             objective_type = form.cleaned_data["objective_type"]
             game_rank = form.cleaned_data["game_rank"]
             opponent_dw = form.cleaned_data["opponent_dw"]
@@ -658,17 +659,17 @@ class AddGameResultView(LoginRequiredMixin, View):
                 result.save()
             # Dla przeciwnika:
                 GameResults.objects.create(
-                    user = opponent_dw,
-                    army = opponent_army,
-                    battle_points = 20 - battle_points,
-                    objective = not objective,
-                    objective_type = objective_type,
-                    game_rank = game_rank,
-                    opponent_dw = user,
-                    opponent = opponent,
-                    opponent_army = army,
-                    date = date
-                )
+                        user = opponent_dw,
+                        army = opponent_army,
+                        battle_points = 20 - battle_points,
+                        objective = obj_opo,
+                        objective_type = objective_type,
+                        game_rank = game_rank,
+                        opponent_dw = user,
+                        opponent = opponent,
+                        opponent_army = army,
+                        date = date
+                    )
             elif opponent_dw == None:
                 result = form.save(commit=False)
                 result.user = request.user
