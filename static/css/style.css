@@ -55,6 +55,16 @@ p {
 .tab-color-red {
     background: var(--light-red);
 }
+.tab-my {
+    width: 60px;
+    border-space: 2px;
+}
+
+.tab-my2 {
+    width: 40px;
+    border-space: 2px;
+    border-width: thin;
+}
 
 /*table {*/
 /*counter-reset: rowNumber;*/
@@ -579,4 +589,12 @@ margin: 0 auto !important;
 
 .icon-logo {
   background-image: url(../images/dice.png);
+}
+/*------------------------------*/
+/*---- Tabelka paringowa ----*/
+/*------------------------------*/
+
+.tabelka {
+ width: 25px;
+ height: 25px;
 }

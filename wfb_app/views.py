@@ -8,8 +8,8 @@ from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
-    DiceRollForm
-from wfb_app.models import Units, Armys, GameResults, Profile
+    DiceRollForm, ParingsForm
+from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
@@ -743,3 +743,83 @@ class TableView(View):
 
         }
         return render(request, "tables.html", ctx)
+
+
+class ParingsView(View):
+    def get(self, request):
+        parings_list = Parings_3.objects.all()
+        ctx = {"parings_list": parings_list}
+        return render(request, "parings_list.html", ctx)
+    def post(self, request):
+        pass
+
+
+class AddParingView(View):
+    def get(self, request):
+        form = ParingsForm()
+        ctx = {"form": form}
+        return render(request, "add_paring_form.html", ctx)
+    def post(self, request):
+        form = ParingsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("parings-view")
+
+
+class DeleteParingView(View):
+    def get(self, request, id):
+        paring = Parings_3.objects.get(pk=id)
+        paring.delete()
+        return redirect("parings-view")
+
+
+class ParingDetailsView(View):
+    def get(self, request, id):
+        tab = []
+        paring = Parings_3.objects.get(pk=id)
+        for i in [paring.p11, paring.p12, paring.p13, paring.p21, paring.p22, paring.p23, paring.p31, paring.p32, paring.p33]:
+            if i == -2:
+                result = 3
+            elif i == -1:
+                result = 7
+            elif i == 1:
+                result = 13
+            elif i == 2:
+                result = 17
+            else:
+                result = 10
+            tab.append(result)
+
+        result1 = [tab[0], tab[4], tab[8]]
+        result2 = [tab[1], tab[5], tab[6]]
+        result3 = [tab[2], tab[3], tab[7]]
+        result4 = [tab[0], tab[5], tab[7]]
+        result5 = [tab[2] ,tab[4], tab[6]]
+        result6 = [tab[1], tab[3], tab[8]]
+        sum1 = tab[0] + tab[4] + tab[8]
+        sum2 = tab[1] + tab[5] + tab[6]
+        sum3 = tab[2] + tab[3] + tab[7]
+        sum4 = tab[0] + tab[5] + tab[7]
+        sum5 = tab[2] + tab[4] + tab[6]
+        sum6 = tab[1] + tab[3] + tab[8]
+        ctx = {
+            "paring": paring,
+            "result1": result1,
+            "result2": result2,
+            "result3": result3,
+            "result4": result4,
+            "result5": result5,
+            "result6": result6,
+            "sum1": sum1,
+            "sum2": sum2,
+            "sum3": sum3,
+            "sum4": sum4,
+            "sum5": sum5,
+            "sum6": sum6,
+        }
+        return render(request, "paring_details.html", ctx)
+
+    def post(self, request, id):
+        pass
+
+

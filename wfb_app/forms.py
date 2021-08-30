@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
-from .models import Units, Profile, GameResults
+from .models import Units, Profile, GameResults, Parings_3
 
 
 class AddUnit(forms.ModelForm):
@@ -77,12 +77,10 @@ class EditUserForm(forms.ModelForm):
 
 
 class GameResultsForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(GameResultsForm, self).__init__(*args, **kwargs)
         self.fields["battle_points"].widget.attrs["min"] = 0
         self.fields["battle_points"].widget.attrs["max"] = 20
-
     obj_opo = forms.BooleanField(label="Przeciwnik", required=False)
     some_text = forms.BooleanField(label="Kto wykonal Objective", disabled=True, required=False)
     class Meta:
@@ -114,3 +112,18 @@ class CalcForm(forms.Form):
 
 class DiceRollForm(forms.Form):
     no_of_dice = forms.IntegerField(min_value=1, max_value=100, label="Ile kości?")
+
+
+class ParingsForm(forms.ModelForm):
+    class Meta():
+        model = Parings_3
+        fields = ["name", "p1", "p2", "p3", "op1", "op2", "op3", "p11", "p12", "p13", "p21", "p22", "p23", "p31", "p32", "p33"]
+        labels = {
+            "name": "Nazwa",
+            "p1": "Gracz 1",
+            "p2": "Gracz 2",
+            "p3": "Gracz 3",
+            "op1": "Przeciwnik 1",
+            "op2": "Przeciwnik 2",
+            "op3": "przeciwnik 3",
+        }

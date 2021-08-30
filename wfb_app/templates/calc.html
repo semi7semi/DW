@@ -8,7 +8,7 @@
 <div class="m-4 p-4 border-dashed">
     <form action="" method="POST">
 
-        <button type="button" class="btn btn-color rounded-1 pt-1 pb-1"><a href="../army_list/">Lista armii</a></button>
+        <button type="button" class="btn btn-color rounded-1 pt-1 pb-1"><a href="{% url 'army-list' %}">Lista armii</a></button>
         <span> <= Tu możesz dodać nowe jednostki do kalkulatora</span>
         <p></p>
         {% csrf_token %}

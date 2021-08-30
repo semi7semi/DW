@@ -82,3 +82,27 @@ class Objectives(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Parings_3(models.Model):
+    name = models.CharField(max_length=64)
+    p1 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p2 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p3 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op1 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op2 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op3 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p11 = models.IntegerField()
+    p12 = models.IntegerField()
+    p13 = models.IntegerField()
+    p21 = models.IntegerField()
+    p22 = models.IntegerField()
+    p23 = models.IntegerField()
+    p31 = models.IntegerField()
+    p32 = models.IntegerField()
+    p33 = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
+
+    date.editable = True
+
+
