@@ -2,6 +2,7 @@
 {% block title %}{% endblock %}
 {% block content %}
     <h1>Dodaj turniej</h1>
+<div class="row">
 <div class="m-4 p-4 border-dashed">
 <!--    <form action="" method="POST">-->
 <!--        {{ form.as_table }}-->
@@ -50,4 +51,14 @@
         {% csrf_token %}
     </form>
 </div>
+    </div>
+<div class="m-4 p-4 border-dashed">
+<ul>
+    <li>2 - min 17 pkt</li>
+    <li>1 - min 13 pkt</li>
+    <li>0 - 10 pkt</li>
+    <li>-1 - max 7 pkt</li>
+    <li>-2 - max 3 pkt</li>
+</ul>
+    </div>
 {% endblock content %}

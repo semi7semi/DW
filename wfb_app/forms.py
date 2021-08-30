@@ -115,6 +115,11 @@ class DiceRollForm(forms.Form):
 
 
 class ParingsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ParingsForm, self).__init__(*args, **kwargs)
+        for i in ["p11", "p12", "p13", "p21", "p22", "p23", "p31", "p32", "p33"]:
+            self.fields[i].widget.attrs["min"] = -2
+            self.fields[i].widget.attrs["max"] = 2
     class Meta():
         model = Parings_3
         fields = ["name", "p1", "p2", "p3", "op1", "op2", "op3", "p11", "p12", "p13", "p21", "p22", "p23", "p31", "p32", "p33"]
