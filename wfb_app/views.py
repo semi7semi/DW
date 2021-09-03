@@ -1,4 +1,5 @@
-
+from itertools import permutations
+from operator import itemgetter
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,8 +9,8 @@ from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
-    DiceRollForm, ParingsForm
-from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3
+    DiceRollForm, ParingsForm, Parings5Form
+from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
@@ -748,7 +749,11 @@ class TableView(View):
 class ParingsView(View):
     def get(self, request):
         parings_list = Parings_3.objects.all()
-        ctx = {"parings_list": parings_list}
+        parings_5_list = Parings_5.objects.all()
+        ctx = {
+            "parings_list": parings_list,
+            "parings_5_list": parings_5_list,
+        }
         return render(request, "parings_list.html", ctx)
     def post(self, request):
         pass
@@ -766,6 +771,18 @@ class AddParingView(View):
             return redirect("parings-view")
 
 
+class AddParing5View(View):
+    def get(self, request):
+        form = Parings5Form()
+        ctx = {"form": form}
+        return render(request, "add_paring_5_form.html", ctx)
+    def post(self, request):
+        form = Parings5Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("parings-view")
+
+
 class DeleteParingView(View):
     def get(self, request, id):
         paring = Parings_3.objects.get(pk=id)
@@ -773,53 +790,74 @@ class DeleteParingView(View):
         return redirect("parings-view")
 
 
+class DeleteParing5View(View):
+    def get(self, request, id):
+        paring = Parings_5.objects.get(pk=id)
+        paring.delete()
+        return redirect("parings-view")
+
+
 class ParingDetailsView(View):
     def get(self, request, id):
-        tab = []
-        paring = Parings_3.objects.get(pk=id)
-        for i in [paring.p11, paring.p12, paring.p13, paring.p21, paring.p22, paring.p23, paring.p31, paring.p32, paring.p33]:
-            if i == -2:
-                result = 3
-            elif i == -1:
-                result = 7
-            elif i == 1:
-                result = 13
-            elif i == 2:
-                result = 17
-            else:
-                result = 10
-            tab.append(result)
-
-        result1 = [tab[0], tab[4], tab[8]]
-        result2 = [tab[1], tab[5], tab[6]]
-        result3 = [tab[2], tab[3], tab[7]]
-        result4 = [tab[0], tab[5], tab[7]]
-        result5 = [tab[2] ,tab[4], tab[6]]
-        result6 = [tab[1], tab[3], tab[8]]
-        sum1 = tab[0] + tab[4] + tab[8]
-        sum2 = tab[1] + tab[5] + tab[6]
-        sum3 = tab[2] + tab[3] + tab[7]
-        sum4 = tab[0] + tab[5] + tab[7]
-        sum5 = tab[2] + tab[4] + tab[6]
-        sum6 = tab[1] + tab[3] + tab[8]
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        player = Parings_3.objects.get(pk=id)
+        teamA = [player.p1, player.p2, player.p3]
+        teamB = [player.op1, player.op2, player.op3]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (player.p1, player.op1):
+                    i = player.p11
+                elif i == (player.p2, player.op2):
+                    i = player.p22
+                elif i == (player.p3, player.op3):
+                    i = player.p33
+                elif i == (player.p1, player.op2):
+                    i = player.p12
+                elif i == (player.p1, player.op3):
+                    i = player.p13
+                elif i == (player.p2, player.op1):
+                    i = player.p21
+                elif i == (player.p2, player.op3):
+                    i = player.p23
+                elif i == (player.p3, player.op1):
+                    i = player.p31
+                elif i == (player.p3, player.op2):
+                    i = player.p32
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
         ctx = {
-            "paring": paring,
-            "result1": result1,
-            "result2": result2,
-            "result3": result3,
-            "result4": result4,
-            "result5": result5,
-            "result6": result6,
-            "sum1": sum1,
-            "sum2": sum2,
-            "sum3": sum3,
-            "sum4": sum4,
-            "sum5": sum5,
-            "sum6": sum6,
+            "paring": player,
+            "data_list": sorted_list
         }
         return render(request, "paring_details.html", ctx)
 
-    def post(self, request, id):
-        pass
 
-
+class ParingDetails5View(View):
+    def get(self, request, id):
+        tab = []
+        paring = Parings_5.objects.get(pk=id)
+        ctx = {
+            "paring": paring,
+        }
+        return render(request, "paring_details_5.html", ctx)

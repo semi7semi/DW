@@ -1,29 +1,56 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-    <h1>Turnieje</h1>
 
-<div class="m-4 p-4 border-dashed">
-    <table class="table border-bottom schedules-content">
-        <tr>
-            <th>Nazwa</th>
-            <th>Data</th>
-        </tr>
-{% for paring in parings_list %}
-        <tr>
-            <td><a class="user-color" href="{% url 'paring-details' paring.id %}">{{ paring.name }}</a></td>
-            <td>{{ parings.date }}</td>
-            <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring' paring.id %}">Usun</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-
-<div class="row">
+<div class="col">
+    <div class="m-4 p-4 border-dashed">
+        <h1>Paringi 3v3</h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa</th>
+                <th>Data</th>
+            </tr>
+            {% for paring in parings_list %}
+            <tr>
+                <td><a class="user-color" href="{% url 'paring-details' paring.id %}">{{ paring.name }}</a></td>
+                <td>{{ parings.date }}</td>
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring' paring.id %}">Usun</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+            <div class="row">
         <div class="col-1">
-        <div class="nav flex-column nav-pills">
-            <a class="nav-link btn-color pt-2 pb-2" href="{% url 'add-paring' %}">Dodaj Turniej</a>
+            <div class="nav flex-column nav-pills">
+                <a class="nav-link btn-color pt-2 pb-2" href="{% url 'add-paring' %}">Dodaj Parowanie</a>
+            </div>
         </div>
     </div>
+    </div>
+    <div class="m-4 p-4 border-dashed">
+        <h1>Paringi 5v5</h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa</th>
+                <th>Data</th>
+            </tr>
+            {% for paring in parings_5_list %}
+            <tr>
+                <td><a class="user-color" href="{% url 'paring-details-5' paring.id %}">{{ paring.name }}</a></td>
+                <td>{{ parings.date }}</td>
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-5' paring.id %}">Usun</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+            <div class="row">
+        <div class="col-1">
+            <div class="nav flex-column nav-pills">
+                <a class="nav-link btn-color pt-2 pb-2" href="{% url 'add-paring-5' %}">Dodaj Parowanie</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
 </div>
 {% endblock content %}

@@ -38,8 +38,9 @@
         </table>
 </div>
     </div>
+{% for data in data_list%}
 <div class="m-4 p-4 border-dashed">
-        <p>Parowanie 1</p>
+        <p>Parowanie</p>
     <table class="table border-bottom schedules-content">
         <tr class="tab-my2">
             <th>Gracz</th>
@@ -48,180 +49,26 @@
             <th></th>
         </tr>
         <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result1.0 }}</td>
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
         </tr>
         <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result1.1 }}</td>
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
         </tr>
         <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result1.2 }}</td>
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
         </tr>
         <tr>
             <td></td>
             <td>Total</td>
-            <th>{{ sum1 }}</th>
+            <th>{{ data.2 }}</th>
         </tr>
     </table>
 </div>
-<div class="m-4 p-4 border-dashed">
-        <p>Parowanie 2</p>
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result2.0 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result2.1 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result2.2 }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <th>{{ sum2 }}</th>
-        </tr>
-    </table>
-</div>
-<div class="m-4 p-4 border-dashed">
-        <p>Parowanie 3</p>
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result3.0 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result3.1 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result3.2 }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <th>{{ sum3 }}</th>
-        </tr>
-    </table>
-</div>
-<div class="m-4 p-4 border-dashed">
-        <p>Parowanie 4</p>
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result4.0 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result4.1 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result4.2 }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <th>{{ sum4 }}</th>
-        </tr>
-    </table>
-</div>
-<div class="m-4 p-4 border-dashed">
-        <p>Parowanie 5</p>
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result5.0 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result5.1 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result5.2 }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <th>{{ sum5 }}</th>
-        </tr>
-    </table>
-</div>
-<div class="m-4 p-4 border-dashed">
-        <p>Parowanie 6</p>
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p1 }}</td>
-            <td>{{ paring.op2 }}</td>
-            <td>{{ result6.0 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p2 }}</td>
-            <td>{{ paring.op1 }}</td>
-            <td>{{ result6.1 }}</td>
-        </tr>
-        <tr class="tab-my">
-            <td>{{ paring.p3 }}</td>
-            <td>{{ paring.op3 }}</td>
-            <td>{{ result6.2 }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <th>{{ sum6 }}</th>
-        </tr>
-    </table>
-</div>
+{% endfor %}
 {% endblock content %}

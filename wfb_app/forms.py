@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
-from .models import Units, Profile, GameResults, Parings_3
+from .models import Units, Profile, GameResults, Parings_3, Parings_5
 
 
 class AddUnit(forms.ModelForm):
@@ -131,4 +131,28 @@ class ParingsForm(forms.ModelForm):
             "op1": "Przeciwnik 1",
             "op2": "Przeciwnik 2",
             "op3": "przeciwnik 3",
+        }
+
+
+class Parings5Form(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(Parings5Form, self).__init__(*args, **kwargs)
+        for i in ["p11", "p12", "p13", "p14", "p15", "p21", "p22", "p23", "p24", "p25", "p31", "p32", "p33", "p34", "p35", "p41", "p42", "p43", "p44", "p45", "p51", "p52", "p53", "p54", "p55"]:
+            self.fields[i].widget.attrs["min"] = -2
+            self.fields[i].widget.attrs["max"] = 2
+    class Meta():
+        model = Parings_5
+        fields = ["name", "p1", "p2", "p3", "p4", "p5", "op1", "op2", "op3", "op4", "op5", "p11", "p12", "p13", "p14", "p15", "p21", "p22", "p23", "p24", "p25", "p31", "p32", "p33", "p34", "p35", "p41", "p42", "p43", "p44", "p45", "p51", "p52", "p53", "p54", "p55"]
+        labels = {
+            "name": "Nazwa",
+            "p1": "Gracz 1",
+            "p2": "Gracz 2",
+            "p3": "Gracz 3",
+            "p4": "Gracz 4",
+            "p5": "Gracz 5",
+            "op1": "Przeciwnik 1",
+            "op2": "Przeciwnik 2",
+            "op3": "przeciwnik 3",
+            "op4": "Przeciwnik 4",
+            "op5": "przeciwnik 5",
         }
