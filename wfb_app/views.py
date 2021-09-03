@@ -748,8 +748,8 @@ class TableView(View):
 
 class ParingsView(View):
     def get(self, request):
-        parings_list = Parings_3.objects.all()
-        parings_5_list = Parings_5.objects.all()
+        parings_list = Parings_3.objects.all().order_by("-date")
+        parings_5_list = Parings_5.objects.all().order_by("-date")
         ctx = {
             "parings_list": parings_list,
             "parings_5_list": parings_5_list,
@@ -759,45 +759,7 @@ class ParingsView(View):
         pass
 
 
-class AddParingView(View):
-    def get(self, request):
-        form = ParingsForm()
-        ctx = {"form": form}
-        return render(request, "add_paring_form.html", ctx)
-    def post(self, request):
-        form = ParingsForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("parings-view")
-
-
-class AddParing5View(View):
-    def get(self, request):
-        form = Parings5Form()
-        ctx = {"form": form}
-        return render(request, "add_paring_5_form.html", ctx)
-    def post(self, request):
-        form = Parings5Form(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("parings-view")
-
-
-class DeleteParingView(View):
-    def get(self, request, id):
-        paring = Parings_3.objects.get(pk=id)
-        paring.delete()
-        return redirect("parings-view")
-
-
-class DeleteParing5View(View):
-    def get(self, request, id):
-        paring = Parings_5.objects.get(pk=id)
-        paring.delete()
-        return redirect("parings-view")
-
-
-class ParingDetailsView(View):
+class ParingDetails3View(View):
     def get(self, request, id):
         result = []
         data_list = []
@@ -850,14 +812,158 @@ class ParingDetailsView(View):
             "paring": player,
             "data_list": sorted_list
         }
-        return render(request, "paring_details.html", ctx)
+        return render(request, "paring_details_3.html", ctx)
+
+
+class AddParing3View(View):
+    def get(self, request):
+        form = ParingsForm()
+        ctx = {"form": form}
+        return render(request, "add_paring_3_form.html", ctx)
+    def post(self, request):
+        form = ParingsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("parings-view")
+
+
+class EditParing3View(View):
+    def get(self, request, id):
+        paring = Parings_3.objects.get(pk=id)
+        form = ParingsForm(instance=paring)
+        ctx = {"form": form}
+        return render(request, "add_paring_3_form.html", ctx)
+    def post(self, request, id):
+        paring = Parings_3.objects.get(pk=id)
+        form = ParingsForm(request.POST, instance=paring)
+        if form.is_valid():
+            form.save()
+            return redirect("paring-details-3", id=id)
+
+
+class DeleteParing3View(View):
+    def get(self, request, id):
+        paring = Parings_3.objects.get(pk=id)
+        paring.delete()
+        return redirect("parings-view")
 
 
 class ParingDetails5View(View):
     def get(self, request, id):
-        tab = []
-        paring = Parings_5.objects.get(pk=id)
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        player = Parings_5.objects.get(pk=id)
+        teamA = [player.p1, player.p2, player.p3, player.p4, player.p5]
+        teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (player.p1, player.op1):
+                    i = player.p11
+                elif i == (player.p1, player.op2):
+                    i = player.p12
+                elif i == (player.p1, player.op3):
+                    i = player.p13
+                elif i == (player.p1, player.op4):
+                    i = player.p14
+                elif i == (player.p1, player.op5):
+                    i = player.p15
+                elif i == (player.p2, player.op1):
+                    i = player.p21
+                elif i == (player.p2, player.op2):
+                    i = player.p22
+                elif i == (player.p2, player.op3):
+                    i = player.p23
+                elif i == (player.p2, player.op4):
+                    i = player.p24
+                elif i == (player.p2, player.op5):
+                    i = player.p25
+                elif i == (player.p3, player.op1):
+                    i = player.p31
+                elif i == (player.p3, player.op2):
+                    i = player.p32
+                elif i == (player.p3, player.op3):
+                    i = player.p33
+                elif i == (player.p3, player.op4):
+                    i = player.p34
+                elif i == (player.p3, player.op5):
+                    i = player.p35
+                elif i == (player.p4, player.op1):
+                    i = player.p41
+                elif i == (player.p4, player.op2):
+                    i = player.p42
+                elif i == (player.p4, player.op3):
+                    i = player.p43
+                elif i == (player.p4, player.op4):
+                    i = player.p44
+                elif i == (player.p4, player.op5):
+                    i = player.p45
+                elif i == (player.p5, player.op1):
+                    i = player.p51
+                elif i == (player.p5, player.op2):
+                    i = player.p52
+                elif i == (player.p5, player.op3):
+                    i = player.p53
+                elif i == (player.p5, player.op4):
+                    i = player.p54
+                elif i == (player.p5, player.op5):
+                    i = player.p55
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
         ctx = {
-            "paring": paring,
+            "paring": player,
+            "data_list": sorted_list[:20],
+            "data_list_bad": sorted_list[-5:]
         }
         return render(request, "paring_details_5.html", ctx)
+
+class EditParing5View(View):
+    def get(self, request, id):
+        paring = Parings_5.objects.get(pk=id)
+        form = Parings5Form(instance=paring)
+        ctx = {"form": form}
+        return render(request, "add_paring_5_form.html", ctx)
+    def post(self, request, id):
+        paring = Parings_5.objects.get(pk=id)
+        form = Parings5Form(request.POST, instance=paring)
+        if form.is_valid():
+            form.save()
+            return redirect("paring-details-5", id=id)
+
+
+class AddParing5View(View):
+    def get(self, request):
+        form = Parings5Form()
+        ctx = {"form": form}
+        return render(request, "add_paring_5_form.html", ctx)
+    def post(self, request):
+        form = Parings5Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("parings-view")
+
+
+class DeleteParing5View(View):
+    def get(self, request, id):
+        paring = Parings_5.objects.get(pk=id)
+        paring.delete()
+        return redirect("parings-view")
