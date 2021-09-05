@@ -9,7 +9,7 @@ from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
-    DiceRollForm, ParingsForm, Parings5Form
+    DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm
 from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -929,12 +929,121 @@ class ParingDetails5View(View):
                 total += mp
             data_list.append([pairing, score, total])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        form = FirstParingsForm()
         ctx = {
             "paring": player,
             "data_list": sorted_list[:20],
-            "data_list_bad": sorted_list[-5:]
+            "data_list_bad": sorted_list[-5:],
+            "form": form
         }
         return render(request, "paring_details_5.html", ctx)
+    def post(self, request, id):
+        form = FirstParingsForm(request.POST)
+        if form.is_valid():
+            first_p1 = form.cleaned_data["first_p1"].short_name
+            first_op1 = form.cleaned_data["first_op1"].short_name
+            first_p2 = form.cleaned_data["first_p2"].short_name
+            first_op2 = form.cleaned_data["first_op2"].short_name
+            result = []
+            data_list = []
+            points = []
+            mp = []
+            player = Parings_5.objects.get(pk=id)
+            teamA = [player.p1, player.p2, player.p3, player.p4, player.p5]
+            teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
+            for perm in permutations(teamA):
+                result.append(list(zip(perm, teamB)))
+            for pairing in result:
+                score = []
+                total = 0
+                for i in pairing:
+                    if i == (player.p1, player.op1):
+                        i = player.p11
+                    elif i == (player.p1, player.op2):
+                        i = player.p12
+                    elif i == (player.p1, player.op3):
+                        i = player.p13
+                    elif i == (player.p1, player.op4):
+                        i = player.p14
+                    elif i == (player.p1, player.op5):
+                        i = player.p15
+                    elif i == (player.p2, player.op1):
+                        i = player.p21
+                    elif i == (player.p2, player.op2):
+                        i = player.p22
+                    elif i == (player.p2, player.op3):
+                        i = player.p23
+                    elif i == (player.p2, player.op4):
+                        i = player.p24
+                    elif i == (player.p2, player.op5):
+                        i = player.p25
+                    elif i == (player.p3, player.op1):
+                        i = player.p31
+                    elif i == (player.p3, player.op2):
+                        i = player.p32
+                    elif i == (player.p3, player.op3):
+                        i = player.p33
+                    elif i == (player.p3, player.op4):
+                        i = player.p34
+                    elif i == (player.p3, player.op5):
+                        i = player.p35
+                    elif i == (player.p4, player.op1):
+                        i = player.p41
+                    elif i == (player.p4, player.op2):
+                        i = player.p42
+                    elif i == (player.p4, player.op3):
+                        i = player.p43
+                    elif i == (player.p4, player.op4):
+                        i = player.p44
+                    elif i == (player.p4, player.op5):
+                        i = player.p45
+                    elif i == (player.p5, player.op1):
+                        i = player.p51
+                    elif i == (player.p5, player.op2):
+                        i = player.p52
+                    elif i == (player.p5, player.op3):
+                        i = player.p53
+                    elif i == (player.p5, player.op4):
+                        i = player.p54
+                    elif i == (player.p5, player.op5):
+                        i = player.p55
+                    points.append(i)
+                    for s in points:
+                        if s == -2:
+                            mp = 3
+                        elif s == -1:
+                            mp = 7
+                        elif s == 1:
+                            mp = 13
+                        elif s == 2:
+                            mp = 17
+                        else:
+                            mp = 10
+                    score.append(mp)
+                    total += mp
+                data_list.append([pairing, score, total])
+            sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+            filtered_list = []
+            pre_list = []
+            for i in range(len(data_list)-1):
+                for j in range(5):
+                    if data_list[i][0][j] == (first_p1, first_op1):
+                        pre_list.append(data_list[i])
+            for i in range(len(pre_list)-1):
+                for j in range(5):
+                    if pre_list[i][0][j] == (first_p2, first_op2):
+                        filtered_list.append(pre_list[i])
+            sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            ctx = {
+                "paring": player,
+                "data_list": sorted_list[:20],
+                "data_list_bad": sorted_list[-5:],
+                "filtered_list": sorted_filtered_list,
+                "first_p1": first_p1,
+                "first_p2": first_p2
+            }
+            return render(request, "paring_details_5.html", ctx)
+
 
 class EditParing5View(View):
     def get(self, request, id):

@@ -66,11 +66,47 @@
             </tr>
         </table>
     </div>
+    <div>
+        {% if request.method == 'GET' %}
+        <div class="m-4 p-4 border-dashed">
+            <form action="" method="POST">
+                {{ form.non_field_errors }}
+                {{ form.source.errors }}
+                {{ form.source }}
+                <p><strong>Ogranicz mozliwe paringi po 1 parowaniu</strong></p>
+                <table class="table border-bottom schedules-content">
+                    <tr class="tab-my2">
+                        <th></th>
+                        <th>Gracz</th>
+                        <th>Przeciwnik</th>
+                    </tr>
+                    <tr>
+                        <th> Pierwsza para</th>
+                        <td>{{ form.first_p1 }}</td>
+                        <td>{{ form.first_op1 }}</td>
+                    </tr>
+                    <tr>
+                        <th> Druga para</th>
+                        <td>{{ form.first_p2 }}</td>
+                        <td>{{ form.first_op2 }}</td>
+                    </tr>
+                </table>
+                <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Szacuj">
+                {% csrf_token %}
+
+            </form>
+        </div>
+        {% endif %}
+    </div>
 </div>
+
+
+
+{% if request.method == 'GET' %}
 <div class="col">
     <p><strong>20 najlepszych możliwych parowań:</strong></p>
 </div>
-{% for data in data_list%}
+{% for data in data_list %}
 <div class="m-4 p-4 border-dashed">
     <table class="table border-bottom schedules-content">
         <tr class="tab-my2">
@@ -112,7 +148,6 @@
     </table>
 </div>
 {% endfor %}
-
 <div class="col">
     <p><strong>5 najmniej korzystnych parowań:</strong></p>
 </div>
@@ -158,4 +193,75 @@
     </table>
 </div>
 {% endfor %}
+{% elif request.method == 'POST' %}
+<div class="col">
+    <p><strong>Mozliwe kolejne parowania</strong></p>
+</div>
+{% for data in filtered_list %}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        {% if data.0.0.0 == first_p1 or data.0.0.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        {% if data.0.1.0 == first_p1 or data.0.1.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        {% if data.0.2.0 == first_p1 or data.0.2.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        {% if data.0.3.0 == first_p1 or data.0.3.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        {% if data.0.4.0 == first_p1 or data.0.4.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        {% if data.2 >= 30 %}
+        <tr class="tab-color-green">
+            {% else %}
+        <tr class="tab-color-red">
+            {% endif %}
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock content %}

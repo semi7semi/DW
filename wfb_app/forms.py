@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
-from .models import Units, Profile, GameResults, Parings_3, Parings_5
+from .models import Units, Profile, GameResults, Parings_3, Parings_5, Armys
 
 
 class AddUnit(forms.ModelForm):
@@ -112,6 +112,13 @@ class CalcForm(forms.Form):
 
 class DiceRollForm(forms.Form):
     no_of_dice = forms.IntegerField(min_value=1, max_value=100, label="Ile kości?")
+
+
+class FirstParingsForm(forms.Form):
+    first_p1 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Wystawka")
+    first_op1 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Dostawka przeciwnikow")
+    first_p2 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Dostawka")
+    first_op2 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Wystawka przeciwnikow")
 
 
 class ParingsForm(forms.ModelForm):
