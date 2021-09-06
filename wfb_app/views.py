@@ -932,8 +932,8 @@ class ParingDetails5View(View):
         form = FirstParingsForm()
         ctx = {
             "paring": player,
-            "data_list": sorted_list[:20],
-            "data_list_bad": sorted_list[-5:],
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
             "form": form
         }
         return render(request, "paring_details_5.html", ctx)
