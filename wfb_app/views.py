@@ -404,15 +404,19 @@ class CreateUserView(View):
         form = RegisterUserForm(request.POST)
         profile_form = ProfileForm(request.POST)
         if form.is_valid() and profile_form.is_valid():
-            user = form.save()
-            user.set_password(form.cleaned_data["password"])
-            user.save()
-            user_army = profile_form.cleaned_data["user_army"]
-            Profile.objects.create(
-                user_army = user_army,
-                user = user
-            )
-            return redirect("users-list")
+            code = form.cleaned_data["code"]
+            if code == "jajco":
+                user = form.save()
+                user.set_password(form.cleaned_data["password"])
+                user.save()
+                user_army = profile_form.cleaned_data["user_army"]
+                Profile.objects.create(
+                    user_army = user_army,
+                    user = user
+                )
+                return redirect("users-list")
+            else:
+                return redirect("register")
         else:
             ctx = {"form": form, "profile_form": profile_form}
             return render(request, "user_form.html", ctx)

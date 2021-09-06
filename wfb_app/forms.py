@@ -37,15 +37,17 @@ class LogForm(forms.Form):
 
 class RegisterUserForm(forms.ModelForm):
     password_2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz hasło")
+    code = forms.CharField(label="Hasło Wałeczków", help_text=" Udowodnij, że jestes Wałeczkiem")
     class Meta:
         model = User
-        fields = ["username", "password", "password_2", "email"]
+        fields = ["username", "password", "password_2", "email", "code"]
         widgets = {"password": forms.PasswordInput}
         labels = {
             "username": "Nickname",
             "password": "Hasło",
             "email": "Podaj email"
         }
+
     # def clean(self):
     #     cleaned_data = super().clean()
     #     username = cleaned_data["username"]
