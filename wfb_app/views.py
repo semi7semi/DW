@@ -1036,8 +1036,8 @@ class ParingDetails5View(View):
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
             ctx = {
                 "paring": player,
-                "data_list": sorted_list[:20],
-                "data_list_bad": sorted_list[-5:],
+                "data_list": sorted_list[:6],
+                "data_list_bad": sorted_list[-6:],
                 "filtered_list": sorted_filtered_list,
                 "first_p1": first_p1,
                 "first_p2": first_p2
