@@ -2,7 +2,11 @@
 {% block title %}{% endblock %}
 {% block content %}
 <button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
-    <a class="nav-link btn-color" href="{% url 'edit-paring-5' paring.id %}">Edytuj</a></button>
+    <a class="nav-link btn-color" href="{% url 'edit-paring-5' paring.id %}">Edytuj</a>
+</button>
+<button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
+    <a class="nav-link btn-color" href="{% url 'add-paring-5' %}">Nowy paring</a>
+</button>
 <div class="row">
 
     <div class="m-4 p-4 border-dashed">
