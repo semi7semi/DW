@@ -772,7 +772,7 @@ class ParingDetails3View(View):
         player = Parings_3.objects.get(pk=id)
         teamA = [player.p1, player.p2, player.p3]
         teamB = [player.op1, player.op2, player.op3]
-        request.session['teamA3'] = teamA
+        # request.session['teamA3'] = teamA
         for perm in permutations(teamA):
             result.append(list(zip(perm, teamB)))
         for pairing in result:
@@ -822,19 +822,19 @@ class ParingDetails3View(View):
 
 class AddParing3View(View):
     def get(self, request):
-        if request.session["teamA3"]:
-            teamA = request.session['teamA3']
-            form = ParingsForm(initial={
-                "p1": teamA[0],
-                "p2": teamA[1],
-                "p3": teamA[2],
-            })
-            ctx = {"form": form}
-            return render(request, "add_paring_3_form.html", ctx)
-        else:
-            form = ParingsForm()
-            ctx = {"form": form}
-            return render(request, "add_paring_3_form.html", ctx)
+        # if request.session["teamA3"]:
+        #     teamA = request.session['teamA3']
+        #     form = ParingsForm(initial={
+        #         "p1": teamA[0],
+        #         "p2": teamA[1],
+        #         "p3": teamA[2],
+        #     })
+        #     ctx = {"form": form}
+        #     return render(request, "add_paring_3_form.html", ctx)
+        # else:
+        form = ParingsForm()
+        ctx = {"form": form}
+        return render(request, "add_paring_3_form.html", ctx)
     def post(self, request):
         form = ParingsForm(request.POST)
         if form.is_valid():
@@ -872,7 +872,6 @@ class ParingDetails5View(View):
         player = Parings_5.objects.get(pk=id)
         teamA = [player.p1, player.p2, player.p3, player.p4, player.p5]
         teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
-        request.session['teamA5'] = teamA
         for perm in permutations(teamA):
             result.append(list(zip(perm, teamB)))
         for pairing in result:
@@ -1077,21 +1076,9 @@ class EditParing5View(View):
 
 class AddParing5View(View):
     def get(self, request):
-        if request.session["teamA5"]:
-            teamA = request.session['teamA5']
-            form = Parings5Form(initial={
-                "p1": teamA[0],
-                "p2": teamA[1],
-                "p3": teamA[2],
-                "p4": teamA[3],
-                "p5": teamA[4],
-            })
-            ctx = {"form": form}
-            return render(request, "add_paring_5_form.html", ctx)
-        else:
-            form = Parings5Form()
-            ctx = {"form": form}
-            return render(request, "add_paring_5_form.html", ctx)
+        form = Parings5Form()
+        ctx = {"form": form}
+        return render(request, "add_paring_5_form.html", ctx)
     def post(self, request):
         form = Parings5Form(request.POST)
         if form.is_valid():
