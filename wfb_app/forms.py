@@ -105,8 +105,9 @@ class GameResultsForm(forms.ModelForm):
 
 class CalcForm(forms.Form):
     unit_name1 = forms.ModelChoiceField(queryset=Units.objects.all(), label="Nazwa Jednostki")
-    unit_name2 = forms.ModelChoiceField(queryset=Units.objects.all(), label="Nazwa Jednostki", required=False)
-    attacks = forms.IntegerField(min_value=1, max_value=100, label = "Podaj ilosc atakow")
+    attacks1 = forms.IntegerField(min_value=1, max_value=100, label="Podaj ilosc atakow")
+    unit_name2 = forms.ModelChoiceField(queryset=Units.objects.all(), label="Nazwa Jednostki")
+    attacks2 = forms.IntegerField(min_value=1, max_value=100, label = "Podaj ilosc atakow")
     defensive = forms.IntegerField(min_value=1, max_value=10, label="Podaj Defensive Skill")
     resistance = forms.IntegerField(min_value=1, max_value=10, label="Podaj Resistance")
 

@@ -195,31 +195,32 @@ class CalcView(LoginRequiredMixin, View):
     def post(self, request):
         form = CalcForm(request.POST)
         if form.is_valid():
-            unit = form.cleaned_data["unit_name1"]
+            unit1 = form.cleaned_data["unit_name1"]
+            attacks1 = form.cleaned_data["attacks1"]
             unit2 = form.cleaned_data["unit_name2"]
-            attacks = form.cleaned_data["attacks"]
+            attacks2 = form.cleaned_data["attacks2"]
             defensive = form.cleaned_data["defensive"]
             resistance = form.cleaned_data["resistance"]
             saves = ["none", "6+", "5+", "4+", "3+", "2+", "1+"]
-            if unit.reflex:
+            if unit1.reflex:
                 ref = 1 / 6
             else:
                 ref = 0
-            if unit.offensive - defensive >= 4:
+            if unit1.offensive - defensive >= 4:
                 x = 5 / 6
-            elif 4 > unit.offensive - defensive > 0:
+            elif 4 > unit1.offensive - defensive > 0:
                 x = 2 / 3
-            elif unit.offensive - defensive <= -4:
+            elif unit1.offensive - defensive <= -4:
                 x = 1 / 3
             else:
                 x = 1 / 2
-            hit = attacks * (x + ref)
+            hit = attacks1 * (x + ref)
             if x + ref == 1:
-                hit = attacks * x
-            wounds = towound(hit, unit.strength, resistance)
+                hit = attacks1 * x
+            wounds = towound(hit, unit1.strength, resistance)
             arm = []
             for armour in range(0, 7):
-                wounds_after_armour = afterarmour(unit.ap, armour, wounds)
+                wounds_after_armour = afterarmour(unit1.ap, armour, wounds)
                 arm.append(wounds_after_armour)
             # Dla drugiej
             if unit2.reflex:
@@ -234,22 +235,22 @@ class CalcView(LoginRequiredMixin, View):
                 x = 1 / 3
             else:
                 x = 1 / 2
-            hit2 = attacks * (x + ref)
+            hit2 = attacks2 * (x + ref)
             if x + ref == 1:
-                hit2 = attacks * x
+                hit2 = attacks2 * x
             wounds2 = towound(hit2, unit2.strength, resistance)
             arm2 = []
             for armour in range(0, 7):
                 wounds_after_armour2 = afterarmour(unit2.ap, armour, wounds2)
                 arm2.append(wounds_after_armour2)
             ctx = {
-                "attacks": attacks,
+                "attacks1": attacks1,
                 "hit": round(hit, 2),
                 "wounds": round(wounds, 3),
                 "armour": arm,
                 "saves": saves,
-                "unit": unit,
-                "attacks2": attacks,
+                "unit1": unit1,
+                "attacks2": attacks2,
                 "hit2": round(hit2, 2),
                 "wounds2": round(wounds2, 3),
                 "armour2": arm2,
