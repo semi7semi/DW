@@ -70,8 +70,10 @@
             <td>{{ data.0.2.1 }}</td>
             <td>{{ data.1.2 }}</td>
         </tr>
-        {% if data.2 >= 30 %}
+        {% if data.2 > 30 %}
         <tr class="tab-color-green">
+            {% elif data.2 == 30 %}
+        <tr class="tab-color-yellow">
             {% else %}
         <tr class="tab-color-red">
             {% endif %}
@@ -80,6 +82,18 @@
             <th>{{ data.2 }}</th>
         </tr>
     </table>
+
 </div>
 {% endfor %}
+<table>
+    <tr>
+        <th class="tab-color-green"> 31-60 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-yellow"> 30 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-red"> 0-29 pkt/th>
+    </tr>
+</table>
 {% endblock content %}
