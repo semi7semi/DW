@@ -23,7 +23,9 @@
                 <td><a class="user-color" href="{% url 'paring-details-5' paring.id %}">{{ paring.name }}</a></td>
                 <td>{{ paring.date }}</td>
                 <td><a class="btn btn-secondary rounded-1" href="{% url 'edit-paring-5' paring.id %}">Edytuj</a></td>
+                {% if request.user.is_superuser %}
                 <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-5' paring.id %}">Usun</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
@@ -48,7 +50,9 @@
                 <td><a class="user-color" href="{% url 'paring-details-3' paring.id %}">{{ paring.name }}</a></td>
                 <td>{{ paring.date }}</td>
                 <td><a class="btn btn-secondary rounded-1" href="{% url 'edit-paring-3' paring.id %}">Edytuj</a></td>
+                {% if request.user.is_superuser %}
                 <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-3' paring.id %}">Usun</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
