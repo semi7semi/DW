@@ -24,7 +24,7 @@ class Landing_page(View):
     def get(self, request):
         no_of_games = GAMES_YEAR.count()
         no_of_users = User.objects.all().exclude(username="admin").count()
-        users = User.objects.all().exclude(username="admin")
+        users = User.objects.all().exclude(username="admin").order_by("username")
         count_master = GAMES_YEAR.filter(game_rank="master").count()
         count_local = GAMES_YEAR.filter(game_rank="local").count()
         count_home = GAMES_YEAR.filter(game_rank="home").count()

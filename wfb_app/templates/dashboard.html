@@ -70,16 +70,24 @@
           <div class="carousel-item active">
             <div class="container w-90">
               <div class="carousel-caption d-block">
-                <h2>Wałeczki rozegrały {{no_of_games}} epickich bitw w 2021</h2>
-                <h3>{{count_master}} masterów, {{count_local}} lokali oraz {{ count_home }} domówek</h3>
+                <h2>Wałeczki rozegrały <strong>{{no_of_games}}</strong> epickich bitw w 2021</h2>
+                <h3><strong>{{count_master}}</strong> bitw na masterach</h3>
+                <h3><strong>{{count_local}}</strong> bitw na lokalach</h3>
+                <h3>oraz <strong>{{ count_home }}</strong> domówek</h3>
               </div>
             </div>
           </div>
           <div class="carousel-item">
             <div class="container w-90">
               <div class="carousel-caption d-block">
-                <h2>Do klubu Drobne Wałeczki należy {{no_of_users}}-ciu graczy:</h2>
-                <h3>{% for user in users %} {{user.username}}, {% endfor %}</h3>
+                <div class="container w-90">
+                <h2>Do klubu Drobne Wałeczki należy <strong>{{no_of_users}}-u</strong> graczy:</h2>
+                {% for user in users %}
+                <button class="btn btn-outline-dark btn-lg" disabled>
+                {{user.username}}
+                </button>
+                {% endfor %}
+                </div>
               </div>
             </div>
           </div>
@@ -116,7 +124,7 @@
           </h4>
         </div>
         <div class="ml-4 align-self-center">
-          <button class="btn btn-color-grey rounded-0 mt-4 pl-4 pr-4">
+          <button class="btn btn-color-grey rounded-2">
             <a href="{% url 'main' %}">Strona rankingu</a>
           </button>
         </div>
@@ -192,7 +200,9 @@
         <div class="row">
           <div class="col-4 mr-4">
             <div>
+              <a href="{% url 'main' %}">
               <img src="{% static 'images/kostka.jpg' %}" alt="logo" width="300">
+              </a>
             </div>
           </div>
 
