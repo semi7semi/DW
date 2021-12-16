@@ -104,6 +104,35 @@ class Parings_3(models.Model):
     date = models.DateField(auto_now_add=True)
 
 
+class Parings_4(models.Model):
+    name = models.CharField(max_length=64)
+    p1 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p2 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p3 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p4 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op1 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op2 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op3 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    op4 = models.CharField(max_length=16, choices=ARMIES_CHOICE)
+    p11 = models.IntegerField()
+    p12 = models.IntegerField()
+    p13 = models.IntegerField()
+    p14 = models.IntegerField()
+    p21 = models.IntegerField()
+    p22 = models.IntegerField()
+    p23 = models.IntegerField()
+    p24 = models.IntegerField()
+    p31 = models.IntegerField()
+    p32 = models.IntegerField()
+    p33 = models.IntegerField()
+    p34 = models.IntegerField()
+    p41 = models.IntegerField()
+    p42 = models.IntegerField()
+    p43 = models.IntegerField()
+    p44 = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
+
+
 
 class Parings_5(models.Model):
     name = models.CharField(max_length=64)

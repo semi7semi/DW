@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
+    <a class="nav-link btn-color" href="{% url 'edit-paring-4' paring.id %}">Edytuj</a>
+</button>
+<button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
+    <a class="nav-link btn-color" href="{% url 'add-paring-4' %}">Nowy paring</a>
+</button>
+<div class="row">
+
+    <div class="m-4 p-4 border-dashed">
+        <p><strong>{{ paring.name }}</strong></p>
+        <table class="table border-bottom schedules-content">
+            <tr class="tab-my2">
+                <th></th>
+                <th>Przeciwnik 1</th>
+                <th>Przeciwnik 2</th>
+                <th>Przeciwnik 3</th>
+                <th>Przeciwnik 4</th>
+            </tr>
+            <tr class="tab-my">
+                <th></th>
+                <th>{{ paring.op1 }}</th>
+                <th>{{ paring.op2 }}</th>
+                <th>{{ paring.op3 }}</th>
+                <th>{{ paring.op4 }}</th>
+            </tr>
+            <tr class="tab-my">
+                <th>Gracz 1: {{ paring.p1 }}</th>
+                <td>{{ paring.p11 }}</td>
+                <td>{{ paring.p12 }}</td>
+                <td>{{ paring.p13 }}</td>
+                <td>{{ paring.p14 }}</td>
+            </tr>
+            <tr class="tab-my">
+                <th>Gracz 2: {{ paring.p2 }}</th>
+                <td>{{ paring.p21 }}</td>
+                <td>{{ paring.p22 }}</td>
+                <td>{{ paring.p23 }}</td>
+                <td>{{ paring.p24 }}</td>
+            </tr>
+            <tr>
+                <th>Gracz 3: {{ paring.p3 }}</th>
+                <td>{{ paring.p31 }}</td>
+                <td>{{ paring.p32 }}</td>
+                <td>{{ paring.p33 }}</td>
+                <td>{{ paring.p34 }}</td>
+            </tr>
+            <tr>
+                <th>Gracz 4: {{ paring.p4 }}</th>
+                <td>{{ paring.p41 }}</td>
+                <td>{{ paring.p42 }}</td>
+                <td>{{ paring.p43 }}</td>
+                <td>{{ paring.p44 }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+{% if request.method == 'GET' %}
+<div class="col">
+    <p><strong>6 najlepszych możliwych parowań:</strong></p>
+</div>
+{% for data in data_list %}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        <tr class="tab-color-green">
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+<div class="col">
+    <p><strong>6 najmniej korzystnych parowań:</strong></p>
+</div>
+{% for data in data_list_bad %}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        <tr class="tab-color-red">
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+{% endif %}
+<table>
+    <tr>
+        <th class="tab-color-green"> 31-60 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-yellow"> 30 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-red"> 0-29 pkt/th>
+    </tr>
+</table>
+{% endblock content %}

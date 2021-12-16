@@ -6,7 +6,8 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView, Landing_page, RollDiceView, TableView, \
     RankingList_2020, UserDetailsView_2020, Index_2020, ParingsView, DeleteParing3View, AddParing3View, \
     ParingDetails3View, \
-    AddParing5View, DeleteParing5View, ParingDetails5View, EditParing3View, EditParing5View
+    AddParing5View, DeleteParing5View, ParingDetails5View, EditParing3View, EditParing5View, AddParing4View, \
+    DeleteParing4View, ParingDetails4View, EditParing4View
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,6 +42,11 @@ urlpatterns = [
     path("delete_paring_3/<int:id>/", DeleteParing3View.as_view(), name="delete-paring-3"),
     path("paring_3/<int:id>/", ParingDetails3View.as_view(), name="paring-details-3"),
     path("edit_paring_3/<int:id>/", EditParing3View.as_view(), name="edit-paring-3"),
+
+    path("add_paring_4/", AddParing4View.as_view(), name="add-paring-4"),
+    path("delete_paring_4/<int:id>/", DeleteParing4View.as_view(), name="delete-paring-4"),
+    path("paring_4/<int:id>/", ParingDetails4View.as_view(), name="paring-details-4"),
+    path("edit_paring_4/<int:id>/", EditParing4View.as_view(), name="edit-paring-4"),
 
     path("add_paring_5/", AddParing5View.as_view(), name="add-paring-5"),
     path("delete_paring_5/<int:id>/", DeleteParing5View.as_view(), name="delete-paring-5"),

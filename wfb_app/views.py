@@ -9,8 +9,8 @@ from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
-    DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm
-from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5
+    DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm, Parings4Form
+from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5, Parings_4
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
@@ -754,9 +754,11 @@ class TableView(View):
 class ParingsView(View):
     def get(self, request):
         parings_3_list = Parings_3.objects.all().order_by("-date")
+        parings_4_list = Parings_4.objects.all().order_by("-date")
         parings_5_list = Parings_5.objects.all().order_by("-date")
         ctx = {
             "parings_3_list": parings_3_list,
+            "parings_4_list": parings_4_list,
             "parings_5_list": parings_5_list,
         }
         return render(request, "parings_list.html", ctx)
@@ -862,6 +864,113 @@ class DeleteParing3View(View):
         paring = Parings_3.objects.get(pk=id)
         paring.delete()
         return redirect("parings-view")
+
+
+class ParingDetails4View(View):
+    def get(self, request, id):
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        player = Parings_4.objects.get(pk=id)
+        teamA = [player.p1, player.p2, player.p3, player.p4]
+        teamB = [player.op1, player.op2, player.op3, player.op4]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (player.p1, player.op1):
+                    i = player.p11
+                elif i == (player.p1, player.op2):
+                    i = player.p12
+                elif i == (player.p1, player.op3):
+                    i = player.p13
+                elif i == (player.p1, player.op4):
+                    i = player.p14
+                elif i == (player.p2, player.op1):
+                    i = player.p21
+                elif i == (player.p2, player.op2):
+                    i = player.p22
+                elif i == (player.p2, player.op3):
+                    i = player.p23
+                elif i == (player.p2, player.op4):
+                    i = player.p24
+                elif i == (player.p3, player.op1):
+                    i = player.p31
+                elif i == (player.p3, player.op2):
+                    i = player.p32
+                elif i == (player.p3, player.op3):
+                    i = player.p33
+                elif i == (player.p3, player.op4):
+                    i = player.p34
+                elif i == (player.p4, player.op1):
+                    i = player.p41
+                elif i == (player.p4, player.op2):
+                    i = player.p42
+                elif i == (player.p4, player.op3):
+                    i = player.p43
+                elif i == (player.p4, player.op4):
+                    i = player.p44
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        form = FirstParingsForm()
+        ctx = {
+            "paring": player,
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
+            "form": form
+        }
+        return render(request, "paring_details_4.html", ctx)
+
+
+class AddParing4View(View):
+    def get(self, request):
+        form = Parings4Form()
+        ctx = {"form": form}
+        return render(request, "add_paring_4_form.html", ctx)
+    def post(self, request):
+        form = Parings4Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("parings-view")
+
+
+class EditParing4View(View):
+    def get(self, request, id):
+        paring = Parings_4.objects.get(pk=id)
+        form = Parings4Form(instance=paring)
+        ctx = {"form": form}
+        return render(request, "add_paring_4_form.html", ctx)
+    def post(self, request, id):
+        paring = Parings_4.objects.get(pk=id)
+        form = Parings4Form(request.POST, instance=paring)
+        if form.is_valid():
+            form.save()
+            return redirect("paring-details-4", id=id)
+
+
+class DeleteParing4View(View):
+    def get(self, request, id):
+        paring = Parings_4.objects.get(pk=id)
+        paring.delete()
+        return redirect("parings-view")
+
 
 
 class ParingDetails5View(View):
