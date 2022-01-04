@@ -7,7 +7,7 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     RankingList_2020, UserDetailsView_2020, Index_2020, ParingsView, DeleteParing3View, AddParing3View, \
     ParingDetails3View, \
     AddParing5View, DeleteParing5View, ParingDetails5View, EditParing3View, EditParing5View, AddParing4View, \
-    DeleteParing4View, ParingDetails4View, EditParing4View
+    DeleteParing4View, ParingDetails4View, EditParing4View, Index_2021, UserDetailsView_2021, RankingList_2021
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -56,4 +56,8 @@ urlpatterns = [
     path("user_details_2020/<int:id>/", UserDetailsView_2020.as_view(), name="user-details-2020"),
     path("ranking_2020/", RankingList_2020.as_view(), name="ranking-list-2020"),
     path('index_2020/', Index_2020.as_view(), name="main-2020"),
+
+    path("user_details_2021/<int:id>/", UserDetailsView_2021.as_view(), name="user-details-2021"),
+    path("ranking_2021/", RankingList_2021.as_view(), name="ranking-list-2021"),
+    path('index_2021/', Index_2021.as_view(), name="main-2021"),
 ]
