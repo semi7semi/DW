@@ -9,8 +9,10 @@ from django.views.generic import FormView
 from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
-    DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm, Parings4Form
-from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5, Parings_4
+    DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm, Parings4Form, TournamentsForm, TParings3Form, \
+    TParings4Form, TParings5Form
+from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5, Parings_4, Tournaments, Team_of_3, \
+    Team_of_4, Team_of_5
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
@@ -1345,3 +1347,528 @@ class DeleteParing5View(View):
         paring = Parings_5.objects.get(pk=id)
         paring.delete()
         return redirect("parings-view")
+
+
+class TournamentsView(View):
+    def get(self, request):
+        tournaments_list = Tournaments.objects.all().order_by("-date")
+        ctx = {
+            "tournaments_list": tournaments_list,
+        }
+
+        return render(request, "tournaments_list.html", ctx)
+
+
+class AddTournamentView(View):
+    def get(self, request):
+        form = TournamentsForm(initial={"date": datetime.now()})
+        ctx = {"form": form}
+        return render(request, "add_tournament_form.html", ctx)
+    def post(self, request):
+        form = TournamentsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("tournaments-view")
+
+
+class EditTournamentView(View):
+    def get(self, request, id):
+        tournament = Tournaments.objects.get(pk=id)
+        form = TournamentsForm(instance=tournament)
+        ctx = {"form": form}
+        return render(request, "add_tournament_form.html", ctx)
+    def post(self, request, id):
+        tournament = Tournaments.objects.get(pk=id)
+        form = TournamentsForm(request.POST, instance=tournament)
+        if form.is_valid():
+            form.save()
+            return redirect("tournaments-view")
+
+
+class DeleteTournamentView(View):
+    def get(self, request, id):
+        t = Tournaments.objects.get(pk=id)
+        t.delete()
+        return redirect("tournaments-view")
+
+
+class TournamentParingsView(View):
+    def get(self, request, id):
+        tournament = Tournaments.objects.get(pk=id)
+        parings_list = Team_of_3.objects.filter(tournament=tournament.id).order_by("name")
+        parings_list2 = Team_of_4.objects.filter(tournament=tournament.id).order_by("name")
+        parings_list3 = Team_of_5.objects.filter(tournament=tournament.id).order_by("name")
+        form = TParings3Form()
+        form2 = TParings4Form()
+        form3 = TParings5Form()
+        if tournament.no_of_players == 3:
+            ctx = {
+                "tournament": tournament,
+                "parings_list": parings_list,
+                "form": form
+            }
+            return render(request, "tournament_parings_3.html", ctx)
+        elif tournament.no_of_players == 4:
+            ctx = {
+                "tournament": tournament,
+                "parings_list": parings_list2,
+                "form": form2
+            }
+            return render(request, "tournament_parings_4.html", ctx)
+        elif tournament.no_of_players == 5:
+            ctx = {
+                "tournament": tournament,
+                "parings_list": parings_list3,
+                "form": form3
+            }
+            return render(request, "tournament_parings_5.html", ctx)
+    def post(self, request, id):
+        tournament = Tournaments.objects.get(pk=id)
+        if tournament.no_of_players == 3:
+            form = TParings3Form(request.POST)
+            if form.is_valid():
+                result = form.save(commit=False)
+                result.tournament = tournament
+                result.save()
+                return redirect("tournament-parings", id=id)
+        elif tournament.no_of_players == 4:
+            form = TParings4Form(request.POST)
+            if form.is_valid():
+                result = form.save(commit=False)
+                result.tournament = tournament
+                result.save()
+                return redirect("tournament-parings", id=id)
+        elif tournament.no_of_players == 5:
+            form = TParings5Form(request.POST)
+            if form.is_valid():
+                result = form.save(commit=False)
+                result.tournament = tournament
+                result.save()
+                return redirect("tournament-parings", id=id)
+
+
+class TParing3v3View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        player = Team_of_3.objects.get(pk=par)
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        teamA = [tournament.p1, tournament.p2, tournament.p3]
+        teamB = [player.op1, player.op2, player.op3]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (tournament.p1, player.op1):
+                    i = player.p11
+                elif i == (tournament.p1, player.op2):
+                    i = player.p12
+                elif i == (tournament.p1, player.op3):
+                    i = player.p13
+                elif i == (tournament.p2, player.op1):
+                    i = player.p21
+                elif i == (tournament.p2, player.op2):
+                    i = player.p22
+                elif i == (tournament.p2, player.op3):
+                    i = player.p23
+                elif i == (tournament.p3, player.op1):
+                    i = player.p31
+                elif i == (tournament.p3, player.op2):
+                    i = player.p32
+                elif i == (tournament.p3, player.op3):
+                    i = player.p33
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        ctx = {
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
+            "tournament": tournament,
+            "paring": player,
+
+        }
+        return render(request, "paring_3v3.html", ctx)
+
+
+class TParing4v4View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        player = Team_of_4.objects.get(pk=par)
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4]
+        teamB = [player.op1, player.op2, player.op3, player.op4]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (tournament.p1, player.op1):
+                    i = player.p11
+                elif i == (tournament.p1, player.op2):
+                    i = player.p12
+                elif i == (tournament.p1, player.op3):
+                    i = player.p13
+                elif i == (tournament.p1, player.op4):
+                    i = player.p14
+                elif i == (tournament.p2, player.op1):
+                    i = player.p21
+                elif i == (tournament.p2, player.op2):
+                    i = player.p22
+                elif i == (tournament.p2, player.op3):
+                    i = player.p23
+                elif i == (tournament.p2, player.op4):
+                    i = player.p24
+                elif i == (tournament.p3, player.op1):
+                    i = player.p31
+                elif i == (tournament.p3, player.op2):
+                    i = player.p32
+                elif i == (tournament.p3, player.op3):
+                    i = player.p33
+                elif i == (tournament.p3, player.op4):
+                    i = player.p34
+                elif i == (tournament.p4, player.op1):
+                    i = player.p41
+                elif i == (tournament.p4, player.op2):
+                    i = player.p42
+                elif i == (tournament.p4, player.op3):
+                    i = player.p43
+                elif i == (tournament.p4, player.op4):
+                    i = player.p44
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        ctx = {
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
+            "tournament": tournament,
+            "paring": player,
+        }
+        return render(request, "paring_4v4.html", ctx)
+
+
+class TParing5v5View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        player = Team_of_5.objects.get(pk=par)
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4, tournament.p5]
+        teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (tournament.p1, player.op1):
+                    i = player.p11
+                elif i == (tournament.p1, player.op2):
+                    i = player.p12
+                elif i == (tournament.p1, player.op3):
+                    i = player.p13
+                elif i == (tournament.p1, player.op4):
+                    i = player.p14
+                elif i == (tournament.p1, player.op5):
+                    i = player.p15
+                elif i == (tournament.p2, player.op1):
+                    i = player.p21
+                elif i == (tournament.p2, player.op2):
+                    i = player.p22
+                elif i == (tournament.p2, player.op3):
+                    i = player.p23
+                elif i == (tournament.p2, player.op4):
+                    i = player.p24
+                elif i == (tournament.p2, player.op5):
+                    i = player.p25
+                elif i == (tournament.p3, player.op1):
+                    i = player.p31
+                elif i == (tournament.p3, player.op2):
+                    i = player.p32
+                elif i == (tournament.p3, player.op3):
+                    i = player.p33
+                elif i == (tournament.p3, player.op4):
+                    i = player.p34
+                elif i == (tournament.p3, player.op5):
+                    i = player.p35
+                elif i == (tournament.p4, player.op1):
+                    i = player.p41
+                elif i == (tournament.p4, player.op2):
+                    i = player.p42
+                elif i == (tournament.p4, player.op3):
+                    i = player.p43
+                elif i == (tournament.p4, player.op4):
+                    i = player.p44
+                elif i == (tournament.p4, player.op5):
+                    i = player.p45
+                elif i == (tournament.p5, player.op1):
+                    i = player.p51
+                elif i == (tournament.p5, player.op2):
+                    i = player.p52
+                elif i == (tournament.p5, player.op3):
+                    i = player.p53
+                elif i == (tournament.p5, player.op4):
+                    i = player.p54
+                elif i == (tournament.p5, player.op5):
+                    i = player.p55
+                points.append(i)
+                for s in points:
+                    if s == -2:
+                        mp = 3
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 17
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        form = FirstParingsForm()
+        ctx = {
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
+            "tournament": tournament,
+            "paring": player,
+            "form": form,
+        }
+        return render(request, "paring_5v5.html", ctx)
+
+    def post(self, request, id, par):
+        form = FirstParingsForm(request.POST)
+        if form.is_valid():
+            first_p1 = form.cleaned_data["first_p1"].short_name
+            first_op1 = form.cleaned_data["first_op1"].short_name
+            first_p2 = form.cleaned_data["first_p2"].short_name
+            first_op2 = form.cleaned_data["first_op2"].short_name
+            result = []
+            data_list = []
+            points = []
+            mp = []
+            tournament = Tournaments.objects.get(pk=id)
+            player = Team_of_5.objects.get(pk=par)
+            teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4, tournament.p5]
+            teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
+            for perm in permutations(teamA):
+                result.append(list(zip(perm, teamB)))
+            for pairing in result:
+                score = []
+                total = 0
+                for i in pairing:
+                    if i == (tournament.p1, player.op1):
+                        i = player.p11
+                    elif i == (tournament.p1, player.op2):
+                        i = player.p12
+                    elif i == (tournament.p1, player.op3):
+                        i = player.p13
+                    elif i == (tournament.p1, player.op4):
+                        i = player.p14
+                    elif i == (tournament.p1, player.op5):
+                        i = player.p15
+                    elif i == (tournament.p2, player.op1):
+                        i = player.p21
+                    elif i == (tournament.p2, player.op2):
+                        i = player.p22
+                    elif i == (tournament.p2, player.op3):
+                        i = player.p23
+                    elif i == (tournament.p2, player.op4):
+                        i = player.p24
+                    elif i == (tournament.p2, player.op5):
+                        i = player.p25
+                    elif i == (tournament.p3, player.op1):
+                        i = player.p31
+                    elif i == (tournament.p3, player.op2):
+                        i = player.p32
+                    elif i == (tournament.p3, player.op3):
+                        i = player.p33
+                    elif i == (tournament.p3, player.op4):
+                        i = player.p34
+                    elif i == (tournament.p3, player.op5):
+                        i = player.p35
+                    elif i == (tournament.p4, player.op1):
+                        i = player.p41
+                    elif i == (tournament.p4, player.op2):
+                        i = player.p42
+                    elif i == (tournament.p4, player.op3):
+                        i = player.p43
+                    elif i == (tournament.p4, player.op4):
+                        i = player.p44
+                    elif i == (tournament.p4, player.op5):
+                        i = player.p45
+                    elif i == (tournament.p5, player.op1):
+                        i = player.p51
+                    elif i == (tournament.p5, player.op2):
+                        i = player.p52
+                    elif i == (tournament.p5, player.op3):
+                        i = player.p53
+                    elif i == (tournament.p5, player.op4):
+                        i = player.p54
+                    elif i == (tournament.p5, player.op5):
+                        i = player.p55
+                    points.append(i)
+                    for s in points:
+                        if s == -2:
+                            mp = 3
+                        elif s == -1:
+                            mp = 7
+                        elif s == 1:
+                            mp = 13
+                        elif s == 2:
+                            mp = 17
+                        else:
+                            mp = 10
+                    score.append(mp)
+                    total += mp
+                data_list.append([pairing, score, total])
+            sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+            filtered_list = []
+            pre_list = []
+            for i in range(len(data_list)-1):
+                for j in range(5):
+                    if data_list[i][0][j] == (first_p1, first_op1):
+                        pre_list.append(data_list[i])
+            for i in range(len(pre_list)-1):
+                for j in range(5):
+                    if pre_list[i][0][j] == (first_p2, first_op2):
+                        filtered_list.append(pre_list[i])
+            sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            ctx = {
+                "paring": player,
+                "data_list": sorted_list[:6],
+                "data_list_bad": sorted_list[-6:],
+                "filtered_list": sorted_filtered_list,
+                "first_p1": first_p1,
+                "first_p2": first_p2
+            }
+            return render(request, "paring_5v5.html", ctx)
+
+
+class EditTParing3v3View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        parings_list = Team_of_3.objects.filter(tournament=tournament.id).order_by("name")
+        paring = Team_of_3.objects.get(pk=par)
+        form = TParings3Form(instance=paring)
+        ctx = {
+            "tournament": tournament,
+            "form": form,
+            "parings_list": parings_list,
+        }
+        return render(request, "tournament_parings_3.html", ctx)
+
+    def post(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        paring = Team_of_3.objects.get(pk=par)
+        form = TParings3Form(request.POST, instance=paring)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.tournament = tournament
+            result.save()
+            return redirect("paring-3v3-view", id=id, par=par)
+
+
+class EditTParing4v4View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        parings_list = Team_of_4.objects.filter(tournament=tournament.id).order_by("name")
+        paring = Team_of_4.objects.get(pk=par)
+        form = TParings4Form(instance=paring)
+        ctx = {
+            "tournament": tournament,
+            "form": form,
+            "parings_list": parings_list,
+        }
+        return render(request, "tournament_parings_4.html", ctx)
+
+    def post(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        paring = Team_of_4.objects.get(pk=par)
+        form = TParings4Form(request.POST, instance=paring)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.tournament = tournament
+            result.save()
+            return redirect("paring-4v4-view", id=id, par=par)
+
+
+class EditTParing5v5View(View):
+    def get(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        parings_list = Team_of_5.objects.filter(tournament=tournament.id).order_by("name")
+        paring = Team_of_5.objects.get(pk=par)
+        form = TParings5Form(instance=paring)
+        ctx = {
+            "tournament": tournament,
+            "form": form,
+            "parings_list": parings_list,
+        }
+        return render(request, "tournament_parings_5.html", ctx)
+
+    def post(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        paring = Team_of_5.objects.get(pk=par)
+        form = TParings5Form(request.POST, instance=paring)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.tournament = tournament
+            result.save()
+            return redirect("paring-5v5-view", id=id, par=par)
+
+
+class DeleteTParing3v3View(View):
+    def get(self, request, id, par):
+        p = Team_of_3.objects.get(pk=par)
+        p.delete()
+        return redirect("tournament-parings", id=id)
+
+
+class DeleteTParing4v4View(View):
+    def get(self, request, id, par):
+        p = Team_of_4.objects.get(pk=par)
+        p.delete()
+        return redirect("tournament-parings", id=id)
+
+
+class DeleteTParing5v5View(View):
+    def get(self, request, id, par):
+        p = Team_of_5.objects.get(pk=par)
+        p.delete()
+        return redirect("tournament-parings", id=id)

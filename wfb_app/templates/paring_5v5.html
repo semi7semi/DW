@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
+    <a class="nav-link btn-color" href="{% url 'edit-paring-5v5' tournament.id paring.id %}">Edytuj</a>
+</button>
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <p><strong>{{ tournament.name }} - Paring: {{ paring.name }}</strong></p>
+        <table class="table border-bottom schedules-content">
+            <tr class="tab-my2">
+                <th></th>
+                <th>Przeciwnik 1</th>
+                <th>Przeciwnik 2</th>
+                <th>Przeciwnik 3</th>
+                <th>Przeciwnik 4</th>
+                <th>Przeciwnik 5</th>
+            </tr>
+            <tr class="tab-my">
+                <th></th>
+                <th>{{ paring.op1 }}</th>
+                <th>{{ paring.op2 }}</th>
+                <th>{{ paring.op3 }}</th>
+                <th>{{ paring.op4 }}</th>
+                <th>{{ paring.op5 }}</th>
+            </tr>
+            <tr class="tab-my">
+                <th>{{ tournament.player_name_1 }}: {{ tournament.p1 }}</th>
+                <td>{{ paring.p11 }}</td>
+                <td>{{ paring.p12 }}</td>
+                <td>{{ paring.p13 }}</td>
+                <td>{{ paring.p14 }}</td>
+                <td>{{ paring.p15 }}</td>
+            </tr>
+            <tr class="tab-my">
+                <th>{{ tournament.player_name_2 }}: {{ tournament.p2 }}</th>
+                <td>{{ paring.p21 }}</td>
+                <td>{{ paring.p22 }}</td>
+                <td>{{ paring.p23 }}</td>
+                <td>{{ paring.p24 }}</td>
+                <td>{{ paring.p25 }}</td>
+            </tr>
+            <tr>
+                <th>{{ tournament.player_name_3 }}: {{ tournament.p3 }}</th>
+                <td>{{ paring.p31 }}</td>
+                <td>{{ paring.p32 }}</td>
+                <td>{{ paring.p33 }}</td>
+                <td>{{ paring.p34 }}</td>
+                <td>{{ paring.p35 }}</td>
+            </tr>
+            <tr>
+                <th>{{ tournament.player_name_4 }}: {{ tournament.p4 }}</th>
+                <td>{{ paring.p41 }}</td>
+                <td>{{ paring.p42 }}</td>
+                <td>{{ paring.p43 }}</td>
+                <td>{{ paring.p44 }}</td>
+                <td>{{ paring.p45 }}</td>
+            </tr>
+            <tr>
+                <th>{{ tournament.player_name_5 }}: {{ tournament.p5 }}</th>
+                <td>{{ paring.p51 }}</td>
+                <td>{{ paring.p52 }}</td>
+                <td>{{ paring.p53 }}</td>
+                <td>{{ paring.p54 }}</td>
+                <td>{{ paring.p55 }}</td>
+            </tr>
+        </table>
+    </div>
+        <div>
+<!--        {% if request.method == 'GET' %}-->
+<!--        <div class="m-4 p-4 border-dashed">-->
+<!--            <form action="" method="POST">-->
+<!--                {{ form.non_field_errors }}-->
+<!--                {{ form.source.errors }}-->
+<!--                {{ form.source }}-->
+<!--                <p><strong>Ogranicz mozliwe paringi po 1 parowaniu</strong></p>-->
+<!--                <table class="table border-bottom schedules-content">-->
+<!--                    <tr class="tab-my2">-->
+<!--                        <th></th>-->
+<!--                        <th>Gracz</th>-->
+<!--                        <th>Przeciwnik</th>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <th> Pierwsza para</th>-->
+<!--                        <td>{{ form.first_p1 }}</td>-->
+<!--                        <td>{{ form.first_op1 }}</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <th> Druga para</th>-->
+<!--                        <td>{{ form.first_p2 }}</td>-->
+<!--                        <td>{{ form.first_op2 }}</td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--                <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Szacuj">-->
+<!--                {% csrf_token %}-->
+
+<!--            </form>-->
+<!--        </div>-->
+<!--        {% endif %}-->
+    </div>
+</div>
+{% if request.method == 'GET' %}
+<div class="col">
+    <p><strong>6 najlepszych możliwych parowań:</strong></p>
+</div>
+{% for data in data_list%}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        {% if data.2 > 30 %}
+        <tr class="tab-color-green">
+            {% elif data.2 == 30 %}
+        <tr class="tab-color-yellow">
+            {% else %}
+        <tr class="tab-color-red">
+            {% endif %}
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+<div class="col">
+    <p><strong>6 najmniej korzystnych parowań:</strong></p>
+</div>
+{% for data in data_list_bad %}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        {% if data.2 > 30 %}
+        <tr class="tab-color-green">
+            {% elif data.2 == 30 %}
+        <tr class="tab-color-yellow">
+            {% else %}
+        <tr class="tab-color-red">
+            {% endif %}
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+{% elif request.method == 'POST' %}
+<div class="col">
+    <p><strong>Mozliwe kolejne parowania</strong></p>
+</div>
+{% for data in filtered_list %}
+<div class="m-4 p-4 border-dashed">
+    <table class="table border-bottom schedules-content">
+        <tr class="tab-my2">
+            <th>Gracz</th>
+            <th>Przeciwnik</th>
+            <th>Punkty</th>
+            <th></th>
+        </tr>
+        {% if data.0.0.0 == first_p1 or data.0.0.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.0.0 }}</td>
+            <td>{{ data.0.0.1 }}</td>
+            <td>{{ data.1.0 }}</td>
+        </tr>
+        {% if data.0.1.0 == first_p1 or data.0.1.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.1.0 }}</td>
+            <td>{{ data.0.1.1 }}</td>
+            <td>{{ data.1.1 }}</td>
+        </tr>
+        {% if data.0.2.0 == first_p1 or data.0.2.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.2.0 }}</td>
+            <td>{{ data.0.2.1 }}</td>
+            <td>{{ data.1.2 }}</td>
+        </tr>
+        {% if data.0.3.0 == first_p1 or data.0.3.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.3.0 }}</td>
+            <td>{{ data.0.3.1 }}</td>
+            <td>{{ data.1.3 }}</td>
+        </tr>
+        {% if data.0.4.0 == first_p1 or data.0.4.0 == first_p2 %}
+        <tr class="tab-color-grey">
+            {% else %}
+        <tr class="tab-my">
+            {% endif %}
+            <td>{{ data.0.4.0 }}</td>
+            <td>{{ data.0.4.1 }}</td>
+            <td>{{ data.1.4 }}</td>
+        </tr>
+        {% if data.2 >= 50 %}
+        <tr class="tab-color-green">
+            {% elif data.2 == 50 %}
+        <tr class="tab-color-yellow">
+            {% else %}
+        <tr class="tab-color-red">
+            {% endif %}
+            <td></td>
+            <td>Total</td>
+            <th>{{ data.2 }}</th>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+{% endif %}
+<table>
+    <tr>
+        <th class="tab-color-green"> 31-60 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-yellow"> 30 pkt</th>
+    </tr>
+    <tr>
+        <th class="tab-color-red"> 0-29 pkt/th>
+    </tr>
+</table>
+{% endblock content %}

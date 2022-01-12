@@ -7,7 +7,10 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     RankingList_2020, UserDetailsView_2020, Index_2020, ParingsView, DeleteParing3View, AddParing3View, \
     ParingDetails3View, \
     AddParing5View, DeleteParing5View, ParingDetails5View, EditParing3View, EditParing5View, AddParing4View, \
-    DeleteParing4View, ParingDetails4View, EditParing4View, Index_2021, UserDetailsView_2021, RankingList_2021
+    DeleteParing4View, ParingDetails4View, EditParing4View, Index_2021, UserDetailsView_2021, RankingList_2021, \
+    TournamentsView, AddTournamentView, DeleteTournamentView, EditTournamentView, TournamentParingsView, TParing3v3View, \
+    DeleteTParing3v3View, EditTParing3v3View, TParing4v4View, DeleteTParing4v4View, TParing5v5View, \
+    DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -60,4 +63,23 @@ urlpatterns = [
     path("user_details_2021/<int:id>/", UserDetailsView_2021.as_view(), name="user-details-2021"),
     path("ranking_2021/", RankingList_2021.as_view(), name="ranking-list-2021"),
     path('index_2021/', Index_2021.as_view(), name="main-2021"),
+
+    path("tournaments/", TournamentsView.as_view(), name="tournaments-view"),
+    path("tournaments/add/", AddTournamentView.as_view(), name="add-tournament"),
+    path("tournaments/delete/<int:id>/", DeleteTournamentView.as_view(), name="delete-tournament"),
+    path("tournaments/edit/<int:id>/", EditTournamentView.as_view(), name="edit-tournament"),
+    path("tournaments/<int:id>/", TournamentParingsView.as_view(), name="tournament-parings"),
+
+    path("t3v3/<int:id>/<int:par>/", TParing3v3View.as_view(), name="paring-3v3-view"),
+    path("t3v3/<int:id>/<int:par>/delete/", DeleteTParing3v3View.as_view(), name="delete-paring-3v3"),
+    path("t3v3/<int:id>/<int:par>/edit/", EditTParing3v3View.as_view(), name="edit-paring-3v3"),
+
+    path("t4v4/<int:id>/<int:par>/", TParing4v4View.as_view(), name="paring-4v4-view"),
+    path("t4v4/<int:id>/<int:par>/delete/", DeleteTParing4v4View.as_view(), name="delete-paring-4v4"),
+    path("t4v4/<int:id>/<int:par>/edit/", EditTParing4v4View.as_view(), name="edit-paring-4v4"),
+
+    path("t5v5/<int:id>/<int:par>/", TParing5v5View.as_view(), name="paring-5v5-view"),
+    path("t5v5/<int:id>/<int:par>/delete/", DeleteTParing5v5View.as_view(), name="delete-paring-5v5"),
+    path("t5v5/<int:id>/<int:par>/edit/", EditTParing5v5View.as_view(), name="edit-paring-5v5"),
 ]
+

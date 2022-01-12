@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<h1>{{ tournament.name }}</h1>
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <!--    <form action="" method="POST">-->
+        <!--        {{ form.as_table }}-->
+        <!--        <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Dodaj">-->
+        <!--        {% csrf_token %}-->
+        <!--    </form>-->
+        <form action="" method="POST">
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+            <p>{{ form.name.label_tag }} {{ form.name }} {{ form.name.help_text }}</p>
+            <table>
+                <tr class="tab-my2">
+                    <th></th>
+                    <th>{{ form.op1.label_tag }}</th>
+                    <th>{{ form.op2.label_tag }}</th>
+                    <th>{{ form.op3.label_tag }}</th>
+                    <th>{{ form.op4.label_tag }}</th>
+                    <th>{{ form.op5.label_tag }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th></th>
+                    <th>{{ form.op1 }} {{ form.op1.errors }}</th>
+                    <th>{{ form.op2 }} {{ form.op2.errors }}</th>
+                    <th>{{ form.op3 }} {{ form.op3.errors }}</th>
+                    <th>{{ form.op4 }} {{ form.op4.errors }}</th>
+                    <th>{{ form.op5 }} {{ form.op5.errors }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{tournament.player_name_1}} ({{ tournament.p1 }})</th>
+                    <td>{{ form.p11 }} {{ form.p11.errors }}</td>
+                    <td>{{ form.p12 }} {{ form.p12.errors }}</td>
+                    <td>{{ form.p13 }} {{ form.p13.errors }}</td>
+                    <td>{{ form.p14 }} {{ form.p14.errors }}</td>
+                    <td>{{ form.p15 }} {{ form.p15.errors }}</td>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{tournament.player_name_2}} ({{ tournament.p2 }})</th>
+                    <td>{{ form.p21 }} {{ form.p21.errors }}</td>
+                    <td>{{ form.p22 }} {{ form.p22.errors }}</td>
+                    <td>{{ form.p23 }} {{ form.p23.errors }}</td>
+                    <td>{{ form.p24 }} {{ form.p24.errors }}</td>
+                    <td>{{ form.p25 }} {{ form.p25.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_3}} ({{ tournament.p3 }})</th>
+                    <td>{{ form.p31 }} {{ form.p31.errors }}</td>
+                    <td>{{ form.p32 }} {{ form.p32.errors }}</td>
+                    <td>{{ form.p33 }} {{ form.p33.errors }}</td>
+                    <td>{{ form.p34 }} {{ form.p34.errors }}</td>
+                    <td>{{ form.p35 }} {{ form.p35.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_4}} ({{ tournament.p4 }})</th>
+                    <td>{{ form.p41 }} {{ form.p41.errors }}</td>
+                    <td>{{ form.p42 }} {{ form.p42.errors }}</td>
+                    <td>{{ form.p43 }} {{ form.p43.errors }}</td>
+                    <td>{{ form.p44 }} {{ form.p44.errors }}</td>
+                    <td>{{ form.p45 }} {{ form.p45.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_5}} ({{ tournament.p5 }})</th>
+                    <td>{{ form.p51 }} {{ form.p51.errors }}</td>
+                    <td>{{ form.p52 }} {{ form.p52.errors }}</td>
+                    <td>{{ form.p53 }} {{ form.p53.errors }}</td>
+                    <td>{{ form.p54 }} {{ form.p54.errors }}</td>
+                    <td>{{ form.p55 }} {{ form.p55.errors }}</td>
+                </tr>
+            </table>
+
+            <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Zapisz">
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+<div class="m-4 p-4 border-dashed">
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa</th>
+                <th>Data</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for paring in parings_list %}
+            <tr>
+                <td><a class="user-color" href="{% url 'paring-5v5-view' tournament.id paring.id %}">Paring: {{ paring.name }}</a></td>
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-5v5' tournament.id paring.id %}">Usun</a></td>
+
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+<div class="m-4 p-4 border-dashed">
+    <ul>
+        <li> 2 >> 20 - 17 pkt</li>
+        <li> 1 >> 16 - 13 pkt</li>
+        <li> 0 >> 12 - 8 pkt</li>
+        <li>-1 >> 7 - 4 pkt</li>
+        <li>-2 >> 3 - 0 pkt</li>
+    </ul>
+</div>
+{% endblock content %}

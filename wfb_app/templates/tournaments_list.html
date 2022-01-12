@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<div class="col">
+    <div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+            <span>Turnieje</span>
+        </h1>
+        <div class="row">
+            <div class="col-3.5">
+                <div class="nav flex-column nav-pills">
+                    <a class="nav-link btn-color pt-2 pb-2" href="{% url 'add-tournament' %}">Dodaj turniej</a>
+                </div>
+            </div>
+        </div>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa</th>
+                <th>Format</th>
+                <th>Gracze</th>
+                <th>Data</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for tournament in tournaments_list %}
+            <tr>
+                <td><a class="user-color" href="{% url 'tournament-parings' tournament.id %}">{{ tournament.name }}</a></td>
+                <td>{{ tournament.no_of_players }}v{{ tournament.no_of_players }}</td>
+                <td>
+                    <ul>
+                        <li>{{ tournament.player_name_1 }}</li>
+                        <li>{{ tournament.player_name_2 }}</li>
+                        <li>{{ tournament.player_name_3 }}</li>
+                        {% if tournament.player_name_4 == None %}
+                        {% else %}
+                        <li>{{ tournament.player_name_4 }}</li>
+                        {% endif %}
+                        {% if tournament.player_name_5 == None %}
+                        {% else %}
+                        <li>{{ tournament.player_name_5 }}</li>
+                        {% endif %}
+                    </ul>
+                </td>
+                <td>{{ tournament.date }}</td>
+                                <td><a class="btn btn-secondary rounded-1" href="{% url 'edit-tournament' tournament.id %}">Edytuj</a></td>
+                                {% if request.user.is_superuser %}
+                                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-tournament' tournament.id %}">Usun</a></td>
+                                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}
