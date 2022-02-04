@@ -8,8 +8,8 @@ class GameResultsAdmin(admin.ModelAdmin):
     list_editable = ("army", "battle_points", "objective", "objective_type", "game_rank", "opponent_dw", "opponent", "opponent_army", "date")
 
 class ArmysAdmin(admin.ModelAdmin):
-    list_display = ("name", "short_name", "description")
-    list_editable = ("short_name", "description")
+    list_display = ("name", "short_name", "description", "icon")
+    list_editable = ("short_name", "description", "icon")
 
 class UnitsAdmin(admin.ModelAdmin):
     list_display = ("name", "offensive", "strength", "ap", "reflex", "army")
