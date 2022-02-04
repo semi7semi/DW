@@ -282,3 +282,8 @@ class TParings5Form(forms.ModelForm):
         help_texts = {
             "name": " wpisz ktory paring np '1'",
         }
+
+
+class ArmyIconForm(forms.Form):
+    army1 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Armia")
+    army2 = forms.ModelChoiceField(queryset=Armys.objects.all(), label="Armia", required=False)

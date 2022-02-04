@@ -40,6 +40,7 @@ class Armys(models.Model):
     name = models.CharField(max_length=32)
     short_name = models.CharField(max_length=16)
     description = models.CharField(max_length=255)
+    icon = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.name

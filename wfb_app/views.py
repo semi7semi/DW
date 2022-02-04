@@ -10,7 +10,7 @@ from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
     DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm, Parings4Form, TournamentsForm, TParings3Form, \
-    TParings4Form, TParings5Form
+    TParings4Form, TParings5Form, ArmyIconForm
 from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5, Parings_4, Tournaments, Team_of_3, \
     Team_of_4, Team_of_5
 from django.contrib.auth.models import User
@@ -1872,3 +1872,31 @@ class DeleteTParing5v5View(View):
         p = Team_of_5.objects.get(pk=par)
         p.delete()
         return redirect("tournament-parings", id=id)
+
+
+class ArmyIconsView(View):
+    def get(self, request):
+        form = ArmyIconForm()
+        ctx = {"form": form}
+        return render(request, "paring_icons.html", ctx)
+
+    def post(selfself, request):
+        army_list = Armys.objects.all().order_by("name")
+        form = ArmyIconForm(request.POST)
+        if form.is_valid():
+            army1 = form.cleaned_data["army1"]
+            army2 = form.cleaned_data["army2"]
+            icon1 = Armys.objects.get(name=army1)
+            if army2:
+                icon2 = Armys.objects.get(name=army2)
+                ctx = {
+                    "army_list": army_list,
+                    "icon1": icon1,
+                    "icon2": icon2,
+                }
+            else:
+                ctx = {
+                    "army_list": army_list,
+                    "icon1": icon1,
+                }
+        return render(request, "paring_icons.html", ctx)

@@ -579,6 +579,13 @@ margin: 0 auto !important;
   margin: 10px;
 }
 
+.icon-big {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  margin: 10px;
+}
+
 .icon-gen {
   background-image: url(../images/crown.png);
 }
@@ -594,6 +601,12 @@ margin: 0 auto !important;
 .icon-logo {
   background-image: url(../images/dice.png);
 }
+
+.icon-bh {
+  background-image: url(../images/icon_BH.png);
+}
+
+
 /*------------------------------*/
 /*---- Tabelka paringowa ----*/
 /*------------------------------*/
