@@ -43,7 +43,9 @@ class Landing_page(View):
 
 class Index(View):
     def get(self, request):
-        result = []
+        result_master = []
+        result_local = []
+        result_home = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GAMES_YEAR.count()
         for user in users:
@@ -51,9 +53,18 @@ class Index(View):
             losses = 0
             draws = 0
             games = GAMES_YEAR.filter(user=user)
+            master = games.filter(game_rank="master")
+            local = games.filter(game_rank="local")
+            home = games.filter(game_rank="home")
+            count_masters = master.count()
+            count_locals = local.count()
+            count_homes = home.count()
+            total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             count_games = games.count()
             total_points = games.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            for record in games:
+            for record in master:
                 if record.battle_points > 10:
                     wins += 1
                 elif record.battle_points < 10:
@@ -65,12 +76,45 @@ class Index(View):
                 win_rate = round(wins / d * 100, 1)
             else:
                 win_rate = 0.0
-            result.append([win_rate, user.id, user, total_points, wins, losses, draws,  count_games])
-        result.sort(reverse=True)
+            result_master.append([win_rate, user.id, user, total_masters, wins, losses, draws,  count_masters])
+
+            for record in local:
+                if record.battle_points > 10:
+                    wins += 1
+                elif record.battle_points < 10:
+                    losses += 1
+                elif record.battle_points == 10:
+                    draws += 1
+            d = wins+losses
+            if d > 0:
+                win_rate = round(wins / d * 100, 1)
+            else:
+                win_rate = 0.0
+            result_local.append([win_rate, user.id, user, total_locals, wins, losses, draws,  count_locals])
+
+            for record in home:
+                if record.battle_points > 10:
+                    wins += 1
+                elif record.battle_points < 10:
+                    losses += 1
+                elif record.battle_points == 10:
+                    draws += 1
+            d = wins + losses
+            if d > 0:
+                win_rate = round(wins / d * 100, 1)
+            else:
+                win_rate = 0.0
+            result_home.append([win_rate, user.id, user, total_homes, wins, losses, draws, count_homes])
+
+        result_master.sort(reverse=True)
+        result_local.sort(reverse=True)
+        result_home.sort(reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
-            "result": result,
+            "result_master": result_master,
+            "result_local": result_local,
+            "result_home": result_home,
 
         }
         return render(request, "index2.html", ctx)

@@ -36,9 +36,10 @@
     </div>
 </div>
 <div class="row">
+    <div class="col">
     <div class="m-2 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ranking Wałeczków sezon 2022</span>
+            <span>Ranking Wałeczków sezon 2022 - Mastery</span>
         </h2>
         <table class="table css-serial">
             <thead>
@@ -54,13 +55,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for user in result %}
+            {% for user in result_master %}
             <tr>
                 <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
                 <td><strong>{{ user.3 }}</strong></td>
-                <td><strong>{{ user.4 }}</strong></td>
-                <td><strong>{{ user.5 }}</strong></td>
-                <td><strong>{{ user.6 }}</strong></td>
+                <td><strong style="color: green">{{ user.4 }}</strong></td>
+                <td><strong style="color: red">{{ user.5 }}</strong></td>
+                <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
                 <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
                 <td><strong>{{ user.7 }}</strong></td>
 <!--                {% if user.15 == best_gen_id %}-->
@@ -76,6 +77,89 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="m-2 p-4 border-dashed">
+        <h2 class="dashboard-content-title">
+            <span>Ranking Wałeczków sezon 2022 - Lokale</span>
+        </h2>
+        <table class="table css-serial">
+            <thead>
+            <tr>
+                <th>Ksywka</th>
+                <th>Points</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Drows</th>
+                <th>Winrate</th>
+                <th>Games</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in result_local %}
+            <tr>
+                <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
+                <td><strong>{{ user.3 }}</strong></td>
+                <td><strong style="color: green">{{ user.4 }}</strong></td>
+                <td><strong style="color: red">{{ user.5 }}</strong></td>
+                <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
+                <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
+                <td><strong>{{ user.7 }}</strong></td>
+<!--                {% if user.15 == best_gen_id %}-->
+<!--                <td class="icon icon-gen d-flex"></td>-->
+<!--                {% endif %}-->
+<!--                {% if user.15 == best_gamer_id %}-->
+<!--                <td class="icon icon-cup d-flex"></td>-->
+<!--                {% endif %}-->
+<!--                {% if user.15 == best_veg_id %}-->
+<!--                <td class="icon icon-veg d-flex"></td>-->
+<!--                {% endif %}-->
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="m-2 p-4 border-dashed">
+        <h2 class="dashboard-content-title">
+            <span>Ranking Wałeczków sezon 2022 - Home</span>
+        </h2>
+        <table class="table css-serial">
+            <thead>
+            <tr>
+                <th>Ksywka</th>
+                <th>Points</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Drows</th>
+                <th>Winrate</th>
+                <th>Games</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in result_home %}
+            <tr>
+                <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
+                <td><strong>{{ user.3 }}</strong></td>
+                <td><strong style="color: green">{{ user.4 }}</strong></td>
+                <td><strong style="color: red">{{ user.5 }}</strong></td>
+                <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
+                <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
+                <td><strong>{{ user.7 }}</strong></td>
+<!--                {% if user.15 == best_gen_id %}-->
+<!--                <td class="icon icon-gen d-flex"></td>-->
+<!--                {% endif %}-->
+<!--                {% if user.15 == best_gamer_id %}-->
+<!--                <td class="icon icon-cup d-flex"></td>-->
+<!--                {% endif %}-->
+<!--                {% if user.15 == best_veg_id %}-->
+<!--                <td class="icon icon-veg d-flex"></td>-->
+<!--                {% endif %}-->
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
     </div>
     <div class="col">
         <div class="dashboard-alerts row">
