@@ -16,6 +16,28 @@
         <h2 class="dashboard-content-title">
             <span>Ranking 2022</span>
         </h2>
+        {% if data %}
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Master (śr / suma / gry)</th>
+                    <th>Lokal (śr / suma / gry)</th>
+                    <th>Home (śr / suma / gry)</th>
+                    <th>liczba gier</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>{{ data.2 }} / {{ data.1 }} / {{ data.0 }}</strong></td>
+                    <td><strong>{{ data.5 }} / {{ data.4 }} / {{ data.3 }}</strong></td>
+                    <td><strong>{{ data.8 }} / {{ data.7 }} / {{ data.6 }}</strong></td>
+                    <td><strong>{{ data.9 }}</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
         <table class="table border-bottom schedules-content css-serial">
 
             <tr>
@@ -61,63 +83,72 @@
         </table>
     </div>
     <div class="col">
-    <div class="m-4 p-4 border-dashed">
-        <div class=dashboard-alerts">
-            <h4>Rankingi</h4>
-            <div class="row">
-                <div class="nav flex-column nav-pills m-2">
-                    <a class="nav-link btn-color-grey disabled" href="{% url 'user-details' user.id %}">2022</a>
+        <div class="m-4 p-4 border-dashed">
+            <div class=dashboard-alerts">
+                <h4>Rankingi</h4>
+                <div class="row">
+                    <div class="nav flex-column nav-pills m-2">
+                        <a class="nav-link btn-color-grey disabled" href="{% url 'user-details' user.id %}">2022</a>
+                    </div>
+                    <div class="nav flex-column nav-pills m-2">
+                        <a class="nav-link btn-color" href="{% url 'user-details-2021' user.id %}">2021</a>
+                    </div>
+                    <div class="nav flex-column nav-pills m-2">
+                        <a class="nav-link btn-color" href="{% url 'user-details-2020' user.id %}">2020</a>
+                    </div>
                 </div>
-                <div class="nav flex-column nav-pills m-2">
-                    <a class="nav-link btn-color" href="{% url 'user-details-2021' user.id %}">2021</a>
-                </div>
-                <div class="nav flex-column nav-pills m-2">
-                    <a class="nav-link btn-color" href="{% url 'user-details-2020' user.id %}">2020</a>
-                </div>
-            </div>
-            <h4>Sortowanie</h4>
-            <form action="" method="POST">
-                <label for="sort">1st:</label>
+                <h4>Sortowanie</h4>
+                <form action="" method="POST">
+                    <label for="sort">1st:</label>
 
-                <select id="sort" name="sort_option">
-                    <option value="opponent_dw" selected>Przeciwnik</option>
-                    <option value="opponent_army">Armia przeciwnika</option>
-                    <option value="army">Armia</option>
-                    <option value="battle_points">Punkty</option>
-                    <option value="game_rank">Ranga</option>
-                    <option value="date">Data</option>
-                </select>
-                <label for="desc"></label>
-                <select id="desc" name="desc">
-                    <option value="-">Malejaco</option>
-                    <option value="+">Rosnaco</option>
-                </select><br>
-                <label for="sort_sec">2nd:</label>
-                <select id="sort_sec" name="sort_option_sec">
-                    <option value="opponent_dw" selected>Przeciwnik</option>
-                    <option value="opponent_army">Armia przeciwnika</option>
-                    <option value="army">Armia</option>
-                    <option value="battle_points">Punkty</option>
-                    <option value="game_rank">Ranga</option>
-                    <option value="date">Data</option>
-                </select>
-                <label for="desc2"></label>
-                <select id="desc2" name="desc2">
-                    <option value="-">Malejaco</option>
-                    <option value="+">Rosnaco</option>
-                </select><br>
-                <p></p>
-                <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Sort">Sortuj</button><br>
-                <p></p>
-                <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_masters">Wszystkie Mastery</button><br>
-                <p></p>
-                <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_locals">Wszystkie Lokale</button><br>
-                <p></p>
-                <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_homes">Wszystkie Domowki</button>
-                {% csrf_token %}
-            </form>
+                    <select id="sort" name="sort_option">
+                        <option value="opponent_dw" selected>Przeciwnik</option>
+                        <option value="opponent_army">Armia przeciwnika</option>
+                        <option value="army">Armia</option>
+                        <option value="battle_points">Punkty</option>
+                        <option value="game_rank">Ranga</option>
+                        <option value="date">Data</option>
+                    </select>
+                    <label for="desc"></label>
+                    <select id="desc" name="desc">
+                        <option value="-">Malejaco</option>
+                        <option value="+">Rosnaco</option>
+                    </select><br>
+                    <label for="sort_sec">2nd:</label>
+                    <select id="sort_sec" name="sort_option_sec">
+                        <option value="opponent_dw" selected>Przeciwnik</option>
+                        <option value="opponent_army">Armia przeciwnika</option>
+                        <option value="army">Armia</option>
+                        <option value="battle_points">Punkty</option>
+                        <option value="game_rank">Ranga</option>
+                        <option value="date">Data</option>
+                    </select>
+                    <label for="desc2"></label>
+                    <select id="desc2" name="desc2">
+                        <option value="-">Malejaco</option>
+                        <option value="+">Rosnaco</option>
+                    </select><br>
+                    <p></p>
+                    <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Sort">Sortuj</button>
+                    <br>
+                    <p></p>
+                    <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_masters">Wszystkie
+                        Mastery
+                    </button>
+                    <br>
+                    <p></p>
+                    <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_locals">Wszystkie
+                        Lokale
+                    </button>
+                    <br>
+                    <p></p>
+                    <button class="btn btn-color rounded-1 pt-1 pb-1" type="submit" name="best_homes">Wszystkie
+                        Domowki
+                    </button>
+                    {% csrf_token %}
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 <div class="row">

@@ -628,10 +628,51 @@ class UserDetailsView(View):
         user = User.objects.get(pk=id)
         ranking = GAMES_YEAR.filter(user=user).order_by("-date")
         total = 0
+        master = ranking.filter(game_rank="master")
+        local = ranking.filter(game_rank="local")
+        home = ranking.filter(game_rank="home")
+        count_master = master.count()
+        count_local = local.count()
+        count_home = home.count()
+        count_all = ranking.count()
+        total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+        total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+        total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+
+        if count_master == 0:
+            av_master = 0
+        else:
+            av_master = round(total_masters / count_master, 1)
+        if count_local == 0:
+            av_local = 0
+        else:
+            av_local = round(total_locals / count_local, 1)
+        if count_home == 0:
+            av_home = 0
+        else:
+            av_home = round(total_homes / count_home, 1)
         for score in ranking:
             total += score.battle_points
-        ctx = {"ranking": ranking, "total": total, "user": user}
+        data = [
+            count_master,
+            total_masters,
+            av_master,
+            count_local,
+            total_locals,
+            av_local,
+            count_home,
+            total_homes,
+            av_home,
+            count_all]
+
+        ctx = {
+            "ranking": ranking,
+            "total": total,
+            "user": user,
+            "data": data,
+        }
         return render(request, "user_details.html", ctx)
+
     def post(self, request, id):
         user = User.objects.get(pk=id)
         sort_option = request.POST.get("sort_option")
