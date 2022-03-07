@@ -18,7 +18,7 @@ from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
 import random
 
-MAX_GAMES = [5, 10, 20]
+MAX_GAMES = [100, 100, 100]
 GAMES_YEAR = GameResults.objects.all().filter(date__year=2022)
 
 
