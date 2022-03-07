@@ -42,78 +42,116 @@ class Landing_page(View):
 
 
 class Index(View):
-    # strona główna, 5ciu najleprzysz graczy, logowanie, linki
     def get(self, request):
         result = []
         users = User.objects.all().exclude(username="admin")
         no_of_games = GAMES_YEAR.count()
-        max = MAX_GAMES
         for user in users:
+            wins = 0
+            losses = 0
+            draws = 0
             games = GAMES_YEAR.filter(user=user)
-            master = games.filter(game_rank="master")
-            local = games.filter(game_rank="local")
-            home = games.filter(game_rank="home")
-            count_master = master.count()
-            count_local = local.count()
-            count_home = home.count()
-            total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            best_masters = master.order_by("-battle_points")[:max[0]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            best_locals = local.order_by("-battle_points")[:max[1]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            best_homes = home.order_by("-battle_points")[:max[2]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            if count_master == 0:
-                av_master = 0
+            count_games = games.count()
+            total_points = games.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+            for record in games:
+                if record.battle_points > 10:
+                    wins += 1
+                elif record.battle_points < 10:
+                    losses += 1
+                elif record.battle_points == 10:
+                    draws += 1
+            d = wins+losses
+            if d > 0:
+                win_rate = round(wins / d * 100, 1)
             else:
-                av_master = round(total_masters / count_master, 1)
-            if count_local == 0:
-                av_local = 0
-            else:
-                av_local = round(total_locals / count_local, 1)
-            if count_home == 0:
-                av_home = 0
-            else:
-                av_home = round(total_homes / count_home, 1)
-
-            total = total_masters + total_locals + total_homes
-            count = count_master + count_local + count_home
-            ranking_points = best_masters + best_locals + best_homes
-            result.append([
-                ranking_points,
-                total,
-                count,
-                best_masters,
-                total_masters,
-                count_master,
-                av_master,
-
-                best_locals,
-                total_locals,
-                count_local,
-                av_local,
-
-                best_homes,
-                total_homes,
-                count_home,
-                av_home,
-                user.id,
-                user,
-            ])
+                win_rate = 0.0
+            result.append([win_rate, user.id, user, total_points, wins, losses, draws,  count_games])
         result.sort(reverse=True)
-        result_by_count = sorted(result)
-        result_by_count.sort(key=sort_count, reverse=True)
-        # result_by_rv = sorted(result)
-        # result_by_rv.sort(key=sort_rv, reverse=True)
         ctx = {
             "no_of_users": users.count(),
             "no_of_games": no_of_games,
             "result": result,
-            "best_gen_id": result[0][15],
-            "best_gamer_id": result_by_count[0][15],
-            "best_veg_id": result[-1][15],
-            "max": max
+
         }
-        return render(request, "index.html", ctx)
+        return render(request, "index2.html", ctx)
+
+    def post(self, request):
+        pass
+
+
+# class Index(View):
+#     # strona główna, 5ciu najleprzysz graczy, logowanie, linki
+#     def get(self, request):
+#         result = []
+#         users = User.objects.all().exclude(username="admin")
+#         no_of_games = GAMES_YEAR.count()
+#         max = MAX_GAMES
+#         for user in users:
+#             games = GAMES_YEAR.filter(user=user)
+#             master = games.filter(game_rank="master")
+#             local = games.filter(game_rank="local")
+#             home = games.filter(game_rank="home")
+#             count_master = master.count()
+#             count_local = local.count()
+#             count_home = home.count()
+#             total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             best_masters = master.order_by("-battle_points")[:max[0]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             best_locals = local.order_by("-battle_points")[:max[1]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             best_homes = home.order_by("-battle_points")[:max[2]].aggregate(Sum("battle_points"))['battle_points__sum'] or 0
+#             if count_master == 0:
+#                 av_master = 0
+#             else:
+#                 av_master = round(total_masters / count_master, 1)
+#             if count_local == 0:
+#                 av_local = 0
+#             else:
+#                 av_local = round(total_locals / count_local, 1)
+#             if count_home == 0:
+#                 av_home = 0
+#             else:
+#                 av_home = round(total_homes / count_home, 1)
+#
+#             total = total_masters + total_locals + total_homes
+#             count = count_master + count_local + count_home
+#             ranking_points = best_masters + best_locals + best_homes
+#             result.append([
+#                 ranking_points,
+#                 total,
+#                 count,
+#                 best_masters,
+#                 total_masters,
+#                 count_master,
+#                 av_master,
+#
+#                 best_locals,
+#                 total_locals,
+#                 count_local,
+#                 av_local,
+#
+#                 best_homes,
+#                 total_homes,
+#                 count_home,
+#                 av_home,
+#                 user.id,
+#                 user,
+#             ])
+#         result.sort(reverse=True)
+#         result_by_count = sorted(result)
+#         result_by_count.sort(key=sort_count, reverse=True)
+#         # result_by_rv = sorted(result)
+#         # result_by_rv.sort(key=sort_rv, reverse=True)
+#         ctx = {
+#             "no_of_users": users.count(),
+#             "no_of_games": no_of_games,
+#             "result": result,
+#             "best_gen_id": result[0][15],
+#             "best_gamer_id": result_by_count[0][15],
+#             "best_veg_id": result[-1][15],
+#             "max": max
+#         }
+#         return render(request, "index.html", ctx)
 
 
 class Index_2021(View):
