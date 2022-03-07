@@ -62,8 +62,6 @@ class Index(View):
             total_masters = master.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             total_locals = local.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             total_homes = home.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
-            count_games = games.count()
-            total_points = games.aggregate(Sum("battle_points"))['battle_points__sum'] or 0
             for record in master:
                 if record.battle_points > 10:
                     wins += 1
@@ -77,7 +75,9 @@ class Index(View):
             else:
                 win_rate = 0.0
             result_master.append([win_rate, user.id, user, total_masters, wins, losses, draws,  count_masters])
-
+            wins = 0
+            losses = 0
+            draws = 0
             for record in local:
                 if record.battle_points > 10:
                     wins += 1
@@ -91,7 +91,9 @@ class Index(View):
             else:
                 win_rate = 0.0
             result_local.append([win_rate, user.id, user, total_locals, wins, losses, draws,  count_locals])
-
+            wins = 0
+            losses = 0
+            draws = 0
             for record in home:
                 if record.battle_points > 10:
                     wins += 1
