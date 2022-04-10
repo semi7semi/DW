@@ -58,11 +58,11 @@
             {% for user in result_master %}
             <tr>
                 <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
-                <td><strong>{{ user.3 }}</strong></td>
+                <td><strong>{{ user.0 }}</strong></td>
                 <td><strong style="color: green">{{ user.4 }}</strong></td>
                 <td><strong style="color: red">{{ user.5 }}</strong></td>
                 <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
-                <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
+                <td><strong>{{ user.3|floatformat:"0" }} %</strong></td>
                 <td><strong>{{ user.7 }}</strong></td>
 <!--                {% if user.15 == best_gen_id %}-->
 <!--                <td class="icon icon-gen d-flex"></td>-->
@@ -99,11 +99,11 @@
             {% for user in result_local %}
             <tr>
                 <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
-                <td><strong>{{ user.3 }}</strong></td>
+                <td><strong>{{ user.0 }}</strong></td>
                 <td><strong style="color: green">{{ user.4 }}</strong></td>
                 <td><strong style="color: red">{{ user.5 }}</strong></td>
                 <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
-                <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
+                <td><strong>{{ user.3|floatformat:"0" }} %</strong></td>
                 <td><strong>{{ user.7 }}</strong></td>
             </tr>
             {% endfor %}
@@ -131,11 +131,11 @@
             {% for user in result_home %}
             <tr>
                 <td><a class="user-color" href="{% url 'user-details' user.1 %} ">{{ user.2.username }}</a></td>
-                <td><strong>{{ user.3 }}</strong></td>
+                <td><strong>{{ user.0 }}</strong></td>
                 <td><strong style="color: green">{{ user.4 }}</strong></td>
                 <td><strong style="color: red">{{ user.5 }}</strong></td>
                 <td><strong style="color: #e68a00">{{ user.6 }}</strong></td>
-                <td><strong>{{ user.0|floatformat:"0" }} %</strong></td>
+                <td><strong>{{ user.3|floatformat:"0" }} %</strong></td>
                 <td><strong>{{ user.7 }}</strong></td>
             </tr>
             {% endfor %}

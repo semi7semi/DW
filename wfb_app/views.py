@@ -74,7 +74,7 @@ class Index(View):
                 win_rate = round(wins / d * 100, 1)
             else:
                 win_rate = 0.0
-            result_master.append([win_rate, user.id, user, total_masters, wins, losses, draws,  count_masters])
+            result_master.append([total_masters, user.id, user, win_rate, wins, losses, draws,  count_masters])
             wins = 0
             losses = 0
             draws = 0
@@ -90,7 +90,7 @@ class Index(View):
                 win_rate = round(wins / d * 100, 1)
             else:
                 win_rate = 0.0
-            result_local.append([win_rate, user.id, user, total_locals, wins, losses, draws,  count_locals])
+            result_local.append([total_locals, user.id, user, win_rate, wins, losses, draws,  count_locals])
             wins = 0
             losses = 0
             draws = 0
@@ -106,7 +106,7 @@ class Index(View):
                 win_rate = round(wins / d * 100, 1)
             else:
                 win_rate = 0.0
-            result_home.append([win_rate, user.id, user, total_homes, wins, losses, draws, count_homes])
+            result_home.append([total_homes, user.id, user, win_rate, wins, losses, draws, count_homes])
 
         result_master.sort(reverse=True)
         result_local.sort(reverse=True)
