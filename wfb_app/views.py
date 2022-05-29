@@ -18,7 +18,7 @@ from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
 import random
 
-MAX_GAMES = [100, 100, 100]
+MAX_GAMES = [100, 100, 200]
 GAMES_YEAR = GameResults.objects.all().filter(date__year=2022)
 
 
@@ -690,11 +690,11 @@ class UserDetailsView(View):
             ranking = GAMES_YEAR.filter(user=user).order_by(f"{desc}{sort_option}",
                                                                            f"{desc2}{sort_option_sec}")
         if request.method == "POST" and "best_masters" in request.POST:
-            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="master").order_by("-date", "-id")[:MAX_GAMES[0]]
         elif request.method == "POST" and "best_locals" in request.POST:
-            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="local").order_by("-date", "-id")[:MAX_GAMES[1]]
         elif request.method == "POST" and "best_homes" in request.POST:
-            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+            ranking = GAMES_YEAR.filter(user=user).filter(game_rank="home").order_by("-date", "-id")[:MAX_GAMES[2]]
 
         total = 0
         for score in ranking:
@@ -730,11 +730,11 @@ class UserDetailsView_2021(View):
             ranking = GameResults.objects.filter(date__year=2021).filter(user=user).order_by(f"{desc}{sort_option}",
                                                                            f"{desc2}{sort_option_sec}")
         if request.method == "POST" and "best_masters" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="master").order_by("-date", "-id")[:MAX_GAMES[0]]
         elif request.method == "POST" and "best_locals" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="local").order_by("-date", "-id")[:MAX_GAMES[1]]
         elif request.method == "POST" and "best_homes" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+            ranking = GameResults.objects.filter(date__year=2021).filter(user=user).filter(game_rank="home").order_by("-date", "-id")[:MAX_GAMES[2]]
 
         total = 0
         for score in ranking:
@@ -770,11 +770,11 @@ class UserDetailsView_2020(View):
             ranking = GameResults.objects.filter(date__year=2020).filter(user=user).order_by(f"{desc}{sort_option}",
                                                                            f"{desc2}{sort_option_sec}")
         if request.method == "POST" and "best_masters" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="master").order_by("-battle_points")[:MAX_GAMES[0]]
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="master").order_by("-date", "-id")[:MAX_GAMES[0]]
         elif request.method == "POST" and "best_locals" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="local").order_by("-battle_points")[:MAX_GAMES[1]]
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="local").order_by("-date", "-id")[:MAX_GAMES[1]]
         elif request.method == "POST" and "best_homes" in request.POST:
-            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="home").order_by("-battle_points")[:MAX_GAMES[2]]
+            ranking = GameResults.objects.filter(date__year=2020).filter(user=user).filter(game_rank="home").order_by("-date", "-id")[:MAX_GAMES[2]]
 
         total = 0
         for score in ranking:

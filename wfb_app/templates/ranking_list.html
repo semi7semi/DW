@@ -17,33 +17,42 @@
         </h1>
         <table class="table border-bottom schedules-content css-serial">
             <tr>
-                <th>Nickname</th>
-                <th>Armia</th>
+                <th>Wałeczek</th>
+<!--                <th>Armia</th>-->
                 <th>Punkty</th>
-                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>
-                <th>Ranga turnieju/gry</th>
                 <th>Przeciwnik</th>
-                <th>Armia przeciwnika</th>
+<!--                <th>Armia</th>-->
+<!--                <th>Objective (<span style="color: green">tak</span>/<span style="color: red">nie</span>)</th>-->
+                <th>Ranga turnieju/gry</th>
+<!--                <th>Przeciwnik</th>-->
+<!--                <th>Armia przeciwnika</th>-->
                 <th>Data</th>
             </tr>
             {% for result in ranking %}
             <tr class="numbering">
                 <td><a class="user-color" href="{% url 'user-details' result.user.id %}">{{ result.user }}</a></td>
-                <td>{{ result.army }}</td>
+<!--                <td>{{ result.army }}</td>-->
                 <td>{{ result.battle_points }}</td>
-                {% if result.objective %}
-                <td style="color: green">{{ result.get_objective_type_display }}</td>
-                {% else %}
-                <td style="color: red">{{ result.get_objective_type_display }}</td>
-                {% endif %}
-                <td>{{ result.get_game_rank_display }}</td>
                 {% if result.opponent_dw %}
                 <td><a class="user-color" href="{% url 'user-details' result.opponent_dw.id %}">{{ result.opponent_dw }}</a>
                 </td>
                 {% else %}
                 <td>{{ result.opponent }}</td>
                 {% endif %}
-                <td>{{ result.opponent_army }}</td>
+<!--                <td>{{ result.opponent_army }}</td>-->
+<!--                {% if result.objective %}-->
+<!--                <td style="color: green">{{ result.get_objective_type_display }}</td>-->
+<!--                {% else %}-->
+<!--                <td style="color: red">{{ result.get_objective_type_display }}</td>-->
+<!--                {% endif %}-->
+                <td>{{ result.get_game_rank_display }}</td>
+<!--                {% if result.opponent_dw %}-->
+<!--                <td><a class="user-color" href="{% url 'user-details' result.opponent_dw.id %}">{{ result.opponent_dw }}</a>-->
+<!--                </td>-->
+<!--                {% else %}-->
+<!--                <td>{{ result.opponent }}</td>-->
+<!--                {% endif %}-->
+<!--                <td>{{ result.opponent_army }}</td>-->
                 <td>{{ result.date }}</td>
             </tr>
             {% endfor %}
