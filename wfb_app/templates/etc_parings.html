@@ -22,6 +22,9 @@
                     <th>{{ form.op3.label_tag }}</th>
                     <th>{{ form.op4.label_tag }}</th>
                     <th>{{ form.op5.label_tag }}</th>
+                    <th>{{ form.op6.label_tag }}</th>
+                    <th>{{ form.op7.label_tag }}</th>
+                    <th>{{ form.op8.label_tag }}</th>
                 </tr>
                 <tr class="tab-my">
                     <th></th>
@@ -30,6 +33,9 @@
                     <th>{{ form.op3 }} {{ form.op3.errors }}</th>
                     <th>{{ form.op4 }} {{ form.op4.errors }}</th>
                     <th>{{ form.op5 }} {{ form.op5.errors }}</th>
+                    <th>{{ form.op6 }} {{ form.op6.errors }}</th>
+                    <th>{{ form.op7 }} {{ form.op7.errors }}</th>
+                    <th>{{ form.op8 }} {{ form.op8.errors }}</th>
                 </tr>
                 <tr class="tab-my">
                     <th>{{tournament.player_name_1}} ({{ tournament.p1 }})</th>
@@ -38,6 +44,9 @@
                     <td>{{ form.p13 }} {{ form.p13.errors }}</td>
                     <td>{{ form.p14 }} {{ form.p14.errors }}</td>
                     <td>{{ form.p15 }} {{ form.p15.errors }}</td>
+                    <td>{{ form.p16 }} {{ form.p16.errors }}</td>
+                    <td>{{ form.p17 }} {{ form.p17.errors }}</td>
+                    <td>{{ form.p18 }} {{ form.p18.errors }}</td>
                 </tr>
                 <tr class="tab-my">
                     <th>{{tournament.player_name_2}} ({{ tournament.p2 }})</th>
@@ -46,6 +55,9 @@
                     <td>{{ form.p23 }} {{ form.p23.errors }}</td>
                     <td>{{ form.p24 }} {{ form.p24.errors }}</td>
                     <td>{{ form.p25 }} {{ form.p25.errors }}</td>
+                    <td>{{ form.p26 }} {{ form.p26.errors }}</td>
+                    <td>{{ form.p27 }} {{ form.p27.errors }}</td>
+                    <td>{{ form.p28 }} {{ form.p28.errors }}</td>
                 </tr>
                 <tr>
                     <th>{{tournament.player_name_3}} ({{ tournament.p3 }})</th>
@@ -54,6 +66,9 @@
                     <td>{{ form.p33 }} {{ form.p33.errors }}</td>
                     <td>{{ form.p34 }} {{ form.p34.errors }}</td>
                     <td>{{ form.p35 }} {{ form.p35.errors }}</td>
+                    <td>{{ form.p36 }} {{ form.p36.errors }}</td>
+                    <td>{{ form.p37 }} {{ form.p37.errors }}</td>
+                    <td>{{ form.p38 }} {{ form.p38.errors }}</td>
                 </tr>
                 <tr>
                     <th>{{tournament.player_name_4}} ({{ tournament.p4 }})</th>
@@ -62,6 +77,9 @@
                     <td>{{ form.p43 }} {{ form.p43.errors }}</td>
                     <td>{{ form.p44 }} {{ form.p44.errors }}</td>
                     <td>{{ form.p45 }} {{ form.p45.errors }}</td>
+                    <td>{{ form.p46 }} {{ form.p46.errors }}</td>
+                    <td>{{ form.p47 }} {{ form.p47.errors }}</td>
+                    <td>{{ form.p48 }} {{ form.p48.errors }}</td>
                 </tr>
                 <tr>
                     <th>{{tournament.player_name_5}} ({{ tournament.p5 }})</th>
@@ -70,6 +88,42 @@
                     <td>{{ form.p53 }} {{ form.p53.errors }}</td>
                     <td>{{ form.p54 }} {{ form.p54.errors }}</td>
                     <td>{{ form.p55 }} {{ form.p55.errors }}</td>
+                    <td>{{ form.p56 }} {{ form.p56.errors }}</td>
+                    <td>{{ form.p57 }} {{ form.p57.errors }}</td>
+                    <td>{{ form.p58 }} {{ form.p58.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_6}} ({{ tournament.p6 }})</th>
+                    <td>{{ form.p61 }} {{ form.p61.errors }}</td>
+                    <td>{{ form.p62 }} {{ form.p62.errors }}</td>
+                    <td>{{ form.p63 }} {{ form.p63.errors }}</td>
+                    <td>{{ form.p64 }} {{ form.p64.errors }}</td>
+                    <td>{{ form.p65 }} {{ form.p65.errors }}</td>
+                    <td>{{ form.p66 }} {{ form.p66.errors }}</td>
+                    <td>{{ form.p67 }} {{ form.p67.errors }}</td>
+                    <td>{{ form.p68 }} {{ form.p68.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_7}} ({{ tournament.p7 }})</th>
+                    <td>{{ form.p71 }} {{ form.p71.errors }}</td>
+                    <td>{{ form.p72 }} {{ form.p72.errors }}</td>
+                    <td>{{ form.p73 }} {{ form.p73.errors }}</td>
+                    <td>{{ form.p74 }} {{ form.p74.errors }}</td>
+                    <td>{{ form.p75 }} {{ form.p75.errors }}</td>
+                    <td>{{ form.p76 }} {{ form.p76.errors }}</td>
+                    <td>{{ form.p77 }} {{ form.p77.errors }}</td>
+                    <td>{{ form.p78 }} {{ form.p78.errors }}</td>
+                </tr>
+                <tr>
+                    <th>{{tournament.player_name_8}} ({{ tournament.p8 }})</th>
+                    <td>{{ form.p81 }} {{ form.p81.errors }}</td>
+                    <td>{{ form.p82 }} {{ form.p82.errors }}</td>
+                    <td>{{ form.p83 }} {{ form.p83.errors }}</td>
+                    <td>{{ form.p84 }} {{ form.p84.errors }}</td>
+                    <td>{{ form.p85 }} {{ form.p85.errors }}</td>
+                    <td>{{ form.p86 }} {{ form.p86.errors }}</td>
+                    <td>{{ form.p87 }} {{ form.p87.errors }}</td>
+                    <td>{{ form.p88 }} {{ form.p88.errors }}</td>
                 </tr>
             </table>
 
@@ -88,8 +142,8 @@
             </tr>
             {% for paring in parings_list %}
             <tr>
-                <td><a class="user-color" href="{% url 'paring-5v5-view' tournament.id paring.id %}">Paring: {{ paring.name }}</a></td>
-                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-5v5' tournament.id paring.id %}">Usun</a></td>
+                <td><a class="user-color" href="{% url 'paring-etc-view' tournament.id paring.id %}">Paring ETC: {{ paring.name }}</a></td>
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-etc' tournament.id paring.id %}">Usun</a></td>
 
             </tr>
             {% endfor %}

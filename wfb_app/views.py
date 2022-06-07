@@ -10,9 +10,9 @@ from datetime import datetime
 from functions import towound, afterarmour, sort_count, sort_rv
 from wfb_app.forms import AddUnit, LogForm, RegisterUserForm, ProfileForm, EditUserForm, GameResultsForm, CalcForm, \
     DiceRollForm, ParingsForm, Parings5Form, FirstParingsForm, Parings4Form, TournamentsForm, TParings3Form, \
-    TParings4Form, TParings5Form, ArmyIconForm
+    TParings4Form, TParings5Form, ArmyIconForm, ETCForm, TParings8Form
 from wfb_app.models import Units, Armys, GameResults, Profile, Parings_3, Parings_5, Parings_4, Tournaments, Team_of_3, \
-    Team_of_4, Team_of_5
+    Team_of_4, Team_of_5, TournamentETC, Team_of_8
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Avg, Max, Min, Sum
@@ -1073,16 +1073,20 @@ class ParingDetails3View(View):
                     i = player.p32
                 points.append(i)
                 for s in points:
-                    if s == -2:
-                        mp = 3
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
                     elif s == -1:
                         mp = 7
                     elif s == 1:
                         mp = 13
-                    elif s == 2:
-                        mp = 17
-                    else:
+                    elif s == 0:
                         mp = 10
+                    elif s == 2:
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
                 score.append(mp)
                 total += mp
             data_list.append([pairing, score, total])
@@ -1608,14 +1612,18 @@ class TParing3v3View(View):
                     i = player.p33
                 points.append(i)
                 for s in points:
-                    if s == -2:
-                        mp = 3
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
                     elif s == -1:
                         mp = 7
                     elif s == 1:
                         mp = 13
                     elif s == 2:
-                        mp = 17
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
                     else:
                         mp = 10
                 score.append(mp)
@@ -1682,14 +1690,18 @@ class TParing4v4View(View):
                     i = player.p44
                 points.append(i)
                 for s in points:
-                    if s == -2:
-                        mp = 3
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
                     elif s == -1:
                         mp = 7
                     elif s == 1:
                         mp = 13
                     elif s == 2:
-                        mp = 17
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
                     else:
                         mp = 10
                 score.append(mp)
@@ -1773,14 +1785,18 @@ class TParing5v5View(View):
                     i = player.p55
                 points.append(i)
                 for s in points:
-                    if s == -2:
-                        mp = 3
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
                     elif s == -1:
                         mp = 7
                     elif s == 1:
                         mp = 13
                     elif s == 2:
-                        mp = 17
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
                     else:
                         mp = 10
                 score.append(mp)
@@ -2025,3 +2041,248 @@ class ArmyIconsView(View):
                     "icon1": icon1,
                 }
         return render(request, "paring_icons.html", ctx)
+
+class TournamentETCView(View):
+    def get(self, request):
+        tournaments_list = TournamentETC.objects.all().order_by("-date")
+        ctx = {
+            "tournaments_list": tournaments_list,
+        }
+        return render(request, "etc_list.html", ctx)
+
+
+class AddTournamentETCView(View):
+    def get(self, request):
+        form = ETCForm(initial={"date": datetime.now()})
+        ctx = {"form": form}
+        return render(request, "add_etc_form.html", ctx)
+    def post(self, request):
+        form = ETCForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("etc-view")
+
+class EditTournamentETCView(View):
+    def get(self, request, id):
+        tournament = TournamentETC.objects.get(pk=id)
+        form = ETCForm(instance=tournament)
+        ctx = {"form": form}
+        return render(request, "add_etc_form.html", ctx)
+    def post(self, request, id):
+        tournament = TournamentETC.objects.get(pk=id)
+        form = ETCForm(request.POST, instance=tournament)
+        if form.is_valid():
+            form.save()
+            return redirect("tournaments-view")
+
+
+class DeleteTournamentETCView(View):
+    def get(self, request, id):
+        t = TournamentETC.objects.get(pk=id)
+        t.delete()
+        return redirect("tournaments-view")
+
+
+class ETCParingsView(View):
+    def get(self, request, id):
+        tournament = TournamentETC.objects.get(pk=id)
+        parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
+        form = TParings8Form()
+        ctx = {
+            "tournament": tournament,
+            "parings_list": parings_list,
+            "form": form
+            }
+        return render(request, "etc_parings.html", ctx)
+
+    def post(self, request, id):
+        tournament = TournamentETC.objects.get(pk=id)
+        form = TParings8Form(request.POST)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.tournament = tournament
+            result.save()
+            return redirect("etc-parings", id=id)
+
+
+class TParing8v8View(View):
+    def get(self, request, id, par):
+        tournament = TournamentETC.objects.get(pk=id)
+        player = Team_of_8.objects.get(pk=par)
+        result = []
+        data_list = []
+        points = []
+        mp = []
+        teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
+                 tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+        teamB = [player.op1, player.op2, player.op3, player.op4,
+                 player.op5, player.op6, player.op7, player.op8]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                if i == (tournament.p1, player.op1):
+                    i = player.p11
+                elif i == (tournament.p1, player.op2):
+                    i = player.p12
+                elif i == (tournament.p1, player.op3):
+                    i = player.p13
+                elif i == (tournament.p1, player.op4):
+                    i = player.p14
+                elif i == (tournament.p1, player.op5):
+                    i = player.p15
+                elif i == (tournament.p1, player.op6):
+                    i = player.p16
+                elif i == (tournament.p1, player.op7):
+                    i = player.p17
+                elif i == (tournament.p1, player.op8):
+                    i = player.p18
+                elif i == (tournament.p2, player.op1):
+                    i = player.p21
+                elif i == (tournament.p2, player.op2):
+                    i = player.p22
+                elif i == (tournament.p2, player.op3):
+                    i = player.p23
+                elif i == (tournament.p2, player.op4):
+                    i = player.p24
+                elif i == (tournament.p2, player.op5):
+                    i = player.p25
+                elif i == (tournament.p2, player.op6):
+                    i = player.p26
+                elif i == (tournament.p2, player.op7):
+                    i = player.p27
+                elif i == (tournament.p2, player.op8):
+                    i = player.p28
+                elif i == (tournament.p3, player.op1):
+                    i = player.p31
+                elif i == (tournament.p3, player.op2):
+                    i = player.p32
+                elif i == (tournament.p3, player.op3):
+                    i = player.p33
+                elif i == (tournament.p3, player.op4):
+                    i = player.p34
+                elif i == (tournament.p3, player.op5):
+                    i = player.p35
+                elif i == (tournament.p3, player.op6):
+                    i = player.p36
+                elif i == (tournament.p3, player.op7):
+                    i = player.p37
+                elif i == (tournament.p3, player.op8):
+                    i = player.p38
+                elif i == (tournament.p4, player.op1):
+                    i = player.p41
+                elif i == (tournament.p4, player.op2):
+                    i = player.p42
+                elif i == (tournament.p4, player.op3):
+                    i = player.p43
+                elif i == (tournament.p4, player.op4):
+                    i = player.p44
+                elif i == (tournament.p4, player.op5):
+                    i = player.p45
+                elif i == (tournament.p4, player.op6):
+                    i = player.p46
+                elif i == (tournament.p4, player.op7):
+                    i = player.p47
+                elif i == (tournament.p4, player.op8):
+                    i = player.p48
+                elif i == (tournament.p5, player.op1):
+                    i = player.p51
+                elif i == (tournament.p5, player.op2):
+                    i = player.p52
+                elif i == (tournament.p5, player.op3):
+                    i = player.p53
+                elif i == (tournament.p5, player.op4):
+                    i = player.p54
+                elif i == (tournament.p5, player.op5):
+                    i = player.p55
+                elif i == (tournament.p5, player.op6):
+                    i = player.p56
+                elif i == (tournament.p5, player.op7):
+                    i = player.p57
+                elif i == (tournament.p5, player.op8):
+                    i = player.p58
+                elif i == (tournament.p6, player.op1):
+                    i = player.p61
+                elif i == (tournament.p6, player.op2):
+                    i = player.p62
+                elif i == (tournament.p6, player.op3):
+                    i = player.p63
+                elif i == (tournament.p6, player.op4):
+                    i = player.p64
+                elif i == (tournament.p6, player.op5):
+                    i = player.p65
+                elif i == (tournament.p6, player.op6):
+                    i = player.p66
+                elif i == (tournament.p6, player.op7):
+                    i = player.p67
+                elif i == (tournament.p6, player.op8):
+                    i = player.p68
+                elif i == (tournament.p7, player.op1):
+                    i = player.p71
+                elif i == (tournament.p7, player.op2):
+                    i = player.p72
+                elif i == (tournament.p7, player.op3):
+                    i = player.p73
+                elif i == (tournament.p7, player.op4):
+                    i = player.p74
+                elif i == (tournament.p7, player.op5):
+                    i = player.p75
+                elif i == (tournament.p7, player.op6):
+                    i = player.p76
+                elif i == (tournament.p7, player.op7):
+                    i = player.p77
+                elif i == (tournament.p7, player.op8):
+                    i = player.p78
+                elif i == (tournament.p8, player.op1):
+                    i = player.p81
+                elif i == (tournament.p8, player.op2):
+                    i = player.p82
+                elif i == (tournament.p8, player.op3):
+                    i = player.p83
+                elif i == (tournament.p8, player.op4):
+                    i = player.p84
+                elif i == (tournament.p8, player.op5):
+                    i = player.p85
+                elif i == (tournament.p8, player.op6):
+                    i = player.p86
+                elif i == (tournament.p8, player.op7):
+                    i = player.p87
+                elif i == (tournament.p8, player.op8):
+                    i = player.p88
+                points.append(i)
+                for s in points:
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        # form = FirstParingsForm()
+        ctx = {
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
+            "tournament": tournament,
+            "paring": player,
+        }
+        return render(request, "paring_8v8.html", ctx)
+
+
+class DeleteTParing8v8View(View):
+    def get(self, request, id, par):
+        p = Team_of_8.objects.get(pk=par)
+        p.delete()
+        return redirect("etc-parings", id=id)

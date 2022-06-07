@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="dashboard-header m-2 p-2">
+    <div class="dashboard-menu">
+        <div class="menu-item">
+            <div class="nav nav-pills nav-justified">
+                <a class="nav-link btn-color pt-2 pb-2" href="{% url 'add-etc' %}">Dodaj turniej ETC</a>
+            </div>
+        </div>
+        <div class="menu-item">
+            <div class="nav nav-pills nav-justified">
+                <a class="nav-link btn-color pt-2 pb-2" href="{% url 'army-icons' %}">Karty Armii</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="m-4 p-4 border-dashed">
+        <h1 class="dashboard-content-title">
+            <span>Turnieje ETC</span>
+        </h1>
+        <table class="table border-bottom schedules-content">
+            <tr>
+                <th>Nazwa</th>
+                <th></th>
+                <th>Gracze</th>
+                <th>Data</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for tournament in tournaments_list %}
+            <tr>
+                <td><a class="user-color" href="{% url 'etc-parings' tournament.id %}">{{ tournament.name }}</a>
+                </td>
+                <td></td>
+                <td>
+                    <ul>
+                        <li>{{ tournament.player_name_1 }}</li>
+                        <li>{{ tournament.player_name_2 }}</li>
+                        <li>{{ tournament.player_name_3 }}</li>
+                        <li>{{ tournament.player_name_4 }}</li>
+                        <li>{{ tournament.player_name_5 }}</li>
+                        <li>{{ tournament.player_name_6 }}</li>
+                        <li>{{ tournament.player_name_7 }}</li>
+                        <li>{{ tournament.player_name_8 }}</li>
+                    </ul>
+                </td>
+                <td>{{ tournament.date }}</td>
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'edit-etc' tournament.id %}">Edytuj</a>
+                </td>
+                {% if request.user.is_superuser %}
+                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-etc' tournament.id %}">Usun</a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -10,7 +10,9 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     DeleteParing4View, ParingDetails4View, EditParing4View, Index_2021, UserDetailsView_2021, RankingList_2021, \
     TournamentsView, AddTournamentView, DeleteTournamentView, EditTournamentView, TournamentParingsView, TParing3v3View, \
     DeleteTParing3v3View, EditTParing3v3View, TParing4v4View, DeleteTParing4v4View, TParing5v5View, \
-    DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View, ArmyIconsView
+    DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View, ArmyIconsView, TournamentETCView, \
+    AddTournamentETCView, EditTournamentETCView, DeleteTournamentETCView, ETCParingsView, TParing8v8View, \
+    DeleteTParing8v8View
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -83,5 +85,15 @@ urlpatterns = [
     path("t5v5/<int:id>/<int:par>/edit/", EditTParing5v5View.as_view(), name="edit-paring-5v5"),
 
     path("tournaments/army_icons/", ArmyIconsView.as_view(), name="army-icons"),
+
+    path("etc/", TournamentETCView.as_view(), name="etc-view"),
+    path("etc/add/", AddTournamentETCView.as_view(), name="add-etc"),
+    path("etc/delete/<int:id>/", DeleteTournamentETCView.as_view(), name="delete-etc"),
+    path("etc/edit/<int:id>/", EditTournamentETCView.as_view(), name="edit-etc"),
+    path("etc/<int:id>/", ETCParingsView.as_view(), name="etc-parings"),
+    path("etc/<int:id>/<int:par>/", TParing8v8View.as_view(), name="paring-etc-view"),
+    path("etc/<int:id>/<int:par>/delete/", DeleteTParing8v8View.as_view(), name="delete-paring-etc")
+
+
 ]
 

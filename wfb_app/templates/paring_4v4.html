@@ -83,12 +83,12 @@
             <td>{{ data.0.3.1 }}</td>
             <td>{{ data.1.3 }}</td>
         </tr>
-        {% if data.2 > 30 %}
+        {% if data.2 > 41 %}
         <tr class="tab-color-green">
-            {% elif data.2 == 30 %}
-        <tr class="tab-color-yellow">
-            {% else %}
+            {% elif data.2 < 39 %}
         <tr class="tab-color-red">
+            {% else %}
+        <tr class="tab-color-yellow">
             {% endif %}
             <td></td>
             <td>Total</td>
@@ -129,12 +129,12 @@
             <td>{{ data.0.3.1 }}</td>
             <td>{{ data.1.3 }}</td>
         </tr>
-        {% if data.2 > 30 %}
+        {% if data.2 > 41 %}
         <tr class="tab-color-green">
-            {% elif data.2 == 30 %}
-        <tr class="tab-color-yellow">
-            {% else %}
+            {% elif data.2 < 39 %}
         <tr class="tab-color-red">
+            {% else %}
+        <tr class="tab-color-yellow">
             {% endif %}
             <td></td>
             <td>Total</td>
@@ -145,13 +145,13 @@
 {% endfor %}
 <table>
     <tr>
-        <th class="tab-color-green"> 31-60 pkt</th>
+        <th class="tab-color-green"> 42-80 pkt</th>
     </tr>
     <tr>
-        <th class="tab-color-yellow"> 30 pkt</th>
+        <th class="tab-color-yellow"> 39-41 pkt</th>
     </tr>
     <tr>
-        <th class="tab-color-red"> 0-29 pkt/th>
+        <th class="tab-color-red"> 0-38 pkt/th>
     </tr>
 </table>
 {% endblock content %}

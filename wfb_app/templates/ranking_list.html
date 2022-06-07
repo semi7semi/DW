@@ -32,7 +32,7 @@
             <tr class="numbering">
                 <td><a class="user-color" href="{% url 'user-details' result.user.id %}">{{ result.user }}</a></td>
 <!--                <td>{{ result.army }}</td>-->
-                <td>{{ result.battle_points }}</td>
+                <td>{{ result.battle_points }} - {% widthratio result.battle_points|add:"-20" 1 -1 %}</td>
                 {% if result.opponent_dw %}
                 <td><a class="user-color" href="{% url 'user-details' result.opponent_dw.id %}">{{ result.opponent_dw }}</a>
                 </td>

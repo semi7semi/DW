@@ -2,7 +2,7 @@
 {% block title %}{% endblock %}
 {% block content %}
 <button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
-    <a class="nav-link btn-color" href="{% url 'edit-paring-5v5' tournament.id paring.id %}">Edytuj</a>
+    <a class="nav-link btn-color" href="">Edytuj</a>
 </button>
 <div class="row">
     <div class="m-4 p-4 border-dashed">
@@ -15,6 +15,9 @@
                 <th>Przeciwnik 3</th>
                 <th>Przeciwnik 4</th>
                 <th>Przeciwnik 5</th>
+                <th>Przeciwnik 6</th>
+                <th>Przeciwnik 7</th>
+                <th>Przeciwnik 8</th>
             </tr>
             <tr class="tab-my">
                 <th></th>
@@ -23,6 +26,9 @@
                 <th>{{ paring.op3 }}</th>
                 <th>{{ paring.op4 }}</th>
                 <th>{{ paring.op5 }}</th>
+                <th>{{ paring.op6 }}</th>
+                <th>{{ paring.op7 }}</th>
+                <th>{{ paring.op8 }}</th>
             </tr>
             <tr class="tab-my">
                 <th>{{ tournament.player_name_1 }}: {{ tournament.p1 }}</th>
@@ -31,6 +37,9 @@
                 <td>{{ paring.p13 }}</td>
                 <td>{{ paring.p14 }}</td>
                 <td>{{ paring.p15 }}</td>
+                <td>{{ paring.p16 }}</td>
+                <td>{{ paring.p17 }}</td>
+                <td>{{ paring.p18 }}</td>
             </tr>
             <tr class="tab-my">
                 <th>{{ tournament.player_name_2 }}: {{ tournament.p2 }}</th>
@@ -39,30 +48,75 @@
                 <td>{{ paring.p23 }}</td>
                 <td>{{ paring.p24 }}</td>
                 <td>{{ paring.p25 }}</td>
+                <td>{{ paring.p26 }}</td>
+                <td>{{ paring.p27 }}</td>
+                <td>{{ paring.p28 }}</td>
             </tr>
-            <tr>
+            <tr class="tab-my">
                 <th>{{ tournament.player_name_3 }}: {{ tournament.p3 }}</th>
                 <td>{{ paring.p31 }}</td>
                 <td>{{ paring.p32 }}</td>
                 <td>{{ paring.p33 }}</td>
                 <td>{{ paring.p34 }}</td>
                 <td>{{ paring.p35 }}</td>
+                <td>{{ paring.p36 }}</td>
+                <td>{{ paring.p37 }}</td>
+                <td>{{ paring.p38 }}</td>
             </tr>
-            <tr>
+            <tr class="tab-my">
                 <th>{{ tournament.player_name_4 }}: {{ tournament.p4 }}</th>
                 <td>{{ paring.p41 }}</td>
                 <td>{{ paring.p42 }}</td>
                 <td>{{ paring.p43 }}</td>
                 <td>{{ paring.p44 }}</td>
                 <td>{{ paring.p45 }}</td>
+                <td>{{ paring.p46 }}</td>
+                <td>{{ paring.p47 }}</td>
+                <td>{{ paring.p48 }}</td>
             </tr>
-            <tr>
+            <tr class="tab-my">
                 <th>{{ tournament.player_name_5 }}: {{ tournament.p5 }}</th>
                 <td>{{ paring.p51 }}</td>
                 <td>{{ paring.p52 }}</td>
                 <td>{{ paring.p53 }}</td>
                 <td>{{ paring.p54 }}</td>
                 <td>{{ paring.p55 }}</td>
+                <td>{{ paring.p56 }}</td>
+                <td>{{ paring.p57 }}</td>
+                <td>{{ paring.p58 }}</td>
+            </tr>
+            <tr class="tab-my">
+                <th>{{ tournament.player_name_6 }}: {{ tournament.p6 }}</th>
+                <td>{{ paring.p61 }}</td>
+                <td>{{ paring.p62 }}</td>
+                <td>{{ paring.p63 }}</td>
+                <td>{{ paring.p64 }}</td>
+                <td>{{ paring.p65 }}</td>
+                <td>{{ paring.p66 }}</td>
+                <td>{{ paring.p67 }}</td>
+                <td>{{ paring.p68 }}</td>
+            </tr>
+            <tr class="tab-my">
+                <th>{{ tournament.player_name_7 }}: {{ tournament.p7 }}</th>
+                <td>{{ paring.p71 }}</td>
+                <td>{{ paring.p72 }}</td>
+                <td>{{ paring.p73 }}</td>
+                <td>{{ paring.p74 }}</td>
+                <td>{{ paring.p75 }}</td>
+                <td>{{ paring.p76 }}</td>
+                <td>{{ paring.p77 }}</td>
+                <td>{{ paring.p78 }}</td>
+            </tr>
+            <tr class="tab-my">
+                <th>{{ tournament.player_name_8 }}: {{ tournament.p8 }}</th>
+                <td>{{ paring.p81 }}</td>
+                <td>{{ paring.p82 }}</td>
+                <td>{{ paring.p83 }}</td>
+                <td>{{ paring.p84 }}</td>
+                <td>{{ paring.p85 }}</td>
+                <td>{{ paring.p86 }}</td>
+                <td>{{ paring.p87 }}</td>
+                <td>{{ paring.p88 }}</td>
             </tr>
         </table>
     </div>
@@ -103,7 +157,7 @@
 <div class="col">
     <p><strong>6 najlepszych możliwych parowań:</strong></p>
 </div>
-{% for data in data_list%}
+{% for data in data_list %}
 <div class="m-4 p-4 border-dashed">
     <table class="table border-bottom schedules-content">
         <tr class="tab-my2">
@@ -137,12 +191,27 @@
             <td>{{ data.0.4.1 }}</td>
             <td>{{ data.1.4 }}</td>
         </tr>
-        {% if data.2 > 30 %}
+        <tr class="tab-my">
+            <td>{{ data.0.5.0 }}</td>
+            <td>{{ data.0.5.1 }}</td>
+            <td>{{ data.1.5 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.6.0 }}</td>
+            <td>{{ data.0.6.1 }}</td>
+            <td>{{ data.1.6 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.7.0 }}</td>
+            <td>{{ data.0.7.1 }}</td>
+            <td>{{ data.1.7 }}</td>
+        </tr>
+        {% if data.2 > 81 %}
         <tr class="tab-color-green">
-            {% elif data.2 == 30 %}
-        <tr class="tab-color-yellow">
-            {% else %}
+            {% elif data.2 < 79 %}
         <tr class="tab-color-red">
+            {% else %}
+        <tr class="tab-color-yellow">
             {% endif %}
             <td></td>
             <td>Total</td>
@@ -188,9 +257,24 @@
             <td>{{ data.0.4.1 }}</td>
             <td>{{ data.1.4 }}</td>
         </tr>
-        {% if data.2 > 51 %}
+                <tr class="tab-my">
+            <td>{{ data.0.5.0 }}</td>
+            <td>{{ data.0.5.1 }}</td>
+            <td>{{ data.1.5 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.6.0 }}</td>
+            <td>{{ data.0.6.1 }}</td>
+            <td>{{ data.1.6 }}</td>
+        </tr>
+        <tr class="tab-my">
+            <td>{{ data.0.7.0 }}</td>
+            <td>{{ data.0.7.1 }}</td>
+            <td>{{ data.1.7 }}</td>
+        </tr>
+        {% if data.2 > 81 %}
         <tr class="tab-color-green">
-            {% elif data.2 < 49 %}
+            {% elif data.2 < 79 %}
         <tr class="tab-color-red">
             {% else %}
         <tr class="tab-color-yellow">
@@ -202,88 +286,88 @@
     </table>
 </div>
 {% endfor %}
-{% elif request.method == 'POST' %}
-<div class="col">
-    <p><strong>Mozliwe kolejne parowania</strong></p>
-</div>
-{% for data in filtered_list %}
-<div class="m-4 p-4 border-dashed">
-    <table class="table border-bottom schedules-content">
-        <tr class="tab-my2">
-            <th>Gracz</th>
-            <th>Przeciwnik</th>
-            <th>Punkty</th>
-            <th></th>
-        </tr>
-        {% if data.0.0.0 == first_p1 or data.0.0.0 == first_p2 %}
-        <tr class="tab-color-grey">
-            {% else %}
-        <tr class="tab-my">
-            {% endif %}
-            <td>{{ data.0.0.0 }}</td>
-            <td>{{ data.0.0.1 }}</td>
-            <td>{{ data.1.0 }}</td>
-        </tr>
-        {% if data.0.1.0 == first_p1 or data.0.1.0 == first_p2 %}
-        <tr class="tab-color-grey">
-            {% else %}
-        <tr class="tab-my">
-            {% endif %}
-            <td>{{ data.0.1.0 }}</td>
-            <td>{{ data.0.1.1 }}</td>
-            <td>{{ data.1.1 }}</td>
-        </tr>
-        {% if data.0.2.0 == first_p1 or data.0.2.0 == first_p2 %}
-        <tr class="tab-color-grey">
-            {% else %}
-        <tr class="tab-my">
-            {% endif %}
-            <td>{{ data.0.2.0 }}</td>
-            <td>{{ data.0.2.1 }}</td>
-            <td>{{ data.1.2 }}</td>
-        </tr>
-        {% if data.0.3.0 == first_p1 or data.0.3.0 == first_p2 %}
-        <tr class="tab-color-grey">
-            {% else %}
-        <tr class="tab-my">
-            {% endif %}
-            <td>{{ data.0.3.0 }}</td>
-            <td>{{ data.0.3.1 }}</td>
-            <td>{{ data.1.3 }}</td>
-        </tr>
-        {% if data.0.4.0 == first_p1 or data.0.4.0 == first_p2 %}
-        <tr class="tab-color-grey">
-            {% else %}
-        <tr class="tab-my">
-            {% endif %}
-            <td>{{ data.0.4.0 }}</td>
-            <td>{{ data.0.4.1 }}</td>
-            <td>{{ data.1.4 }}</td>
-        </tr>
-        {% if data.2 > 51 %}
-        <tr class="tab-color-green">
-            {% elif data.2 < 49 %}
-        <tr class="tab-color-red">
-            {% else %}
-        <tr class="tab-color-yellow">
-            {% endif %}
-            <td></td>
-            <td>Total</td>
-            <th>{{ data.2 }}</th>
-        </tr>
-    </table>
-</div>
-{% endfor %}
-{% endif %}
+<!--{% elif request.method == 'POST' %}-->
+<!--<div class="col">-->
+<!--    <p><strong>Mozliwe kolejne parowania</strong></p>-->
+<!--</div>-->
+<!--{% for data in filtered_list %}-->
+<!--<div class="m-4 p-4 border-dashed">-->
+<!--    <table class="table border-bottom schedules-content">-->
+<!--        <tr class="tab-my2">-->
+<!--            <th>Gracz</th>-->
+<!--            <th>Przeciwnik</th>-->
+<!--            <th>Punkty</th>-->
+<!--            <th></th>-->
+<!--        </tr>-->
+<!--        {% if data.0.0.0 == first_p1 or data.0.0.0 == first_p2 %}-->
+<!--        <tr class="tab-color-grey">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-my">-->
+<!--            {% endif %}-->
+<!--            <td>{{ data.0.0.0 }}</td>-->
+<!--            <td>{{ data.0.0.1 }}</td>-->
+<!--            <td>{{ data.1.0 }}</td>-->
+<!--        </tr>-->
+<!--        {% if data.0.1.0 == first_p1 or data.0.1.0 == first_p2 %}-->
+<!--        <tr class="tab-color-grey">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-my">-->
+<!--            {% endif %}-->
+<!--            <td>{{ data.0.1.0 }}</td>-->
+<!--            <td>{{ data.0.1.1 }}</td>-->
+<!--            <td>{{ data.1.1 }}</td>-->
+<!--        </tr>-->
+<!--        {% if data.0.2.0 == first_p1 or data.0.2.0 == first_p2 %}-->
+<!--        <tr class="tab-color-grey">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-my">-->
+<!--            {% endif %}-->
+<!--            <td>{{ data.0.2.0 }}</td>-->
+<!--            <td>{{ data.0.2.1 }}</td>-->
+<!--            <td>{{ data.1.2 }}</td>-->
+<!--        </tr>-->
+<!--        {% if data.0.3.0 == first_p1 or data.0.3.0 == first_p2 %}-->
+<!--        <tr class="tab-color-grey">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-my">-->
+<!--            {% endif %}-->
+<!--            <td>{{ data.0.3.0 }}</td>-->
+<!--            <td>{{ data.0.3.1 }}</td>-->
+<!--            <td>{{ data.1.3 }}</td>-->
+<!--        </tr>-->
+<!--        {% if data.0.4.0 == first_p1 or data.0.4.0 == first_p2 %}-->
+<!--        <tr class="tab-color-grey">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-my">-->
+<!--            {% endif %}-->
+<!--            <td>{{ data.0.4.0 }}</td>-->
+<!--            <td>{{ data.0.4.1 }}</td>-->
+<!--            <td>{{ data.1.4 }}</td>-->
+<!--        </tr>-->
+<!--        {% if data.2 > 81 %}-->
+<!--        <tr class="tab-color-green">-->
+<!--            {% elif data.2 < 79 %}-->
+<!--        <tr class="tab-color-red">-->
+<!--            {% else %}-->
+<!--        <tr class="tab-color-yellow">-->
+<!--            {% endif %}-->
+<!--            <td></td>-->
+<!--            <td>Total</td>-->
+<!--            <th>{{ data.2 }}</th>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</div>-->
+<!--{% endfor %}-->
+<!--{% endif %}-->
 <table>
     <tr>
-        <th class="tab-color-green"> 51-100 pkt</th>
+        <th class="tab-color-green"> 81-160 pkt</th>
     </tr>
     <tr>
-        <th class="tab-color-yellow"> 49-51 pkt</th>
+        <th class="tab-color-yellow"> 79-81 pkt</th>
     </tr>
     <tr>
-        <th class="tab-color-red"> 0-48 pkt/th>
+        <th class="tab-color-red"> 0-78 pkt/th>
     </tr>
 </table>
 {% endblock content %}

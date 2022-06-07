@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<h1>Dodaj Turniej ETC i parowanie</h1>
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+<!--            <form action="" method="POST">-->
+<!--                {{ form.as_table }}-->
+<!--                <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Dodaj">-->
+<!--                {% csrf_token %}-->
+<!--            </form>-->
+        <form action="" method="POST">
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+            <p>{{ form.name.label_tag }} {{ form.name }}</p>
+            <table>
+                <tr class="tab-my2">
+                    <th>{{ form.player_name_1.label_tag }}</th>
+                    <th>{{ form.player_name_1 }}</th>
+                    <th></th>
+                    <th>{{ form.p1.label_tag }}</th>
+                    <th>{{ form.p1 }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{ form.player_name_2.label_tag }}</th>
+                    <th>{{ form.player_name_2 }}</th>
+                    <th></th>
+                    <th>{{ form.p2.label_tag }}</th>
+                    <th>{{ form.p2 }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{ form.player_name_3.label_tag }}</th>
+                    <th>{{ form.player_name_3 }}</th>
+                    <th></th>
+                    <th>{{ form.p3.label_tag }}</th>
+                    <th>{{ form.p3 }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{ form.player_name_4.label_tag }}</th>
+                    <th>{{ form.player_name_4 }}</th>
+                    <th></th>
+                    <th>{{ form.p4.label_tag }}</th>
+                    <th>{{ form.p4 }}</th>
+                </tr>
+                <tr class="tab-my">
+                    <th>{{ form.player_name_5.label_tag }}</th>
+                    <th>{{ form.player_name_5 }}</th>
+                    <th></th>
+                    <th>{{ form.p5.label_tag }}</th>
+                    <th>{{ form.p5 }}</th>
+                </tr>
+                                <tr class="tab-my">
+                    <th>{{ form.player_name_6.label_tag }}</th>
+                    <th>{{ form.player_name_6 }}</th>
+                    <th></th>
+                    <th>{{ form.p6.label_tag }}</th>
+                    <th>{{ form.p6 }}</th>
+                </tr>
+                                <tr class="tab-my">
+                    <th>{{ form.player_name_7.label_tag }}</th>
+                    <th>{{ form.player_name_7 }}</th>
+                    <th></th>
+                    <th>{{ form.p7.label_tag }}</th>
+                    <th>{{ form.p7 }}</th>
+                </tr>
+                                <tr class="tab-my">
+                    <th>{{ form.player_name_8.label_tag }}</th>
+                    <th>{{ form.player_name_8 }}</th>
+                    <th></th>
+                    <th>{{ form.p8.label_tag }}</th>
+                    <th>{{ form.p8 }}</th>
+                </tr>
+                <tr>
+                    <th>{{ form.date.label_tag }}</th>
+                    <th>{{ form.date }}</th>
+                </tr>
+            </table>
+            <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Dodaj">
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
