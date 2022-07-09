@@ -9,7 +9,7 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     DeleteTParing3v3View, EditTParing3v3View, TParing4v4View, DeleteTParing4v4View, TParing5v5View, \
     DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View, ArmyIconsView, TournamentETCView, \
     AddTournamentETCView, EditTournamentETCView, DeleteTournamentETCView, ETCParingsView, TParing8v8View, \
-    DeleteTParing8v8View
+    DeleteTParing8v8View, EditTParing8v8View
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -73,8 +73,8 @@ urlpatterns = [
     path("etc/edit/<int:id>/", EditTournamentETCView.as_view(), name="edit-etc"),
     path("etc/<int:id>/", ETCParingsView.as_view(), name="etc-parings"),
     path("etc/<int:id>/<int:par>/", TParing8v8View.as_view(), name="paring-etc-view"),
-    path("etc/<int:id>/<int:par>/delete/", DeleteTParing8v8View.as_view(), name="delete-paring-etc")
-
+    path("etc/<int:id>/<int:par>/delete/", DeleteTParing8v8View.as_view(), name="delete-paring-etc"),
+    path("etc/<int:id>/<int:par>/edit/", EditTParing8v8View.as_view(), name="edit-paring-etc"),
 
 ]
 

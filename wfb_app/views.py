@@ -1617,7 +1617,7 @@ class EditTournamentETCView(View):
         form = ETCForm(request.POST, instance=tournament)
         if form.is_valid():
             form.save()
-            return redirect("tournaments-view")
+            return redirect("etc-view")
 
 
 class DeleteTournamentETCView(View):
@@ -1863,6 +1863,31 @@ class TParing8v8View(View):
                 "first_op2": first_op2,
             }
             return render(request, "paring_8v8.html", ctx)
+
+
+class EditTParing8v8View(View):
+    def get(self, request, id, par):
+        tournament = TournamentETC.objects.get(pk=id)
+        parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
+        paring = Team_of_8.objects.get(pk=par)
+        form = TParings8Form(instance=paring)
+        ctx = {
+            "tournament": tournament,
+            "form": form,
+            "parings_list": parings_list,
+        }
+        return render(request, "etc_parings.html", ctx)
+
+    def post(self, request, id, par):
+        tournament = TournamentETC.objects.get(pk=id)
+        paring = Team_of_8.objects.get(pk=par)
+        form = TParings8Form(request.POST, instance=paring)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.tournament = tournament
+            result.save()
+            return redirect("paring-etc-view", id=id, par=par)
+
 
 class DeleteTParing8v8View(View):
     def get(self, request, id, par):

@@ -161,9 +161,9 @@ class TParings3Form(forms.ModelForm):
         fields = ["name", "op1", "op2", "op3", "p11", "p12", "p13", "p21", "p22", "p23", "p31", "p32", "p33"]
         labels = {
             "name": "Paring",
-            "op1": "Przeciwnik 1",
-            "op2": "Przeciwnik 2",
-            "op3": "przeciwnik 3",
+            "op1": "P1",
+            "op2": "P2",
+            "op3": "P3",
         }
         help_texts = {
             "name": " wpisz ktory paring np '1'",
@@ -182,10 +182,10 @@ class TParings4Form(forms.ModelForm):
         fields = ["name", "op1", "op2", "op3", "op4", "p11", "p12", "p13", "p14", "p21", "p22", "p23", "p24", "p31", "p32", "p33", "p34", "p41", "p42", "p43", "p44"]
         labels = {
             "name": "Paring",
-            "op1": "Przeciwnik 1",
-            "op2": "Przeciwnik 2",
-            "op3": "przeciwnik 3",
-            "op4": "przeciwnik 4",
+            "op1": "P1",
+            "op2": "P2",
+            "op3": "P3",
+            "op4": "P4",
         }
         help_texts = {
             "name": " wpisz ktory paring np '1'",
