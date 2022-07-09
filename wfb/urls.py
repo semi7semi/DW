@@ -4,10 +4,7 @@ from django.urls import path
 from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     LoginView, LogoutView, UsersList, CreateUserView, EditUserView, AddGameResultView, DeleteUser, UserDetailsView, \
     ArmyListView, ArmyDetailsView, DeleteUnitView, EditGameResultView, CalcView, Landing_page, RollDiceView, TableView, \
-    RankingList_2020, UserDetailsView_2020, Index_2020, ParingsView, DeleteParing3View, AddParing3View, \
-    ParingDetails3View, \
-    AddParing5View, DeleteParing5View, ParingDetails5View, EditParing3View, EditParing5View, AddParing4View, \
-    DeleteParing4View, ParingDetails4View, EditParing4View, Index_2021, UserDetailsView_2021, RankingList_2021, \
+    RankingList_2020, UserDetailsView_2020, Index_2020, Index_2021, UserDetailsView_2021, RankingList_2021, \
     TournamentsView, AddTournamentView, DeleteTournamentView, EditTournamentView, TournamentParingsView, TParing3v3View, \
     DeleteTParing3v3View, EditTParing3v3View, TParing4v4View, DeleteTParing4v4View, TParing5v5View, \
     DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View, ArmyIconsView, TournamentETCView, \
@@ -41,22 +38,6 @@ urlpatterns = [
     path("edit_user/delete/<int:id>/", DeleteUser.as_view(), name="delete-user"),
     path("dice/", RollDiceView.as_view(), name="dice-view"),
     path("tables/", TableView.as_view(), name="table-view"),
-
-    path("parings/", ParingsView.as_view(), name="parings-view"),
-    path("add_paring_3/", AddParing3View.as_view(), name="add-paring-3"),
-    path("delete_paring_3/<int:id>/", DeleteParing3View.as_view(), name="delete-paring-3"),
-    path("paring_3/<int:id>/", ParingDetails3View.as_view(), name="paring-details-3"),
-    path("edit_paring_3/<int:id>/", EditParing3View.as_view(), name="edit-paring-3"),
-
-    path("add_paring_4/", AddParing4View.as_view(), name="add-paring-4"),
-    path("delete_paring_4/<int:id>/", DeleteParing4View.as_view(), name="delete-paring-4"),
-    path("paring_4/<int:id>/", ParingDetails4View.as_view(), name="paring-details-4"),
-    path("edit_paring_4/<int:id>/", EditParing4View.as_view(), name="edit-paring-4"),
-
-    path("add_paring_5/", AddParing5View.as_view(), name="add-paring-5"),
-    path("delete_paring_5/<int:id>/", DeleteParing5View.as_view(), name="delete-paring-5"),
-    path("paring_5/<int:id>/", ParingDetails5View.as_view(), name="paring-details-5"),
-    path("edit_paring_5/<int:id>/", EditParing5View.as_view(), name="edit-paring-5"),
 
     path("user_details_2020/<int:id>/", UserDetailsView_2020.as_view(), name="user-details-2020"),
     path("ranking_2020/", RankingList_2020.as_view(), name="ranking-list-2020"),
