@@ -137,12 +137,12 @@
             <td>{{ data.0.4.1 }}</td>
             <td>{{ data.1.4 }}</td>
         </tr>
-        {% if data.2 > 30 %}
+        {% if data.2 > 51 %}
         <tr class="tab-color-green">
-            {% elif data.2 == 30 %}
-        <tr class="tab-color-yellow">
-            {% else %}
+            {% elif data.2 < 49 %}
         <tr class="tab-color-red">
+            {% else %}
+        <tr class="tab-color-yellow">
             {% endif %}
             <td></td>
             <td>Total</td>

@@ -1126,7 +1126,6 @@ class TParing3v3View(View):
         player = Team_of_3.objects.get(pk=par)
         result = []
         data_list = []
-        points = []
         mp = []
         teamA = [tournament.p1, tournament.p2, tournament.p3]
         teamB = [player.op1, player.op2, player.op3]
@@ -1136,25 +1135,16 @@ class TParing3v3View(View):
             score = []
             total = 0
             for i in pairing:
-                if i == (tournament.p1, player.op1):
-                    i = player.p11
-                elif i == (tournament.p1, player.op2):
-                    i = player.p12
-                elif i == (tournament.p1, player.op3):
-                    i = player.p13
-                elif i == (tournament.p2, player.op1):
-                    i = player.p21
-                elif i == (tournament.p2, player.op2):
-                    i = player.p22
-                elif i == (tournament.p2, player.op3):
-                    i = player.p23
-                elif i == (tournament.p3, player.op1):
-                    i = player.p31
-                elif i == (tournament.p3, player.op2):
-                    i = player.p32
-                elif i == (tournament.p3, player.op3):
-                    i = player.p33
-                points.append(i)
+                points = []
+                for A in teamA:
+                    for B in teamB:
+                        if i == (A, B):
+                            x = teamA.index(A) + 1
+                            y = teamB.index(B) + 1
+                            attr = f"p{x}{y}"
+                            j = getattr(player, attr)
+                            # i = player.p11 ...
+                        points.append(j)
                 for s in points:
                     if s == -3:
                         mp = 1
@@ -1190,7 +1180,6 @@ class TParing4v4View(View):
         player = Team_of_4.objects.get(pk=par)
         result = []
         data_list = []
-        points = []
         mp = []
         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4]
         teamB = [player.op1, player.op2, player.op3, player.op4]
@@ -1200,39 +1189,16 @@ class TParing4v4View(View):
             score = []
             total = 0
             for i in pairing:
-                if i == (tournament.p1, player.op1):
-                    i = player.p11
-                elif i == (tournament.p1, player.op2):
-                    i = player.p12
-                elif i == (tournament.p1, player.op3):
-                    i = player.p13
-                elif i == (tournament.p1, player.op4):
-                    i = player.p14
-                elif i == (tournament.p2, player.op1):
-                    i = player.p21
-                elif i == (tournament.p2, player.op2):
-                    i = player.p22
-                elif i == (tournament.p2, player.op3):
-                    i = player.p23
-                elif i == (tournament.p2, player.op4):
-                    i = player.p24
-                elif i == (tournament.p3, player.op1):
-                    i = player.p31
-                elif i == (tournament.p3, player.op2):
-                    i = player.p32
-                elif i == (tournament.p3, player.op3):
-                    i = player.p33
-                elif i == (tournament.p3, player.op4):
-                    i = player.p34
-                elif i == (tournament.p4, player.op1):
-                    i = player.p41
-                elif i == (tournament.p4, player.op2):
-                    i = player.p42
-                elif i == (tournament.p4, player.op3):
-                    i = player.p43
-                elif i == (tournament.p4, player.op4):
-                    i = player.p44
-                points.append(i)
+                points = []
+                for A in teamA:
+                    for B in teamB:
+                        if i == (A, B):
+                            x = teamA.index(A) + 1
+                            y = teamB.index(B) + 1
+                            attr = f"p{x}{y}"
+                            j = getattr(player, attr)
+                            # i = player.p11 ...
+                        points.append(j)
                 for s in points:
                     if s == -3:
                         mp = 1
@@ -1267,7 +1233,6 @@ class TParing5v5View(View):
         player = Team_of_5.objects.get(pk=par)
         result = []
         data_list = []
-        points = []
         mp = []
         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4, tournament.p5]
         teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
@@ -1277,57 +1242,16 @@ class TParing5v5View(View):
             score = []
             total = 0
             for i in pairing:
-                if i == (tournament.p1, player.op1):
-                    i = player.p11
-                elif i == (tournament.p1, player.op2):
-                    i = player.p12
-                elif i == (tournament.p1, player.op3):
-                    i = player.p13
-                elif i == (tournament.p1, player.op4):
-                    i = player.p14
-                elif i == (tournament.p1, player.op5):
-                    i = player.p15
-                elif i == (tournament.p2, player.op1):
-                    i = player.p21
-                elif i == (tournament.p2, player.op2):
-                    i = player.p22
-                elif i == (tournament.p2, player.op3):
-                    i = player.p23
-                elif i == (tournament.p2, player.op4):
-                    i = player.p24
-                elif i == (tournament.p2, player.op5):
-                    i = player.p25
-                elif i == (tournament.p3, player.op1):
-                    i = player.p31
-                elif i == (tournament.p3, player.op2):
-                    i = player.p32
-                elif i == (tournament.p3, player.op3):
-                    i = player.p33
-                elif i == (tournament.p3, player.op4):
-                    i = player.p34
-                elif i == (tournament.p3, player.op5):
-                    i = player.p35
-                elif i == (tournament.p4, player.op1):
-                    i = player.p41
-                elif i == (tournament.p4, player.op2):
-                    i = player.p42
-                elif i == (tournament.p4, player.op3):
-                    i = player.p43
-                elif i == (tournament.p4, player.op4):
-                    i = player.p44
-                elif i == (tournament.p4, player.op5):
-                    i = player.p45
-                elif i == (tournament.p5, player.op1):
-                    i = player.p51
-                elif i == (tournament.p5, player.op2):
-                    i = player.p52
-                elif i == (tournament.p5, player.op3):
-                    i = player.p53
-                elif i == (tournament.p5, player.op4):
-                    i = player.p54
-                elif i == (tournament.p5, player.op5):
-                    i = player.p55
-                points.append(i)
+                points = []
+                for A in teamA:
+                    for B in teamB:
+                        if i == (A, B):
+                            x = teamA.index(A) + 1
+                            y = teamB.index(B) + 1
+                            attr = f"p{x}{y}"
+                            j = getattr(player, attr)
+                            # i = player.p11 ...
+                        points.append(j)
                 for s in points:
                     if s == -3:
                         mp = 1
@@ -1366,7 +1290,6 @@ class TParing5v5View(View):
             first_op2 = form.cleaned_data["first_op2"].short_name
             result = []
             data_list = []
-            points = []
             mp = []
             tournament = Tournaments.objects.get(pk=id)
             player = Team_of_5.objects.get(pk=par)
@@ -1378,66 +1301,29 @@ class TParing5v5View(View):
                 score = []
                 total = 0
                 for i in pairing:
-                    if i == (tournament.p1, player.op1):
-                        i = player.p11
-                    elif i == (tournament.p1, player.op2):
-                        i = player.p12
-                    elif i == (tournament.p1, player.op3):
-                        i = player.p13
-                    elif i == (tournament.p1, player.op4):
-                        i = player.p14
-                    elif i == (tournament.p1, player.op5):
-                        i = player.p15
-                    elif i == (tournament.p2, player.op1):
-                        i = player.p21
-                    elif i == (tournament.p2, player.op2):
-                        i = player.p22
-                    elif i == (tournament.p2, player.op3):
-                        i = player.p23
-                    elif i == (tournament.p2, player.op4):
-                        i = player.p24
-                    elif i == (tournament.p2, player.op5):
-                        i = player.p25
-                    elif i == (tournament.p3, player.op1):
-                        i = player.p31
-                    elif i == (tournament.p3, player.op2):
-                        i = player.p32
-                    elif i == (tournament.p3, player.op3):
-                        i = player.p33
-                    elif i == (tournament.p3, player.op4):
-                        i = player.p34
-                    elif i == (tournament.p3, player.op5):
-                        i = player.p35
-                    elif i == (tournament.p4, player.op1):
-                        i = player.p41
-                    elif i == (tournament.p4, player.op2):
-                        i = player.p42
-                    elif i == (tournament.p4, player.op3):
-                        i = player.p43
-                    elif i == (tournament.p4, player.op4):
-                        i = player.p44
-                    elif i == (tournament.p4, player.op5):
-                        i = player.p45
-                    elif i == (tournament.p5, player.op1):
-                        i = player.p51
-                    elif i == (tournament.p5, player.op2):
-                        i = player.p52
-                    elif i == (tournament.p5, player.op3):
-                        i = player.p53
-                    elif i == (tournament.p5, player.op4):
-                        i = player.p54
-                    elif i == (tournament.p5, player.op5):
-                        i = player.p55
-                    points.append(i)
+                    points = []
+                    for A in teamA:
+                        for B in teamB:
+                            if i == (A, B):
+                                x = teamA.index(A) + 1
+                                y = teamB.index(B) + 1
+                                attr = f"p{x}{y}"
+                                j = getattr(player, attr)
+                                # i = player.p11 ...
+                            points.append(j)
                     for s in points:
-                        if s == -2:
-                            mp = 3
+                        if s == -3:
+                            mp = 1
+                        elif s == -2:
+                            mp = 4
                         elif s == -1:
                             mp = 7
                         elif s == 1:
                             mp = 13
                         elif s == 2:
-                            mp = 17
+                            mp = 16
+                        elif s == 3:
+                            mp = 19
                         else:
                             mp = 10
                     score.append(mp)
@@ -1654,10 +1540,56 @@ class TParing8v8View(View):
         tournament = TournamentETC.objects.get(pk=id)
         player = Team_of_8.objects.get(pk=par)
         form = FirstParingsForm()
+        result = []
+        data_list = []
+        mp = []
+        teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
+                 tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+        teamB = [player.op1, player.op2, player.op3, player.op4,
+                 player.op5, player.op6, player.op7, player.op8]
+        for perm in permutations(teamA):
+            result.append(list(zip(perm, teamB)))
+        for pairing in result:
+            score = []
+            total = 0
+            for i in pairing:
+                points = []
+                for A in teamA:
+                    for B in teamB:
+                        if i == (A, B):
+                            x = teamA.index(A) + 1
+                            y = teamB.index(B) + 1
+                            attr = f"p{x}{y}"
+                            j = getattr(player, attr)
+                            # i = player.p11 ...
+                        points.append(j)
+                for s in points:
+                    if s == -3:
+                        mp = 1
+                    elif s == -2:
+                        mp = 4
+                    elif s == -1:
+                        mp = 7
+                    elif s == 1:
+                        mp = 13
+                    elif s == 2:
+                        mp = 16
+                    elif s == 3:
+                        mp = 19
+                    else:
+                        mp = 10
+                score.append(mp)
+                total += mp
+            data_list.append([pairing, score, total])
+        sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        filtered_list = []
+        pre_list = []
         ctx = {
             "tournament": tournament,
             "paring": player,
             "form": form,
+            "data_list": sorted_list[:6],
+            "data_list_bad": sorted_list[-6:],
         }
         return render(request, "paring_8v8.html", ctx)
 
@@ -1670,154 +1602,29 @@ class TParing8v8View(View):
             first_op1 = form.cleaned_data["first_op1"].short_name
             first_p2 = form.cleaned_data["first_p2"].short_name
             first_op2 = form.cleaned_data["first_op2"].short_name
-            first_parings = [(first_p1, first_op1), (first_p2, first_op2)]
             result = []
             data_list = []
-            points = []
             mp = []
             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
                      tournament.p5, tournament.p6, tournament.p7, tournament.p8]
-            teamA.remove(first_p1)
-            teamA.remove(first_p2)
             teamB = [player.op1, player.op2, player.op3, player.op4,
                      player.op5, player.op6, player.op7, player.op8]
-            teamB.remove(first_op1)
-            teamB.remove(first_op2)
             for perm in permutations(teamA):
                 result.append(list(zip(perm, teamB)))
             for pairing in result:
                 score = []
                 total = 0
                 for i in pairing:
-                    if i == (tournament.p1, player.op1):
-                        i = player.p11
-                    elif i == (tournament.p1, player.op2):
-                        i = player.p12
-                    elif i == (tournament.p1, player.op3):
-                        i = player.p13
-                    elif i == (tournament.p1, player.op4):
-                        i = player.p14
-                    elif i == (tournament.p1, player.op5):
-                        i = player.p15
-                    elif i == (tournament.p1, player.op6):
-                        i = player.p16
-                    elif i == (tournament.p1, player.op7):
-                        i = player.p17
-                    elif i == (tournament.p1, player.op8):
-                        i = player.p18
-                    elif i == (tournament.p2, player.op1):
-                        i = player.p21
-                    elif i == (tournament.p2, player.op2):
-                        i = player.p22
-                    elif i == (tournament.p2, player.op3):
-                        i = player.p23
-                    elif i == (tournament.p2, player.op4):
-                        i = player.p24
-                    elif i == (tournament.p2, player.op5):
-                        i = player.p25
-                    elif i == (tournament.p2, player.op6):
-                        i = player.p26
-                    elif i == (tournament.p2, player.op7):
-                        i = player.p27
-                    elif i == (tournament.p2, player.op8):
-                        i = player.p28
-                    elif i == (tournament.p3, player.op1):
-                        i = player.p31
-                    elif i == (tournament.p3, player.op2):
-                        i = player.p32
-                    elif i == (tournament.p3, player.op3):
-                        i = player.p33
-                    elif i == (tournament.p3, player.op4):
-                        i = player.p34
-                    elif i == (tournament.p3, player.op5):
-                        i = player.p35
-                    elif i == (tournament.p3, player.op6):
-                        i = player.p36
-                    elif i == (tournament.p3, player.op7):
-                        i = player.p37
-                    elif i == (tournament.p3, player.op8):
-                        i = player.p38
-                    elif i == (tournament.p4, player.op1):
-                        i = player.p41
-                    elif i == (tournament.p4, player.op2):
-                        i = player.p42
-                    elif i == (tournament.p4, player.op3):
-                        i = player.p43
-                    elif i == (tournament.p4, player.op4):
-                        i = player.p44
-                    elif i == (tournament.p4, player.op5):
-                        i = player.p45
-                    elif i == (tournament.p4, player.op6):
-                        i = player.p46
-                    elif i == (tournament.p4, player.op7):
-                        i = player.p47
-                    elif i == (tournament.p4, player.op8):
-                        i = player.p48
-                    elif i == (tournament.p5, player.op1):
-                        i = player.p51
-                    elif i == (tournament.p5, player.op2):
-                        i = player.p52
-                    elif i == (tournament.p5, player.op3):
-                        i = player.p53
-                    elif i == (tournament.p5, player.op4):
-                        i = player.p54
-                    elif i == (tournament.p5, player.op5):
-                        i = player.p55
-                    elif i == (tournament.p5, player.op6):
-                        i = player.p56
-                    elif i == (tournament.p5, player.op7):
-                        i = player.p57
-                    elif i == (tournament.p5, player.op8):
-                        i = player.p58
-                    elif i == (tournament.p6, player.op1):
-                        i = player.p61
-                    elif i == (tournament.p6, player.op2):
-                        i = player.p62
-                    elif i == (tournament.p6, player.op3):
-                        i = player.p63
-                    elif i == (tournament.p6, player.op4):
-                        i = player.p64
-                    elif i == (tournament.p6, player.op5):
-                        i = player.p65
-                    elif i == (tournament.p6, player.op6):
-                        i = player.p66
-                    elif i == (tournament.p6, player.op7):
-                        i = player.p67
-                    elif i == (tournament.p6, player.op8):
-                        i = player.p68
-                    elif i == (tournament.p7, player.op1):
-                        i = player.p71
-                    elif i == (tournament.p7, player.op2):
-                        i = player.p72
-                    elif i == (tournament.p7, player.op3):
-                        i = player.p73
-                    elif i == (tournament.p7, player.op4):
-                        i = player.p74
-                    elif i == (tournament.p7, player.op5):
-                        i = player.p75
-                    elif i == (tournament.p7, player.op6):
-                        i = player.p76
-                    elif i == (tournament.p7, player.op7):
-                        i = player.p77
-                    elif i == (tournament.p7, player.op8):
-                        i = player.p78
-                    elif i == (tournament.p8, player.op1):
-                        i = player.p81
-                    elif i == (tournament.p8, player.op2):
-                        i = player.p82
-                    elif i == (tournament.p8, player.op3):
-                        i = player.p83
-                    elif i == (tournament.p8, player.op4):
-                        i = player.p84
-                    elif i == (tournament.p8, player.op5):
-                        i = player.p85
-                    elif i == (tournament.p8, player.op6):
-                        i = player.p86
-                    elif i == (tournament.p8, player.op7):
-                        i = player.p87
-                    elif i == (tournament.p8, player.op8):
-                        i = player.p88
-                    points.append(i)
+                    points = []
+                    for A in teamA:
+                        for B in teamB:
+                            if i == (A, B):
+                                x = teamA.index(A) + 1
+                                y = teamB.index(B) + 1
+                                attr = f"p{x}{y}"
+                                j = getattr(player, attr)
+                                # i = player.p11 ...
+                            points.append(j)
                     for s in points:
                         if s == -3:
                             mp = 1
@@ -1840,23 +1647,20 @@ class TParing8v8View(View):
             filtered_list = []
             pre_list = []
             for i in range(len(data_list) - 1):
-                for j in range(6):
+                for j in range(8):
                     if data_list[i][0][j] == (first_p1, first_op1):
                         pre_list.append(data_list[i])
             for i in range(len(pre_list) - 1):
-                for j in range(6):
+                for j in range(8):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
-            print(len(sorted_list))
-            print(len(sorted_filtered_list))
-            print(sorted_list[0])
             ctx = {
                 "tournament": tournament,
                 "paring": player,
                 "data_list": sorted_list[:6],
-                # "data_list_bad": sorted_list[-6:],
-                "filtered_list": sorted_filtered_list,
+                "data_list_bad": sorted_list[-6:],
+                "filtered_list": sorted_filtered_list[:12],
                 "first_p1": first_p1,
                 "first_p2": first_p2,
                 "first_op1": first_op1,
