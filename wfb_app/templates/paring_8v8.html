@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
+
 <button type="button" class="btn btn-color rounded-1 pt-1 pb-1">
     <a class="nav-link btn-color" href="{% url 'edit-paring-etc' tournament.id paring.id %}">Edytuj</a>
 </button>
@@ -155,7 +156,25 @@
 </div>
 {% if request.method == 'GET' %}
 <div class="col">
+    <table>
+        <tr>
+            <th class="tab-color-green"> {{ green }}</th>
+            <th> - Dobrych paringów {{ green_p|stringformat:"d%%" }}</th>
+        </tr>
+        <tr>
+            <th class="tab-color-yellow"> {{ yellow }}</th>
+            <th> - Remisowych paringow {{ yellow_p|stringformat:"d%%" }}</th>
+        </tr>
+        <tr>
+            <th class="tab-color-red"> {{ red }}</th>
+            <th> - Złych paringow {{ red_p|stringformat:"d%%" }}</th>
+        </tr>
+    </table>
+</div>
+<div><p></p></div>
+<div class="col">
     <p><strong>6 najlepszych możliwych parowań:</strong></p>
+
 </div>
 {% for data in data_list %}
 <div class="m-4 p-4 border-dashed">
@@ -288,7 +307,25 @@
 {% endfor %}
 {% elif request.method == 'POST' %}
 <div class="col">
+        <table>
+        <tr>
+            <th class="tab-color-green"> {{ green }} </th>
+            <th> - Dobrych paringów {{ green_p|stringformat:"d%%" }} </th>
+        </tr>
+        <tr>
+            <th class="tab-color-yellow"> {{ yellow }} </th>
+            <th> - Remisowych paringow {{ yellow_p|stringformat:"d%%" }} </th>
+        </tr>
+        <tr>
+            <th class="tab-color-red"> {{ red }} </th>
+            <th> - Złych paringow {{ red_p|stringformat:"d%%" }} </th>
+        </tr>
+    </table>
+</div>
+<p></p>
+<div class="col">
     <p><strong>Mozliwe kolejne parowania</strong></p>
+
 </div>
 {% for data in filtered_list %}
 <div class="m-4 p-4 border-dashed">

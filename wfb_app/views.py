@@ -1582,14 +1582,32 @@ class TParing8v8View(View):
                 total += mp
             data_list.append([pairing, score, total])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
-        filtered_list = []
-        pre_list = []
+        green = 0
+        yellow = 0
+        red = 0
+        for i in sorted_list:
+            if i[2] > 81:
+                green += 1
+            elif i[2] < 79:
+                red += 1
+            else:
+                yellow += 1
+        total = green + yellow + red
+        green_p = green / total * 100
+        yellow_p = yellow / total * 100
+        red_p = red / total * 100
         ctx = {
             "tournament": tournament,
             "paring": player,
             "form": form,
             "data_list": sorted_list[:6],
             "data_list_bad": sorted_list[-6:],
+            "green": green,
+            "yellow": yellow,
+            "red": red,
+            "green_p": green_p,
+            "yellow_p": yellow_p,
+            "red_p": red_p,
         }
         return render(request, "paring_8v8.html", ctx)
 
@@ -1655,16 +1673,36 @@ class TParing8v8View(View):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            green = 0
+            yellow = 0
+            red = 0
+            for i in sorted_filtered_list:
+                if i[2] > 81:
+                    green += 1
+                elif i[2] < 79:
+                    red += 1
+                else:
+                    yellow += 1
+            total = green+yellow+red
+            green_p = green / total * 100
+            yellow_p = yellow / total * 100
+            red_p = red / total * 100
             ctx = {
                 "tournament": tournament,
                 "paring": player,
                 "data_list": sorted_list[:6],
                 "data_list_bad": sorted_list[-6:],
-                "filtered_list": sorted_filtered_list[:12],
+                "filtered_list": sorted_filtered_list,
                 "first_p1": first_p1,
                 "first_p2": first_p2,
                 "first_op1": first_op1,
                 "first_op2": first_op2,
+                "green": green,
+                "yellow": yellow,
+                "red": red,
+                "green_p": green_p,
+                "yellow_p": yellow_p,
+                "red_p": red_p,
             }
             return render(request, "paring_8v8.html", ctx)
 
