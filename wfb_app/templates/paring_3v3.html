@@ -41,7 +41,22 @@
         </table>
     </div>
 </div>
-
+<div class="col">
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-green">
+            <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-yellow">
+            <span class="font-weight-bold">Remisowych paringów: {{ yellow_p|stringformat:"d%%" }} ({{ yellow }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-red">
+            <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <p><strong>Możliwe parowania:</strong></p>
+</div>
 {% for data in data_list%}
 <div class="m-4 p-4 border-dashed">
     <table class="table border-bottom schedules-content">

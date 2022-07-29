@@ -10,7 +10,7 @@
   --dark-text: #000000;
   --blue: #007bff;
   --yellow: #5E376D;
-  --yellow2: #ffcc00;
+  --yellow2: #e68a00;
   --green: #1e7e34;
   --red: #cc0000;
   --light-red: #ff3333;
@@ -534,6 +534,21 @@ margin: 0 auto !important;
   background: #fff;
   border: 1px dashed var(--yellow);
   color: var(--yellow);
+}
+.alert-red {
+  background: #fff;
+  border: 1px dashed var(--red);
+  color: var(--red);
+}
+.alert-yellow {
+  background: #fff;
+  border: 1px dashed var(--yellow2);
+  color: var(--yellow2);
+}
+.alert-green {
+  background: #fff;
+  border: 1px dashed var(--green);
+  color: var(--green);
 }
 .icon-plus-square {
   font-size: 3.5rem;

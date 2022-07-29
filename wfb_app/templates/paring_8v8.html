@@ -156,20 +156,17 @@
 </div>
 {% if request.method == 'GET' %}
 <div class="col">
-    <table>
-        <tr>
-            <th class="tab-color-green"> {{ green }}</th>
-            <th> - Dobrych paringów {{ green_p|stringformat:"d%%" }}</th>
-        </tr>
-        <tr>
-            <th class="tab-color-yellow"> {{ yellow }}</th>
-            <th> - Remisowych paringow {{ yellow_p|stringformat:"d%%" }}</th>
-        </tr>
-        <tr>
-            <th class="tab-color-red"> {{ red }}</th>
-            <th> - Złych paringow {{ red_p|stringformat:"d%%" }}</th>
-        </tr>
-    </table>
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-green">
+            <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-yellow">
+            <span class="font-weight-bold">Remisowych paringów: {{ yellow_p|stringformat:"d%%" }} ({{ yellow }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-red">
+            <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
 </div>
 <div><p></p></div>
 <div class="col">
@@ -307,20 +304,17 @@
 {% endfor %}
 {% elif request.method == 'POST' %}
 <div class="col">
-        <table>
-        <tr>
-            <th class="tab-color-green"> {{ green }} </th>
-            <th> - Dobrych paringów {{ green_p|stringformat:"d%%" }} </th>
-        </tr>
-        <tr>
-            <th class="tab-color-yellow"> {{ yellow }} </th>
-            <th> - Remisowych paringow {{ yellow_p|stringformat:"d%%" }} </th>
-        </tr>
-        <tr>
-            <th class="tab-color-red"> {{ red }} </th>
-            <th> - Złych paringow {{ red_p|stringformat:"d%%" }} </th>
-        </tr>
-    </table>
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-green">
+            <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-yellow">
+            <span class="font-weight-bold">Remisowych paringów: {{ yellow_p|stringformat:"d%%" }} ({{ yellow }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-red">
+            <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
 </div>
 <p></p>
 <div class="col">

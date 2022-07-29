@@ -1164,11 +1164,31 @@ class TParing3v3View(View):
                 total += mp
             data_list.append([pairing, score, total])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        green = 0
+        yellow = 0
+        red = 0
+        for i in sorted_list:
+            if i[2] > 41:
+                green += 1
+            elif i[2] < 39:
+                red += 1
+            else:
+                yellow += 1
+        total = green + yellow + red
+        green_p = green / total * 100
+        yellow_p = yellow / total * 100
+        red_p = red / total * 100
         ctx = {
             "data_list": sorted_list[:6],
             "data_list_bad": sorted_list[-6:],
             "tournament": tournament,
             "paring": player,
+            "green": green,
+            "yellow": yellow,
+            "red": red,
+            "green_p": green_p,
+            "yellow_p": yellow_p,
+            "red_p": red_p,
 
         }
         return render(request, "paring_3v3.html", ctx)
@@ -1218,11 +1238,31 @@ class TParing4v4View(View):
                 total += mp
             data_list.append([pairing, score, total])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+        green = 0
+        yellow = 0
+        red = 0
+        for i in sorted_list:
+            if i[2] > 41:
+                green += 1
+            elif i[2] < 39:
+                red += 1
+            else:
+                yellow += 1
+        total = green + yellow + red
+        green_p = green / total * 100
+        yellow_p = yellow / total * 100
+        red_p = red / total * 100
         ctx = {
-            "data_list": sorted_list[:6],
-            "data_list_bad": sorted_list[-6:],
+            "data_list": sorted_list,
+            # "data_list_bad": sorted_list[-6:],
             "tournament": tournament,
             "paring": player,
+            "green": green,
+            "yellow": yellow,
+            "red": red,
+            "green_p": green_p,
+            "yellow_p": yellow_p,
+            "red_p": red_p,
         }
         return render(request, "paring_4v4.html", ctx)
 
@@ -1231,6 +1271,7 @@ class TParing5v5View(View):
     def get(self, request, id, par):
         tournament = Tournaments.objects.get(pk=id)
         player = Team_of_5.objects.get(pk=par)
+        form = FirstParingsForm()
         result = []
         data_list = []
         mp = []
@@ -1271,17 +1312,38 @@ class TParing5v5View(View):
                 total += mp
             data_list.append([pairing, score, total])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
-        form = FirstParingsForm()
+        green = 0
+        yellow = 0
+        red = 0
+        for i in sorted_list:
+            if i[2] > 51:
+                green += 1
+            elif i[2] < 49:
+                red += 1
+            else:
+                yellow += 1
+        total = green + yellow + red
+        green_p = green / total * 100
+        yellow_p = yellow / total * 100
+        red_p = red / total * 100
         ctx = {
             "data_list": sorted_list[:6],
             "data_list_bad": sorted_list[-6:],
             "tournament": tournament,
             "paring": player,
             "form": form,
+            "green": green,
+            "yellow": yellow,
+            "red": red,
+            "green_p": green_p,
+            "yellow_p": yellow_p,
+            "red_p": red_p,
         }
         return render(request, "paring_5v5.html", ctx)
 
     def post(self, request, id, par):
+        tournament = Tournaments.objects.get(pk=id)
+        player = Team_of_5.objects.get(pk=par)
         form = FirstParingsForm(request.POST)
         if form.is_valid():
             first_p1 = form.cleaned_data["first_p1"].short_name
@@ -1291,8 +1353,6 @@ class TParing5v5View(View):
             result = []
             data_list = []
             mp = []
-            tournament = Tournaments.objects.get(pk=id)
-            player = Team_of_5.objects.get(pk=par)
             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4, tournament.p5]
             teamB = [player.op1, player.op2, player.op3, player.op4, player.op5]
             for perm in permutations(teamA):
@@ -1341,13 +1401,34 @@ class TParing5v5View(View):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            green = 0
+            yellow = 0
+            red = 0
+            for i in sorted_filtered_list:
+                if i[2] > 51:
+                    green += 1
+                elif i[2] < 49:
+                    red += 1
+                else:
+                    yellow += 1
+            total = green + yellow + red
+            green_p = green / total * 100
+            yellow_p = yellow / total * 100
+            red_p = red / total * 100
             ctx = {
                 "paring": player,
+                "tournament": tournament,
                 "data_list": sorted_list[:6],
                 "data_list_bad": sorted_list[-6:],
                 "filtered_list": sorted_filtered_list,
                 "first_p1": first_p1,
-                "first_p2": first_p2
+                "first_p2": first_p2,
+                "green": green,
+                "yellow": yellow,
+                "red": red,
+                "green_p": green_p,
+                "yellow_p": yellow_p,
+                "red_p": red_p,
             }
             return render(request, "paring_5v5.html", ctx)
 

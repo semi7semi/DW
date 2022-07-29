@@ -66,40 +66,52 @@
             </tr>
         </table>
     </div>
-        <div>
-<!--        {% if request.method == 'GET' %}-->
-<!--        <div class="m-4 p-4 border-dashed">-->
-<!--            <form action="" method="POST">-->
-<!--                {{ form.non_field_errors }}-->
-<!--                {{ form.source.errors }}-->
-<!--                {{ form.source }}-->
-<!--                <p><strong>Ogranicz mozliwe paringi po 1 parowaniu</strong></p>-->
-<!--                <table class="table border-bottom schedules-content">-->
-<!--                    <tr class="tab-my2">-->
-<!--                        <th></th>-->
-<!--                        <th>Gracz</th>-->
-<!--                        <th>Przeciwnik</th>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <th> Pierwsza para</th>-->
-<!--                        <td>{{ form.first_p1 }}</td>-->
-<!--                        <td>{{ form.first_op1 }}</td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <th> Druga para</th>-->
-<!--                        <td>{{ form.first_p2 }}</td>-->
-<!--                        <td>{{ form.first_op2 }}</td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Szacuj">-->
-<!--                {% csrf_token %}-->
-
-<!--            </form>-->
-<!--        </div>-->
-<!--        {% endif %}-->
+    <div>
+        {% if request.method == 'GET' %}
+        <div class="m-4 p-4 border-dashed">
+            <form action="" method="POST">
+                {{ form.non_field_errors }}
+                {{ form.source.errors }}
+                {{ form.source }}
+                <p><strong>Ogranicz mozliwe paringi po 1 parowaniu</strong></p>
+                <table class="table border-bottom schedules-content">
+                    <tr class="tab-my2">
+                        <th></th>
+                        <th>Gracz</th>
+                        <th>Przeciwnik</th>
+                    </tr>
+                    <tr>
+                        <th> Pierwsza para</th>
+                        <td>{{ form.first_p1 }}</td>
+                        <td>{{ form.first_op1 }}</td>
+                    </tr>
+                    <tr>
+                        <th> Druga para</th>
+                        <td>{{ form.first_p2 }}</td>
+                        <td>{{ form.first_op2 }}</td>
+                    </tr>
+                </table>
+                <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Szacuj">
+                {% csrf_token %}
+            </form>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% if request.method == 'GET' %}
+<div class="col">
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-green">
+            <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-yellow">
+            <span class="font-weight-bold">Remisowych paringów: {{ yellow_p|stringformat:"d%%" }} ({{ yellow }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-red">
+            <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
+</div>
 <div class="col">
     <p><strong>6 najlepszych możliwych parowań:</strong></p>
 </div>
@@ -203,6 +215,19 @@
 </div>
 {% endfor %}
 {% elif request.method == 'POST' %}
+<div class="col">
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-green">
+            <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-yellow">
+            <span class="font-weight-bold">Remisowych paringów: {{ yellow_p|stringformat:"d%%" }} ({{ yellow }})</span>
+        </div>
+        <div class="m-4 p-4 alert-item alert-red">
+            <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
+</div>
 <div class="col">
     <p><strong>Mozliwe kolejne parowania</strong></p>
 </div>
