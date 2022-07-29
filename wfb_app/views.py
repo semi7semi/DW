@@ -1768,7 +1768,7 @@ class TParing8v8View(View):
             next_paring = []
             for i in range(len(sorted_filtered_list)-1):
                 for j in range(8):
-                    if sorted_filtered_list[i][1][j] > 10:
+                    if sorted_filtered_list[i][1][j] > 12:
                         next_paring.append(sorted_filtered_list[i][0][j][0])
             rating = dict((i, next_paring.count(i)) for i in next_paring)
             if first_p1 in rating:
