@@ -1401,6 +1401,16 @@ class TParing5v5View(View):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            next_paring = []
+            for i in range(len(sorted_filtered_list)-1):
+                for j in range(5):
+                    if sorted_filtered_list[i][1][j] > 10:
+                        next_paring.append(sorted_filtered_list[i][0][j][0])
+            rating = dict((i, next_paring.count(i)) for i in next_paring)
+            if first_p1 in rating:
+                del rating[first_p1]
+            if first_p2 in rating:
+                del rating[first_p2]
             green = 0
             yellow = 0
             red = 0
@@ -1429,6 +1439,7 @@ class TParing5v5View(View):
                 "green_p": green_p,
                 "yellow_p": yellow_p,
                 "red_p": red_p,
+                "best_armies": rating,
             }
             return render(request, "paring_5v5.html", ctx)
 
@@ -1754,6 +1765,16 @@ class TParing8v8View(View):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+            next_paring = []
+            for i in range(len(sorted_filtered_list)-1):
+                for j in range(8):
+                    if sorted_filtered_list[i][1][j] > 10:
+                        next_paring.append(sorted_filtered_list[i][0][j][0])
+            rating = dict((i, next_paring.count(i)) for i in next_paring)
+            if first_p1 in rating:
+                del rating[first_p1]
+            if first_p2 in rating:
+                del rating[first_p2]
             green = 0
             yellow = 0
             red = 0
@@ -1784,6 +1805,7 @@ class TParing8v8View(View):
                 "green_p": green_p,
                 "yellow_p": yellow_p,
                 "red_p": red_p,
+                "best_armies": rating,
             }
             return render(request, "paring_8v8.html", ctx)
 

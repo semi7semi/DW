@@ -168,6 +168,7 @@
         </div>
     </div>
 </div>
+
 <div><p></p></div>
 <div class="col">
     <p><strong>6 najlepszych możliwych parowań:</strong></p>
@@ -313,6 +314,18 @@
         </div>
         <div class="m-4 p-4 alert-item alert-red">
             <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-info">
+            <span class="font-weight-bold">Najlepsze mozliwe wystawki:</br>
+                <i>(Armia: ilość paringów +10 pkt)</i></br>
+                {% for army, rating in best_armies.items %}
+                {{ army }} : {{ rating }}</br>
+                {% endfor %}
+            </span>
         </div>
     </div>
 </div>
