@@ -1636,6 +1636,7 @@ class TParing8v8View(View):
         data_list = []
         mp = []
         player_points = []
+        army_points = []
         for w in range(1, 9):
             p1points = []
             for z in range(1, 9):
@@ -1645,6 +1646,14 @@ class TParing8v8View(View):
             av1 = round(sum(p1points) / 8, 2)
             p1points.append(av1)
             player_points.append(p1points)
+        for w in range(1, 9):
+            p2points = []
+            for z in range(1, 9):
+                attr2 = f'p{z}{w}'
+                j2 = getattr(player, attr2)
+                p2points.append(j2)
+            av2 = round(sum(p2points) / 8, 2)
+            army_points.append(av2)
         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
                  tournament.p5, tournament.p6, tournament.p7, tournament.p8]
         teamB = [player.op1, player.op2, player.op3, player.op4,
@@ -1698,6 +1707,61 @@ class TParing8v8View(View):
         green_p = green / total * 100
         yellow_p = yellow / total * 100
         red_p = red / total * 100
+
+        # seven_data_list = []
+        # for armyA in teamA:
+        #     teamA_7 = teamA.remove(armyA)
+        #     for armyB in teamB:
+        #         teamB_7 = teamB.remove(armyB)
+        #         for perm in permutations(teamA_7):
+        #             result.append(list(zip(perm, teamB_7)))
+        #         for pairing in result:
+        #             score = []
+        #             total = 0
+        #             for i in pairing:
+        #                 points = []
+        #                 for A in teamA_7:
+        #                     for B in teamB_7:
+        #                         if i == (A, B):
+        #                             x = teamA_7.index(A) + 1
+        #                             y = teamB_7.index(B) + 1
+        #                             attr = f"p{x}{y}"
+        #                             j = getattr(player, attr)
+        #                             # i = player.p11 ...
+        #                         points.append(j)
+        #                 for s in points:
+        #                     if s == -3:
+        #                         mp = 1
+        #                     elif s == -2:
+        #                         mp = 4
+        #                     elif s == -1:
+        #                         mp = 7
+        #                     elif s == 1:
+        #                         mp = 13
+        #                     elif s == 2:
+        #                         mp = 16
+        #                     elif s == 3:
+        #                         mp = 19
+        #                     else:
+        #                         mp = 10
+        #                 score.append(mp)
+        #                 total += mp
+        #             seven_data_list.append([pairing, score, total])
+        # green_7 = 0
+        # yellow_7 = 0
+        # red_7 = 0
+        # for i in seven_data_list:
+        #     if i[2] > 81:
+        #         green_7 += 1
+        #     elif i[2] < 79:
+        #         red_7 += 1
+        #     else:
+        #         yellow_7 += 1
+        # total_7 = green_7 + yellow_7 + red_7
+        # green_p_7 = green_7 / total_7 * 100
+        # yellow_p_7 = yellow_7 / total_7 * 100
+        # red_p_7 = red_7 / total_7 * 100
+
         ctx = {
             "tournament": tournament,
             "paring": player,
@@ -1718,6 +1782,7 @@ class TParing8v8View(View):
             "p6points": player_points[5],
             "p7points": player_points[6],
             "p8points": player_points[7],
+            "army_points": army_points,
         }
         return render(request, "paring_8v8.html", ctx)
 
@@ -1734,6 +1799,7 @@ class TParing8v8View(View):
             data_list = []
             mp = []
             player_points = []
+            army_points = []
             for w in range(1, 9):
                 p1points = []
                 for z in range(1, 9):
@@ -1743,10 +1809,22 @@ class TParing8v8View(View):
                 av1 = round(sum(p1points) / 8, 2)
                 p1points.append(av1)
                 player_points.append(p1points)
+            for w in range(1, 9):
+                p2points = []
+                for z in range(1, 9):
+                    attr2 = f'p{z}{w}'
+                    j2 = getattr(player, attr2)
+                    p2points.append(j2)
+                av2 = round(sum(p2points) / 8, 2)
+                army_points.append(av2)
             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
                      tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+            # teamA.remove(first_p1)
+            # teamA.remove(first_p2)
             teamB = [player.op1, player.op2, player.op3, player.op4,
                      player.op5, player.op6, player.op7, player.op8]
+            # teamB.remove(first_op1)
+            # teamB.remove(first_op2)
             for perm in permutations(teamA):
                 result.append(list(zip(perm, teamB)))
             for pairing in result:
@@ -1842,6 +1920,7 @@ class TParing8v8View(View):
                 "p6points": player_points[5],
                 "p7points": player_points[6],
                 "p8points": player_points[7],
+                "army_points": army_points,
             }
             return render(request, "paring_8v8.html", ctx)
 

@@ -194,6 +194,22 @@
                 {% endif %}
                 {% endfor %}
             </tr>
+            <tr class="tab-my">
+                <th></th>
+                {% for i in army_points %}
+                {% if i == 0 %}
+                <td> {{i}}</td>
+                {% elif i < 0 and i >= -1 %}
+                <td style="background-color: #ff8080"> {{i}}</td>
+                {% elif i < -1 %}
+                <td style="background-color: #ff4d4d"> {{i}}</td>
+                {% elif i > 0 and i <= 1 %}
+                <td style="background-color: #79d279"> {{i}}</td>
+                {% elif i > 1 %}
+                <td style="background-color: #40bf40"> {{i}}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
         </table>
     </div>
     <div>
@@ -241,6 +257,28 @@
         <div class="m-4 p-4 alert-item alert-red">
             <span class="font-weight-bold">Złych paringów: {{ red_p|stringformat:"d%%" }} ({{ red }})</span>
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <p><strong>Rozklad procentowy paringow dla kazdej wystawki</strong></p>
+        <table class="table border-bottom schedules-content">
+            <tr class="tab-my2">
+                <th></th>
+                <th>{{ tournament.player_name_1 }}: {{ tournament.p1 }}</th>
+                <th>{{ tournament.player_name_2 }}: {{ tournament.p2 }}</th>
+                <th>{{ tournament.player_name_3 }}: {{ tournament.p3 }}</th>
+                <th>{{ tournament.player_name_4 }}: {{ tournament.p4 }}</th>
+                <th>{{ tournament.player_name_5 }}: {{ tournament.p5 }}</th>
+                <th>{{ tournament.player_name_6 }}: {{ tournament.p6 }}</th>
+                <th>{{ tournament.player_name_7 }}: {{ tournament.p7 }}</th>
+                <th>{{ tournament.player_name_8 }}: {{ tournament.p8 }}</th>
+            </tr>
+            <tr class="tab-my">
+                <th></th>
+            </tr>
+        </table>
     </div>
 </div>
 
