@@ -1635,6 +1635,16 @@ class TParing8v8View(View):
         result = []
         data_list = []
         mp = []
+        player_points = []
+        for w in range(1, 9):
+            p1points = []
+            for z in range(1, 9):
+                attr1 = f'p{w}{z}'
+                j1 = getattr(player, attr1)
+                p1points.append(j1)
+            av1 = round(sum(p1points) / 8, 2)
+            p1points.append(av1)
+            player_points.append(p1points)
         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
                  tournament.p5, tournament.p6, tournament.p7, tournament.p8]
         teamB = [player.op1, player.op2, player.op3, player.op4,
@@ -1692,14 +1702,22 @@ class TParing8v8View(View):
             "tournament": tournament,
             "paring": player,
             "form": form,
-            "data_list": sorted_list[:6],
-            "data_list_bad": sorted_list[-6:],
+            # "data_list": sorted_list[:6],
+            # "data_list_bad": sorted_list[-6:],
             "green": green,
             "yellow": yellow,
             "red": red,
             "green_p": green_p,
             "yellow_p": yellow_p,
             "red_p": red_p,
+            "p1points": player_points[0],
+            "p2points": player_points[1],
+            "p3points": player_points[2],
+            "p4points": player_points[3],
+            "p5points": player_points[4],
+            "p6points": player_points[5],
+            "p7points": player_points[6],
+            "p8points": player_points[7],
         }
         return render(request, "paring_8v8.html", ctx)
 
@@ -1715,6 +1733,16 @@ class TParing8v8View(View):
             result = []
             data_list = []
             mp = []
+            player_points = []
+            for w in range(1, 9):
+                p1points = []
+                for z in range(1, 9):
+                    attr1 = f'p{w}{z}'
+                    j1 = getattr(player, attr1)
+                    p1points.append(j1)
+                av1 = round(sum(p1points) / 8, 2)
+                p1points.append(av1)
+                player_points.append(p1points)
             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
                      tournament.p5, tournament.p6, tournament.p7, tournament.p8]
             teamB = [player.op1, player.op2, player.op3, player.op4,
@@ -1792,9 +1820,9 @@ class TParing8v8View(View):
             ctx = {
                 "tournament": tournament,
                 "paring": player,
-                "data_list": sorted_list[:6],
-                "data_list_bad": sorted_list[-6:],
-                "filtered_list": sorted_filtered_list,
+                # "data_list": sorted_list[:6],
+                # "data_list_bad": sorted_list[-6:],
+                # "filtered_list": sorted_filtered_list,
                 "first_p1": first_p1,
                 "first_p2": first_p2,
                 "first_op1": first_op1,
@@ -1806,6 +1834,14 @@ class TParing8v8View(View):
                 "yellow_p": yellow_p,
                 "red_p": red_p,
                 "best_armies": rating,
+                "p1points": player_points[0],
+                "p2points": player_points[1],
+                "p3points": player_points[2],
+                "p4points": player_points[3],
+                "p5points": player_points[4],
+                "p6points": player_points[5],
+                "p7points": player_points[6],
+                "p8points": player_points[7],
             }
             return render(request, "paring_8v8.html", ctx)
 
