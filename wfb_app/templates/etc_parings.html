@@ -143,7 +143,7 @@
             {% for paring in parings_list %}
             <tr>
                 <td><a class="user-color" href="{% url 'paring-etc-view' tournament.id paring.id %}">Paring ETC: {{ paring.name }}</a></td>
-                <td><a class="btn btn-secondary rounded-1" href="{% url 'delete-paring-etc' tournament.id paring.id %}">Usun</a></td>
+                <td><a class="btn btn-secondary rounded-1 disabled" href="{% url 'delete-paring-etc' tournament.id paring.id %}">Usun</a></td>
 
             </tr>
             {% endfor %}

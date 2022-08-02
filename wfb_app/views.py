@@ -1543,7 +1543,7 @@ class ArmyIconsView(View):
         ctx = {"form": form}
         return render(request, "paring_icons.html", ctx)
 
-    def post(selfself, request):
+    def post(self, request):
         army_list = Armys.objects.all().order_by("name")
         form = ArmyIconForm(request.POST)
         if form.is_valid():
@@ -1564,7 +1564,7 @@ class ArmyIconsView(View):
                 }
         return render(request, "paring_icons.html", ctx)
 
-class TournamentETCView(View):
+class TournamentETCView(LoginRequiredMixin, View):
     def get(self, request):
         tournaments_list = TournamentETC.objects.all().order_by("-date")
         ctx = {
@@ -1573,7 +1573,7 @@ class TournamentETCView(View):
         return render(request, "etc_list.html", ctx)
 
 
-class AddTournamentETCView(View):
+class AddTournamentETCView(LoginRequiredMixin, View):
     def get(self, request):
         form = ETCForm(initial={"date": datetime.now()})
         ctx = {"form": form}
@@ -1584,7 +1584,7 @@ class AddTournamentETCView(View):
             form.save()
             return redirect("etc-view")
 
-class EditTournamentETCView(View):
+class EditTournamentETCView(LoginRequiredMixin, View):
     def get(self, request, id):
         tournament = TournamentETC.objects.get(pk=id)
         form = ETCForm(instance=tournament)
@@ -1598,14 +1598,14 @@ class EditTournamentETCView(View):
             return redirect("etc-view")
 
 
-class DeleteTournamentETCView(View):
+class DeleteTournamentETCView(LoginRequiredMixin, View):
     def get(self, request, id):
         t = TournamentETC.objects.get(pk=id)
         t.delete()
         return redirect("tournaments-view")
 
 
-class ETCParingsView(View):
+class ETCParingsView(LoginRequiredMixin, View):
     def get(self, request, id):
         tournament = TournamentETC.objects.get(pk=id)
         parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
@@ -1627,7 +1627,7 @@ class ETCParingsView(View):
             return redirect("etc-parings", id=id)
 
 
-class TParing8v8View(View):
+class TParing8v8View(LoginRequiredMixin, View):
     def get(self, request, id, par):
         tournament = TournamentETC.objects.get(pk=id)
         player = Team_of_8.objects.get(pk=par)
@@ -1860,7 +1860,7 @@ class TParing8v8View(View):
             return render(request, "paring_8v8.html", ctx)
 
 
-class EditTParing8v8View(View):
+class EditTParing8v8View(LoginRequiredMixin, View):
     def get(self, request, id, par):
         tournament = TournamentETC.objects.get(pk=id)
         parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
@@ -1884,7 +1884,7 @@ class EditTParing8v8View(View):
             return redirect("paring-etc-view", id=id, par=par)
 
 
-class DeleteTParing8v8View(View):
+class DeleteTParing8v8View(LoginRequiredMixin, View):
     def get(self, request, id, par):
         p = Team_of_8.objects.get(pk=par)
         p.delete()
