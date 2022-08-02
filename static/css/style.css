@@ -47,6 +47,10 @@ p {
   margin-right: 0.5em;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 .tab-color-green {
     background: var(--green);
 }

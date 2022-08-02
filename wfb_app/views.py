@@ -1634,18 +1634,23 @@ class TParing8v8View(View):
         form = FirstParingsForm()
         result = []
         data_list = []
-        mp = []
-        player_points = []
+        players_points = []
         army_points = []
         for w in range(1, 9):
             p1points = []
+            attr2 = f'player_name_{w}'
+            attr3 = f'p{w}'
             for z in range(1, 9):
                 attr1 = f'p{w}{z}'
                 j1 = getattr(player, attr1)
                 p1points.append(j1)
             av1 = round(sum(p1points) / 8, 2)
             p1points.append(av1)
-            player_points.append(p1points)
+            player_name = getattr(tournament, attr2)
+            player_army = getattr(tournament, attr3)
+            player_data = player_name, player_army
+            player_p = p1points, player_data
+            players_points.append(player_p)
         for w in range(1, 9):
             p2points = []
             for z in range(1, 9):
@@ -1661,10 +1666,8 @@ class TParing8v8View(View):
         for perm in permutations(teamA):
             result.append(list(zip(perm, teamB)))
         for pairing in result:
-            score = []
             total = 0
             for i in pairing:
-                points = []
                 for A in teamA:
                     for B in teamB:
                         if i == (A, B):
@@ -1672,34 +1675,18 @@ class TParing8v8View(View):
                             y = teamB.index(B) + 1
                             attr = f"p{x}{y}"
                             j = getattr(player, attr)
-                            # i = player.p11 ...
-                        points.append(j)
-                for s in points:
-                    if s == -3:
-                        mp = 1
-                    elif s == -2:
-                        mp = 4
-                    elif s == -1:
-                        mp = 7
-                    elif s == 1:
-                        mp = 13
-                    elif s == 2:
-                        mp = 16
-                    elif s == 3:
-                        mp = 19
-                    else:
-                        mp = 10
-                score.append(mp)
-                total += mp
-            data_list.append([pairing, score, total])
+                            # j = player.p11 ...
+                total += j
+                average = total / 8
+            data_list.append([pairing, total, average])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
         green = 0
         yellow = 0
         red = 0
         for i in sorted_list:
-            if i[2] > 81:
+            if i[2] > 0:
                 green += 1
-            elif i[2] < 79:
+            elif i[2] < 0:
                 red += 1
             else:
                 yellow += 1
@@ -1707,82 +1694,48 @@ class TParing8v8View(View):
         green_p = green / total * 100
         yellow_p = yellow / total * 100
         red_p = red / total * 100
-
-        # seven_data_list = []
-        # for armyA in teamA:
-        #     teamA_7 = teamA.remove(armyA)
-        #     for armyB in teamB:
-        #         teamB_7 = teamB.remove(armyB)
-        #         for perm in permutations(teamA_7):
-        #             result.append(list(zip(perm, teamB_7)))
-        #         for pairing in result:
-        #             score = []
-        #             total = 0
-        #             for i in pairing:
-        #                 points = []
-        #                 for A in teamA_7:
-        #                     for B in teamB_7:
-        #                         if i == (A, B):
-        #                             x = teamA_7.index(A) + 1
-        #                             y = teamB_7.index(B) + 1
-        #                             attr = f"p{x}{y}"
-        #                             j = getattr(player, attr)
-        #                             # i = player.p11 ...
-        #                         points.append(j)
-        #                 for s in points:
-        #                     if s == -3:
-        #                         mp = 1
-        #                     elif s == -2:
-        #                         mp = 4
-        #                     elif s == -1:
-        #                         mp = 7
-        #                     elif s == 1:
-        #                         mp = 13
-        #                     elif s == 2:
-        #                         mp = 16
-        #                     elif s == 3:
-        #                         mp = 19
-        #                     else:
-        #                         mp = 10
-        #                 score.append(mp)
-        #                 total += mp
-        #             seven_data_list.append([pairing, score, total])
-        # green_7 = 0
-        # yellow_7 = 0
-        # red_7 = 0
-        # for i in seven_data_list:
-        #     if i[2] > 81:
-        #         green_7 += 1
-        #     elif i[2] < 79:
-        #         red_7 += 1
-        #     else:
-        #         yellow_7 += 1
-        # total_7 = green_7 + yellow_7 + red_7
-        # green_p_7 = green_7 / total_7 * 100
-        # yellow_p_7 = yellow_7 / total_7 * 100
-        # red_p_7 = red_7 / total_7 * 100
-
+        total_percentage = []
+        for A in teamA:
+            percentage_of_paring = []
+            for B in teamB:
+                hipotetical_list = []
+                for i in range(len(data_list) - 1):
+                    for j in range(8):
+                        if data_list[i][0][j] == (A, B):
+                            hipotetical_list.append(data_list[i])
+                green2 = 0
+                yellow2 = 0
+                red2 = 0
+                for i in hipotetical_list:
+                    if i[2] > 0:
+                        green2 += 1
+                    elif i[2] < 0:
+                        red2 += 1
+                    else:
+                        yellow2 += 1
+                total2 = green2 + yellow2 + red2
+                green_p2 = round(green2 / total2 * 100, 2)
+                yellow_p2 = round(yellow2 / total2 * 100, 2)
+                red_p2 = round(red2 / total2 * 100, 2)
+                data_set = green_p2, yellow_p2, red_p2
+                percentage_of_paring.append(data_set)
+                lista = list(percentage_of_paring)
+            lista.append(A, )
+            total_percentage.append(lista)
         ctx = {
             "tournament": tournament,
             "paring": player,
             "form": form,
-            # "data_list": sorted_list[:6],
-            # "data_list_bad": sorted_list[-6:],
             "green": green,
             "yellow": yellow,
             "red": red,
             "green_p": green_p,
             "yellow_p": yellow_p,
             "red_p": red_p,
-            "p1points": player_points[0],
-            "p2points": player_points[1],
-            "p3points": player_points[2],
-            "p4points": player_points[3],
-            "p5points": player_points[4],
-            "p6points": player_points[5],
-            "p7points": player_points[6],
-            "p8points": player_points[7],
+            "players_points": players_points,
             "army_points": army_points,
+            "total_percentage": total_percentage,
+            "teamB": teamB,
         }
         return render(request, "paring_8v8.html", ctx)
 
@@ -1797,18 +1750,24 @@ class TParing8v8View(View):
             first_op2 = form.cleaned_data["first_op2"].short_name
             result = []
             data_list = []
-            mp = []
-            player_points = []
+            rating = []
+            players_points = []
             army_points = []
             for w in range(1, 9):
                 p1points = []
+                attr2 = f'player_name_{w}'
+                attr3 = f'p{w}'
                 for z in range(1, 9):
                     attr1 = f'p{w}{z}'
                     j1 = getattr(player, attr1)
                     p1points.append(j1)
                 av1 = round(sum(p1points) / 8, 2)
                 p1points.append(av1)
-                player_points.append(p1points)
+                player_name = getattr(tournament, attr2)
+                player_army = getattr(tournament, attr3)
+                player_data = player_name, player_army
+                player_p = p1points, player_data
+                players_points.append(player_p)
             for w in range(1, 9):
                 p2points = []
                 for z in range(1, 9):
@@ -1828,7 +1787,6 @@ class TParing8v8View(View):
             for perm in permutations(teamA):
                 result.append(list(zip(perm, teamB)))
             for pairing in result:
-                score = []
                 total = 0
                 for i in pairing:
                     points = []
@@ -1841,24 +1799,9 @@ class TParing8v8View(View):
                                 j = getattr(player, attr)
                                 # i = player.p11 ...
                             points.append(j)
-                    for s in points:
-                        if s == -3:
-                            mp = 1
-                        elif s == -2:
-                            mp = 4
-                        elif s == -1:
-                            mp = 7
-                        elif s == 1:
-                            mp = 13
-                        elif s == 2:
-                            mp = 16
-                        elif s == 3:
-                            mp = 19
-                        else:
-                            mp = 10
-                    score.append(mp)
-                    total += mp
-                data_list.append([pairing, score, total])
+                    total += j
+                    average = total / 8
+                data_list.append([pairing, total, average])
             sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
             filtered_list = []
             pre_list = []
@@ -1871,23 +1814,13 @@ class TParing8v8View(View):
                     if pre_list[i][0][j] == (first_p2, first_op2):
                         filtered_list.append(pre_list[i])
             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
-            next_paring = []
-            for i in range(len(sorted_filtered_list)-1):
-                for j in range(8):
-                    if sorted_filtered_list[i][1][j] > 12:
-                        next_paring.append(sorted_filtered_list[i][0][j][0])
-            rating = dict((i, next_paring.count(i)) for i in next_paring)
-            if first_p1 in rating:
-                del rating[first_p1]
-            if first_p2 in rating:
-                del rating[first_p2]
             green = 0
             yellow = 0
             red = 0
             for i in sorted_filtered_list:
-                if i[2] > 81:
+                if i[2] > 0:
                     green += 1
-                elif i[2] < 79:
+                elif i[2] < 0:
                     red += 1
                 else:
                     yellow += 1
@@ -1895,12 +1828,20 @@ class TParing8v8View(View):
             green_p = green / total * 100
             yellow_p = yellow / total * 100
             red_p = red / total * 100
+            # next_paring = sorted(players_points, key=lambda x: x[0][8], reverse=True)
+            # rating = next_paring[0][1][1]
+            # for i in range(len(sorted_filtered_list)-1):
+            #     for j in range(8):
+            #         if sorted_filtered_list[i][1][j] > 12:
+            #             next_paring.append(sorted_filtered_list[i][0][j][0])
+            # rating = dict((i, next_paring.count(i)) for i in next_paring)
+            # if first_p1 in rating:
+            #     del rating[first_p1]
+            # if first_p2 in rating:
+            #     del rating[first_p2]
             ctx = {
                 "tournament": tournament,
                 "paring": player,
-                # "data_list": sorted_list[:6],
-                # "data_list_bad": sorted_list[-6:],
-                # "filtered_list": sorted_filtered_list,
                 "first_p1": first_p1,
                 "first_p2": first_p2,
                 "first_op1": first_op1,
@@ -1911,16 +1852,10 @@ class TParing8v8View(View):
                 "green_p": green_p,
                 "yellow_p": yellow_p,
                 "red_p": red_p,
-                "best_armies": rating,
-                "p1points": player_points[0],
-                "p2points": player_points[1],
-                "p3points": player_points[2],
-                "p4points": player_points[3],
-                "p5points": player_points[4],
-                "p6points": player_points[5],
-                "p7points": player_points[6],
-                "p8points": player_points[7],
+                "best_armies": rating[:3],
                 "army_points": army_points,
+                "players_points": players_points,
+                "teamB": teamB,
             }
             return render(request, "paring_8v8.html", ctx)
 
@@ -1954,3 +1889,249 @@ class DeleteTParing8v8View(View):
         p = Team_of_8.objects.get(pk=par)
         p.delete()
         return redirect("etc-parings", id=id)
+
+
+
+# poprzednia wersja 8v8
+
+# class TParing8v8View(View):
+#     def get(self, request, id, par):
+#         tournament = TournamentETC.objects.get(pk=id)
+#         player = Team_of_8.objects.get(pk=par)
+#         form = FirstParingsForm()
+#         result = []
+#         data_list = []
+#         mp = []
+#         player_points = []
+#         army_points = []
+#         for w in range(1, 9):
+#             p1points = []
+#             for z in range(1, 9):
+#                 attr1 = f'p{w}{z}'
+#                 j1 = getattr(player, attr1)
+#                 p1points.append(j1)
+#             av1 = round(sum(p1points) / 8, 2)
+#             p1points.append(av1)
+#             player_points.append(p1points)
+#         for w in range(1, 9):
+#             p2points = []
+#             for z in range(1, 9):
+#                 attr2 = f'p{z}{w}'
+#                 j2 = getattr(player, attr2)
+#                 p2points.append(j2)
+#             av2 = round(sum(p2points) / 8, 2)
+#             army_points.append(av2)
+#         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
+#                  tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+#         teamB = [player.op1, player.op2, player.op3, player.op4,
+#                  player.op5, player.op6, player.op7, player.op8]
+#         for perm in permutations(teamA):
+#             result.append(list(zip(perm, teamB)))
+#         for pairing in result:
+#             score = []
+#             total = 0
+#             for i in pairing:
+#                 points = []
+#                 for A in teamA:
+#                     for B in teamB:
+#                         if i == (A, B):
+#                             x = teamA.index(A) + 1
+#                             y = teamB.index(B) + 1
+#                             attr = f"p{x}{y}"
+#                             j = getattr(player, attr)
+#                             # i = player.p11 ...
+#                         points.append(j)
+#                 for s in points:
+#                     if s == -3:
+#                         mp = 1
+#                     elif s == -2:
+#                         mp = 4
+#                     elif s == -1:
+#                         mp = 7
+#                     elif s == 1:
+#                         mp = 13
+#                     elif s == 2:
+#                         mp = 16
+#                     elif s == 3:
+#                         mp = 19
+#                     else:
+#                         mp = 10
+#                 score.append(mp)
+#                 total += mp
+#             data_list.append([pairing, score, total])
+#         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+#         green = 0
+#         yellow = 0
+#         red = 0
+#         for i in sorted_list:
+#             if i[2] > 81:
+#                 green += 1
+#             elif i[2] < 79:
+#                 red += 1
+#             else:
+#                 yellow += 1
+#         total = green + yellow + red
+#         green_p = green / total * 100
+#         yellow_p = yellow / total * 100
+#         red_p = red / total * 100
+#         ctx = {
+#             "tournament": tournament,
+#             "paring": player,
+#             "form": form,
+#             # "data_list": sorted_list[:6],
+#             # "data_list_bad": sorted_list[-6:],
+#             "green": green,
+#             "yellow": yellow,
+#             "red": red,
+#             "green_p": green_p,
+#             "yellow_p": yellow_p,
+#             "red_p": red_p,
+#             "p1points": player_points[0],
+#             "p2points": player_points[1],
+#             "p3points": player_points[2],
+#             "p4points": player_points[3],
+#             "p5points": player_points[4],
+#             "p6points": player_points[5],
+#             "p7points": player_points[6],
+#             "p8points": player_points[7],
+#             "army_points": army_points,
+#         }
+#         return render(request, "paring_8v8.html", ctx)
+#
+#     def post(self, request, id, par):
+#         tournament = TournamentETC.objects.get(pk=id)
+#         player = Team_of_8.objects.get(pk=par)
+#         form = FirstParingsForm(request.POST)
+#         if form.is_valid():
+#             first_p1 = form.cleaned_data["first_p1"].short_name
+#             first_op1 = form.cleaned_data["first_op1"].short_name
+#             first_p2 = form.cleaned_data["first_p2"].short_name
+#             first_op2 = form.cleaned_data["first_op2"].short_name
+#             result = []
+#             data_list = []
+#             mp = []
+#             player_points = []
+#             army_points = []
+#             for w in range(1, 9):
+#                 p1points = []
+#                 for z in range(1, 9):
+#                     attr1 = f'p{w}{z}'
+#                     j1 = getattr(player, attr1)
+#                     p1points.append(j1)
+#                 av1 = round(sum(p1points) / 8, 2)
+#                 p1points.append(av1)
+#                 player_points.append(p1points)
+#             for w in range(1, 9):
+#                 p2points = []
+#                 for z in range(1, 9):
+#                     attr2 = f'p{z}{w}'
+#                     j2 = getattr(player, attr2)
+#                     p2points.append(j2)
+#                 av2 = round(sum(p2points) / 8, 2)
+#                 army_points.append(av2)
+#             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
+#                      tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+#             # teamA.remove(first_p1)
+#             # teamA.remove(first_p2)
+#             teamB = [player.op1, player.op2, player.op3, player.op4,
+#                      player.op5, player.op6, player.op7, player.op8]
+#             # teamB.remove(first_op1)
+#             # teamB.remove(first_op2)
+#             for perm in permutations(teamA):
+#                 result.append(list(zip(perm, teamB)))
+#             for pairing in result:
+#                 score = []
+#                 total = 0
+#                 for i in pairing:
+#                     points = []
+#                     for A in teamA:
+#                         for B in teamB:
+#                             if i == (A, B):
+#                                 x = teamA.index(A) + 1
+#                                 y = teamB.index(B) + 1
+#                                 attr = f"p{x}{y}"
+#                                 j = getattr(player, attr)
+#                                 # i = player.p11 ...
+#                             points.append(j)
+#                     for s in points:
+#                         if s == -3:
+#                             mp = 1
+#                         elif s == -2:
+#                             mp = 4
+#                         elif s == -1:
+#                             mp = 7
+#                         elif s == 1:
+#                             mp = 13
+#                         elif s == 2:
+#                             mp = 16
+#                         elif s == 3:
+#                             mp = 19
+#                         else:
+#                             mp = 10
+#                     score.append(mp)
+#                     total += mp
+#                 data_list.append([pairing, score, total])
+#             sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
+#             filtered_list = []
+#             pre_list = []
+#             for i in range(len(data_list) - 1):
+#                 for j in range(8):
+#                     if data_list[i][0][j] == (first_p1, first_op1):
+#                         pre_list.append(data_list[i])
+#             for i in range(len(pre_list) - 1):
+#                 for j in range(8):
+#                     if pre_list[i][0][j] == (first_p2, first_op2):
+#                         filtered_list.append(pre_list[i])
+#             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
+#             next_paring = []
+#             for i in range(len(sorted_filtered_list)-1):
+#                 for j in range(8):
+#                     if sorted_filtered_list[i][1][j] > 12:
+#                         next_paring.append(sorted_filtered_list[i][0][j][0])
+#             rating = dict((i, next_paring.count(i)) for i in next_paring)
+#             if first_p1 in rating:
+#                 del rating[first_p1]
+#             if first_p2 in rating:
+#                 del rating[first_p2]
+#             green = 0
+#             yellow = 0
+#             red = 0
+#             for i in sorted_filtered_list:
+#                 if i[2] > 81:
+#                     green += 1
+#                 elif i[2] < 79:
+#                     red += 1
+#                 else:
+#                     yellow += 1
+#             total = green+yellow+red
+#             green_p = green / total * 100
+#             yellow_p = yellow / total * 100
+#             red_p = red / total * 100
+#             ctx = {
+#                 "tournament": tournament,
+#                 "paring": player,
+#                 # "data_list": sorted_list[:6],
+#                 # "data_list_bad": sorted_list[-6:],
+#                 # "filtered_list": sorted_filtered_list,
+#                 "first_p1": first_p1,
+#                 "first_p2": first_p2,
+#                 "first_op1": first_op1,
+#                 "first_op2": first_op2,
+#                 "green": green,
+#                 "yellow": yellow,
+#                 "red": red,
+#                 "green_p": green_p,
+#                 "yellow_p": yellow_p,
+#                 "red_p": red_p,
+#                 "best_armies": rating,
+#                 "p1points": player_points[0],
+#                 "p2points": player_points[1],
+#                 "p3points": player_points[2],
+#                 "p4points": player_points[3],
+#                 "p5points": player_points[4],
+#                 "p6points": player_points[5],
+#                 "p7points": player_points[6],
+#                 "p8points": player_points[7],
+#                 "army_points": army_points,
+#             }
+#             return render(request, "paring_8v8.html", ctx)
