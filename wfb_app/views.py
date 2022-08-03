@@ -1743,11 +1743,27 @@ class TParing8v8View(LoginRequiredMixin, View):
         tournament = TournamentETC.objects.get(pk=id)
         player = Team_of_8.objects.get(pk=par)
         form = FirstParingsForm(request.POST)
+        teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
+                 tournament.p5, tournament.p6, tournament.p7, tournament.p8]
+        # teamA.remove(first_p1)
+        # teamA.remove(first_p2)
+        teamB = [player.op1, player.op2, player.op3, player.op4,
+                 player.op5, player.op6, player.op7, player.op8]
+        # teamB.remove(first_op1)
+        # teamB.remove(first_op2)
         if form.is_valid():
             first_p1 = form.cleaned_data["first_p1"].short_name
             first_op1 = form.cleaned_data["first_op1"].short_name
             first_p2 = form.cleaned_data["first_p2"].short_name
             first_op2 = form.cleaned_data["first_op2"].short_name
+            # do usuwania kolumn
+            n1 = teamA.index(first_p1) + 1
+            n2 = teamA.index(first_p2) + 1
+            no1 = teamB.index(first_op1) + 1
+            no2 = teamB.index(first_op2) + 1
+            teamBpost = teamB.copy()
+            teamBpost.remove(first_op1)
+            teamBpost.remove(first_op2)
             result = []
             data_list = []
             rating = []
@@ -1756,36 +1772,44 @@ class TParing8v8View(LoginRequiredMixin, View):
             # w == A in team A, z == B in teamB
             for w in range(1, 9):
                 p1points = []
-                opponents_army = []
-                attr2 = f'player_name_{w}'
-                attr3 = f'p{w}'
-                for z in range(1, 9):
-                    attr1 = f'p{w}{z}'
-                    j1 = getattr(player, attr1)
-                    p1points.append(j1)
-                av1 = round(sum(p1points) / 8, 2)
-                # p1points.append(av1)
-                player_name = getattr(tournament, attr2)
-                player_army = getattr(tournament, attr3)
-                player_data = player_name, player_army
-                player_p = p1points, player_data
-                players_points.append(player_p)
+                if w == n1 or w == n2:
+                    pass
+                else:
+                    attr2 = f'player_name_{w}'
+                    attr3 = f'p{w}'
+                    for z in range(1, 9):
+                        if z == no1 or z == no2:
+                            pass
+                        else:
+                            attr1 = f'p{w}{z}'
+                            j1 = getattr(player, attr1)
+                            p1points.append(j1)
+
+                    av1 = round(sum(p1points) / 8, 2)
+                    p1points.append(av1)
+                    player_name = getattr(tournament, attr2)
+                    player_army = getattr(tournament, attr3)
+                    player_data = player_name, player_army
+                    player_p = p1points, player_data
+                    players_points.append(player_p)
+            print(players_points)
+            print(len(players_points))
             for w in range(1, 9):
                 p2points = []
-                for z in range(1, 9):
-                    attr2 = f'p{z}{w}'
-                    j2 = getattr(player, attr2)
-                    p2points.append(j2)
-                av2 = round(sum(p2points) / 8, 2)
-                army_points.append(av2)
-            teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
-                     tournament.p5, tournament.p6, tournament.p7, tournament.p8]
-            # teamA.remove(first_p1)
-            # teamA.remove(first_p2)
-            teamB = [player.op1, player.op2, player.op3, player.op4,
-                     player.op5, player.op6, player.op7, player.op8]
-            # teamB.remove(first_op1)
-            # teamB.remove(first_op2)
+                if w == no1 or w == no2:
+                    pass
+                else:
+                    for z in range(1, 9):
+                        if z == n1 or z == n2:
+                            pass
+                        else:
+                            attr2 = f'p{z}{w}'
+                            j2 = getattr(player, attr2)
+                            p2points.append(j2)
+                    av2 = round(sum(p2points) / 8, 2)
+                    army_points.append(av2)
+            print(army_points)
+
             for perm in permutations(teamA):
                 result.append(list(zip(perm, teamB)))
             for pairing in result:
@@ -1831,9 +1855,7 @@ class TParing8v8View(LoginRequiredMixin, View):
             yellow_p = yellow / total * 100
             red_p = red / total * 100
 
-            # do usuwania kolumn
-            no1 = teamB.index(first_op1) + 1
-            no2 = teamB.index(first_op2) + 1
+
             # next_paring = sorted(players_points, key=lambda x: x[0][8], reverse=True)
             # rating = next_paring[0][1][1]
             # for i in range(len(sorted_filtered_list)-1):
@@ -1858,13 +1880,14 @@ class TParing8v8View(LoginRequiredMixin, View):
                 "green_p": green_p,
                 "yellow_p": yellow_p,
                 "red_p": red_p,
-                "best_armies": rating[:3],
+                # "best_armies": rating[:3],
                 "army_points": army_points,
                 "players_points": players_points,
                 "teamB": teamB,
                 "no1": no1,
                 "no2": no2,
-                "range": range(1,9),
+                "range": range(1, 9),
+                "teamBpost": teamBpost,
             }
             return render(request, "paring_8v8.html", ctx)
 
