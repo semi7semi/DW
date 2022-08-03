@@ -20,6 +20,16 @@
                 {% endfor %}
                 <th>Av</th>
             </tr>
+            {% if request.method == 'GET' %}
+            <tr class="tab-my">
+                <th></th>
+                {% for p in teamB %}
+                <th>{{ p }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            {% endif %}
+            {% if request.method == 'POST' %}
             <tr class="tab-my">
                 <th></th>
                 {% for p in teamBpost %}
@@ -27,6 +37,7 @@
                 {% endfor %}
                 <th></th>
             </tr>
+            {% endif %}
             {% for row in players_points %}
             <tr class="tab-my">
                 <th>{{ row.1.0 }}: {{ row.1.1 }}</th>
@@ -90,7 +101,6 @@
                 </table>
                 <input class="btn btn-color rounded-1 pt-1 pb-1" type="submit" value="Szacuj">
                 {% csrf_token %}
-
             </form>
         </div>
         {% endif %}
@@ -110,81 +120,17 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="m-4 p-4 border-dashed">
-        <p><strong>Rozklad procentowy paringow dla kazdej wystawki</strong></p>
-        <table class="table border-bottom schedules-content">
-            <tr class="tab-my2">
-                <th></th>
-                <th></th>
-                <th>P1</th>
-                <th></th>
-                <th></th>
-                <th>P2</th>
-                <th></th>
-                <th></th>
-                <th>P3</th>
-                <th></th>
-                <th></th>
-                <th>P4</th>
-                <th></th>
-                <th></th>
-                <th>P5</th>
-                <th></th>
-                <th></th>
-                <th>P6</th>
-                <th></th>
-                <th></th>
-                <th>P7</th>
-                <th></th>
-                <th></th>
-                <th>P8</th>
-                <th></th>
-            </tr>
-            <tr class="tab-my">
-                <th></th>
-                <th></th>
-                <th>{{ paring.op1 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op2 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op3 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op4 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op5 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op6 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op7 }}</th>
-                <th></th>
-                <th></th>
-                <th>{{ paring.op8 }}</th>
-                <th></th>
-            </tr>
-            {% for data in total_percentage %}
-            <tr class="tab-my2">
-                <th>{{ data.8 }}</th>
-                {% for i in data %}
-                <td class="alert-green">{{ i.0|stringformat:"d%%" }}</td>
-                <td class="alert-yellow">{{ i.1|stringformat:"d%%" }}</td>
-                <td class="alert-red">{{ i.2|stringformat:"d%%" }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-
-        </table>
-    </div>
-</div>
-{% elif request.method == 'POST' %}
+{% endif %}
+{% if request.method == 'POST' %}
 <div class="col">
+        <div class="dashboard-alerts row">
+        <div class="m-4 p-4 alert-item alert-info">
+            <span class="font-weight-bold">Pierwsze pary:</span>
+                <span>{{ first_p1 }} - {{ first_op1 }}</span></br>
+                <span>{{ first_p2 }} - {{ first_op2 }}</span></br>
+            </p>
+        </div>
+    </div>
     <div class="dashboard-alerts row">
         <div class="m-4 p-4 alert-item alert-green">
             <span class="font-weight-bold">Dobrych paringów: {{ green_p|stringformat:"d%%" }} ({{ green }})</span>
@@ -197,19 +143,62 @@
         </div>
     </div>
 </div>
-<!--<div class="col">-->
-<!--    <div class="dashboard-alerts row">-->
-<!--        <div class="m-4 p-4 alert-item alert-info">-->
-<!--            <span class="font-weight-bold">Najlepsze mozliwe wystawki:</br>-->
-<!--                <i>(Armia: ilość paringów z 13+ pkt)</i></br>-->
-<!--                {{rating}}-->
-<!--                {% for army, rating in best_armies.items %}-->
-<!--                {{ army }} : {{ rating }}</br>-->
-<!--                {% endfor %}-->
-<!--            </span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 {% endif %}
+
+<div class="row">
+    <div class="m-4 p-4 border-dashed">
+        <p><strong>Rozklad procentowy paringów dla druzyny dla wystawki i mozliwych dostawek</strong></p>
+        <table class="table border-bottom schedules-content">
+            <tr class="tab-my2">
+                <th></th>
+                {% for i in range %}
+                {% if forloop.counter == no1 or forloop.counter == no2 %}
+                <td class="d-none"></td>
+                {% else %}
+                <th></th>
+                <th>P{{i}}</th>
+                <th></th>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% if request.method == 'GET' %}
+            <tr class="tab-my">
+                <th></th>
+                {% for p in teamB %}
+                <th></th>
+                <th>{{ p }}</th>
+                <th></th>
+                {% endfor %}
+            </tr>
+            {% endif %}
+            {% if request.method == 'POST' %}
+            <tr class="tab-my">
+                <th></th>
+                {% for p in teamBpost %}
+                <th></th>
+                <th>{{ p }}</th>
+                <th></th>
+                {% endfor %}
+            </tr>
+            {% endif %}
+            {% for data in total_percentage %}
+            <tr class="tab-my2">
+                {% if request.method == 'GET' %}
+                <th>{{ data.8 }}</th>
+                {% elif request.method == 'POST' %}
+                <th>{{ data.6 }}</th>
+                {% endif %}
+                {% for i in data %}
+                <td class="alert-green">{{ i.0|stringformat:"d%%" }}</td>
+                <td class="alert-yellow">{{ i.1|stringformat:"d%%" }}</td>
+                <td class="alert-red">{{ i.2|stringformat:"d%%" }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+
+
 {% endblock content %}
