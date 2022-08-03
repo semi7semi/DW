@@ -1720,7 +1720,7 @@ class TParing8v8View(LoginRequiredMixin, View):
                 data_set = green_p2, yellow_p2, red_p2
                 percentage_of_paring.append(data_set)
                 lista = list(percentage_of_paring)
-            lista.append(A, )
+            lista.append(A)
             total_percentage.append(lista)
         ctx = {
             "tournament": tournament,
@@ -1753,8 +1753,10 @@ class TParing8v8View(LoginRequiredMixin, View):
             rating = []
             players_points = []
             army_points = []
+            # w == A in team A, z == B in teamB
             for w in range(1, 9):
                 p1points = []
+                opponents_army = []
                 attr2 = f'player_name_{w}'
                 attr3 = f'p{w}'
                 for z in range(1, 9):
@@ -1762,7 +1764,7 @@ class TParing8v8View(LoginRequiredMixin, View):
                     j1 = getattr(player, attr1)
                     p1points.append(j1)
                 av1 = round(sum(p1points) / 8, 2)
-                p1points.append(av1)
+                # p1points.append(av1)
                 player_name = getattr(tournament, attr2)
                 player_army = getattr(tournament, attr3)
                 player_data = player_name, player_army
@@ -1828,6 +1830,10 @@ class TParing8v8View(LoginRequiredMixin, View):
             green_p = green / total * 100
             yellow_p = yellow / total * 100
             red_p = red / total * 100
+
+            # do usuwania kolumn
+            no1 = teamB.index(first_op1) + 1
+            no2 = teamB.index(first_op2) + 1
             # next_paring = sorted(players_points, key=lambda x: x[0][8], reverse=True)
             # rating = next_paring[0][1][1]
             # for i in range(len(sorted_filtered_list)-1):
@@ -1856,6 +1862,9 @@ class TParing8v8View(LoginRequiredMixin, View):
                 "army_points": army_points,
                 "players_points": players_points,
                 "teamB": teamB,
+                "no1": no1,
+                "no2": no2,
+                "range": range(1,9),
             }
             return render(request, "paring_8v8.html", ctx)
 

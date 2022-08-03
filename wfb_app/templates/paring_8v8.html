@@ -11,20 +11,23 @@
         <table class="table border-bottom schedules-content">
             <tr class="tab-my2">
                 <th></th>
-                <th>P1</th>
-                <th>P2</th>
-                <th>P3</th>
-                <th>P4</th>
-                <th>P5</th>
-                <th>P6</th>
-                <th>P7</th>
-                <th>P8</th>
+                {% for i in range %}
+                {% if forloop.counter == no1 or forloop.counter == no2 %}
+                <td class="d-none"></td>
+                {% else %}
+                <th>P{{i}}</th>
+                {% endif %}
+                {% endfor %}
                 <th>Av</th>
             </tr>
             <tr class="tab-my">
                 <th></th>
                 {% for p in teamB %}
+                {% if p == first_op1 or p == first_op2 %}
+                <th class="d-none"></th>
+                {% else %}
                 <th>{{ p }}</th>
+                {% endif %}
                 {% endfor %}
                 <th></th>
             </tr>
@@ -35,6 +38,9 @@
             <tr class="tab-my">
                 <th>{{ row.1.0 }}: {{ row.1.1 }}</th>
                 {% for i in row.0 %}
+                {% if forloop.counter == no1 or forloop.counter == no2 %}
+                <td class="d-none"></td>
+                {% else %}
                 {% if i == 0 %}
                 <td> {{i}}</td>
                 {% elif i < 0 and i >= -1 %}
@@ -45,14 +51,19 @@
                 <td style="background-color: #79d279"> {{i}}</td>
                 {% elif i > 1 %}
                 <td style="background-color: #40bf40"> {{i}}</td>
+                {% endif %}
                 {% endif %}
                 {% endfor %}
             </tr>
             {% endif %}
             {% endfor %}
+            {% if request.method == 'GET' %}
             <tr class="tab-my">
                 <th></th>
                 {% for i in army_points %}
+                {% if forloop.counter == no1 or forloop.counter == no2 %}
+                <td class="d-none"></td>
+                {% else %}
                 {% if i == 0 %}
                 <td> {{i}}</td>
                 {% elif i < 0 and i >= -1 %}
@@ -64,8 +75,12 @@
                 {% elif i > 1 %}
                 <td style="background-color: #ff4d4d"> {{i}}</td>
                 {% endif %}
+                {% endif %}
                 {% endfor %}
             </tr>
+            {% else %}
+            <tr></tr>
+            {% endif %}
         </table>
     </div>
     <div>
