@@ -18,7 +18,7 @@
                 <th>P{{i}}</th>
                 {% endif %}
                 {% endfor %}
-                <th>Av</th>
+                <th class="tab-color-grey">Av</th>
             </tr>
             {% if request.method == 'GET' %}
             <tr class="tab-my">
@@ -57,7 +57,7 @@
             </tr>
             {% endfor %}
             <tr class="tab-my">
-                <th></th>
+                <th class="tab-color-grey">Av op</th>
                 {% for i in army_points %}
                 {% if i == 0 %}
                 <td> {{i}}</td>
@@ -123,11 +123,11 @@
 {% endif %}
 {% if request.method == 'POST' %}
 <div class="col">
-        <div class="dashboard-alerts row">
+    <div class="dashboard-alerts row">
         <div class="m-4 p-4 alert-item alert-info">
             <span class="font-weight-bold">Pierwsze pary:</span>
-                <span>{{ first_p1 }} - {{ first_op1 }}</span></br>
-                <span>{{ first_p2 }} - {{ first_op2 }}</span></br>
+            <span>{{ first_p1 }} - {{ first_op1 }}</span></br>
+            <span>{{ first_p2 }} - {{ first_op2 }}</span></br>
             </p>
         </div>
     </div>
