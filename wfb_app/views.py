@@ -614,7 +614,7 @@ class EditUserView(LoginRequiredMixin, View):
 
 
 
-class UsersList(LoginRequiredMixin, View):
+class UsersList(View):
     # Lista wszystkich uzytkownkow
     # tylko dla zalogowanych
     def get(self, request):
@@ -957,7 +957,7 @@ class AddGameResultView(LoginRequiredMixin, View):
             return render(request, "ranking_form.html", ctx)
 
 
-class EditGameResultView(View):
+class EditGameResultView(LoginRequiredMixin, View):
     def get(self, request, id):
         game = GameResults.objects.get(pk=id)
         form = GameResultsForm(instance=game)
@@ -1662,7 +1662,7 @@ class ArmyIconsView(View):
                 }
         return render(request, "paring_icons.html", ctx)
 
-class TournamentETCView(LoginRequiredMixin, View):
+class TournamentETCView(View):
     def get(self, request):
         tournaments_list = TournamentETC.objects.all().order_by("-date")
         ctx = {
@@ -1671,7 +1671,7 @@ class TournamentETCView(LoginRequiredMixin, View):
         return render(request, "etc_list.html", ctx)
 
 
-class AddTournamentETCView(LoginRequiredMixin, View):
+class AddTournamentETCView(View):
     def get(self, request):
         form = ETCForm(initial={"date": datetime.now()})
         ctx = {"form": form}
@@ -1682,7 +1682,7 @@ class AddTournamentETCView(LoginRequiredMixin, View):
             form.save()
             return redirect("etc-view")
 
-class EditTournamentETCView(LoginRequiredMixin, View):
+class EditTournamentETCView(View):
     def get(self, request, id):
         tournament = TournamentETC.objects.get(pk=id)
         form = ETCForm(instance=tournament)
@@ -1696,14 +1696,14 @@ class EditTournamentETCView(LoginRequiredMixin, View):
             return redirect("etc-view")
 
 
-class DeleteTournamentETCView(LoginRequiredMixin, View):
+class DeleteTournamentETCView(View):
     def get(self, request, id):
         t = TournamentETC.objects.get(pk=id)
         t.delete()
         return redirect("tournaments-view")
 
 
-class ETCParingsView(LoginRequiredMixin, View):
+class ETCParingsView(View):
     def get(self, request, id):
         tournament = TournamentETC.objects.get(pk=id)
         parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
@@ -1725,7 +1725,7 @@ class ETCParingsView(LoginRequiredMixin, View):
             return redirect("etc-parings", id=id)
 
 
-class TParing8v8View(LoginRequiredMixin, View):
+class TParing8v8View(View):
     def get(self, request, id, par):
         tournament = TournamentETC.objects.get(pk=id)
         player = Team_of_8.objects.get(pk=par)
@@ -2014,7 +2014,7 @@ class TParing8v8View(LoginRequiredMixin, View):
             return render(request, "paring_8v8.html", ctx)
 
 
-class EditTParing8v8View(LoginRequiredMixin, View):
+class EditTParing8v8View(View):
     def get(self, request, id, par):
         tournament = TournamentETC.objects.get(pk=id)
         parings_list = Team_of_8.objects.filter(tournament=tournament.id).order_by("name")
@@ -2038,254 +2038,8 @@ class EditTParing8v8View(LoginRequiredMixin, View):
             return redirect("paring-etc-view", id=id, par=par)
 
 
-class DeleteTParing8v8View(LoginRequiredMixin, View):
+class DeleteTParing8v8View(View):
     def get(self, request, id, par):
         p = Team_of_8.objects.get(pk=par)
         p.delete()
         return redirect("etc-parings", id=id)
-
-
-
-# poprzednia wersja 8v8
-
-# class TParing8v8View(View):
-#     def get(self, request, id, par):
-#         tournament = TournamentETC.objects.get(pk=id)
-#         player = Team_of_8.objects.get(pk=par)
-#         form = FirstParingsForm()
-#         result = []
-#         data_list = []
-#         mp = []
-#         player_points = []
-#         army_points = []
-#         for w in range(1, 9):
-#             p1points = []
-#             for z in range(1, 9):
-#                 attr1 = f'p{w}{z}'
-#                 j1 = getattr(player, attr1)
-#                 p1points.append(j1)
-#             av1 = round(sum(p1points) / 8, 2)
-#             p1points.append(av1)
-#             player_points.append(p1points)
-#         for w in range(1, 9):
-#             p2points = []
-#             for z in range(1, 9):
-#                 attr2 = f'p{z}{w}'
-#                 j2 = getattr(player, attr2)
-#                 p2points.append(j2)
-#             av2 = round(sum(p2points) / 8, 2)
-#             army_points.append(av2)
-#         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
-#                  tournament.p5, tournament.p6, tournament.p7, tournament.p8]
-#         teamB = [player.op1, player.op2, player.op3, player.op4,
-#                  player.op5, player.op6, player.op7, player.op8]
-#         for perm in permutations(teamA):
-#             result.append(list(zip(perm, teamB)))
-#         for pairing in result:
-#             score = []
-#             total = 0
-#             for i in pairing:
-#                 points = []
-#                 for A in teamA:
-#                     for B in teamB:
-#                         if i == (A, B):
-#                             x = teamA.index(A) + 1
-#                             y = teamB.index(B) + 1
-#                             attr = f"p{x}{y}"
-#                             j = getattr(player, attr)
-#                             # i = player.p11 ...
-#                         points.append(j)
-#                 for s in points:
-#                     if s == -3:
-#                         mp = 1
-#                     elif s == -2:
-#                         mp = 4
-#                     elif s == -1:
-#                         mp = 7
-#                     elif s == 1:
-#                         mp = 13
-#                     elif s == 2:
-#                         mp = 16
-#                     elif s == 3:
-#                         mp = 19
-#                     else:
-#                         mp = 10
-#                 score.append(mp)
-#                 total += mp
-#             data_list.append([pairing, score, total])
-#         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
-#         green = 0
-#         yellow = 0
-#         red = 0
-#         for i in sorted_list:
-#             if i[2] > 81:
-#                 green += 1
-#             elif i[2] < 79:
-#                 red += 1
-#             else:
-#                 yellow += 1
-#         total = green + yellow + red
-#         green_p = green / total * 100
-#         yellow_p = yellow / total * 100
-#         red_p = red / total * 100
-#         ctx = {
-#             "tournament": tournament,
-#             "paring": player,
-#             "form": form,
-#             # "data_list": sorted_list[:6],
-#             # "data_list_bad": sorted_list[-6:],
-#             "green": green,
-#             "yellow": yellow,
-#             "red": red,
-#             "green_p": green_p,
-#             "yellow_p": yellow_p,
-#             "red_p": red_p,
-#             "p1points": player_points[0],
-#             "p2points": player_points[1],
-#             "p3points": player_points[2],
-#             "p4points": player_points[3],
-#             "p5points": player_points[4],
-#             "p6points": player_points[5],
-#             "p7points": player_points[6],
-#             "p8points": player_points[7],
-#             "army_points": army_points,
-#         }
-#         return render(request, "paring_8v8.html", ctx)
-#
-#     def post(self, request, id, par):
-#         tournament = TournamentETC.objects.get(pk=id)
-#         player = Team_of_8.objects.get(pk=par)
-#         form = FirstParingsForm(request.POST)
-#         if form.is_valid():
-#             first_p1 = form.cleaned_data["first_p1"].short_name
-#             first_op1 = form.cleaned_data["first_op1"].short_name
-#             first_p2 = form.cleaned_data["first_p2"].short_name
-#             first_op2 = form.cleaned_data["first_op2"].short_name
-#             result = []
-#             data_list = []
-#             mp = []
-#             player_points = []
-#             army_points = []
-#             for w in range(1, 9):
-#                 p1points = []
-#                 for z in range(1, 9):
-#                     attr1 = f'p{w}{z}'
-#                     j1 = getattr(player, attr1)
-#                     p1points.append(j1)
-#                 av1 = round(sum(p1points) / 8, 2)
-#                 p1points.append(av1)
-#                 player_points.append(p1points)
-#             for w in range(1, 9):
-#                 p2points = []
-#                 for z in range(1, 9):
-#                     attr2 = f'p{z}{w}'
-#                     j2 = getattr(player, attr2)
-#                     p2points.append(j2)
-#                 av2 = round(sum(p2points) / 8, 2)
-#                 army_points.append(av2)
-#             teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4,
-#                      tournament.p5, tournament.p6, tournament.p7, tournament.p8]
-#             # teamA.remove(first_p1)
-#             # teamA.remove(first_p2)
-#             teamB = [player.op1, player.op2, player.op3, player.op4,
-#                      player.op5, player.op6, player.op7, player.op8]
-#             # teamB.remove(first_op1)
-#             # teamB.remove(first_op2)
-#             for perm in permutations(teamA):
-#                 result.append(list(zip(perm, teamB)))
-#             for pairing in result:
-#                 score = []
-#                 total = 0
-#                 for i in pairing:
-#                     points = []
-#                     for A in teamA:
-#                         for B in teamB:
-#                             if i == (A, B):
-#                                 x = teamA.index(A) + 1
-#                                 y = teamB.index(B) + 1
-#                                 attr = f"p{x}{y}"
-#                                 j = getattr(player, attr)
-#                                 # i = player.p11 ...
-#                             points.append(j)
-#                     for s in points:
-#                         if s == -3:
-#                             mp = 1
-#                         elif s == -2:
-#                             mp = 4
-#                         elif s == -1:
-#                             mp = 7
-#                         elif s == 1:
-#                             mp = 13
-#                         elif s == 2:
-#                             mp = 16
-#                         elif s == 3:
-#                             mp = 19
-#                         else:
-#                             mp = 10
-#                     score.append(mp)
-#                     total += mp
-#                 data_list.append([pairing, score, total])
-#             sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
-#             filtered_list = []
-#             pre_list = []
-#             for i in range(len(data_list) - 1):
-#                 for j in range(8):
-#                     if data_list[i][0][j] == (first_p1, first_op1):
-#                         pre_list.append(data_list[i])
-#             for i in range(len(pre_list) - 1):
-#                 for j in range(8):
-#                     if pre_list[i][0][j] == (first_p2, first_op2):
-#                         filtered_list.append(pre_list[i])
-#             sorted_filtered_list = sorted(filtered_list, key=itemgetter(2), reverse=True)
-#             next_paring = []
-#             for i in range(len(sorted_filtered_list)-1):
-#                 for j in range(8):
-#                     if sorted_filtered_list[i][1][j] > 12:
-#                         next_paring.append(sorted_filtered_list[i][0][j][0])
-#             rating = dict((i, next_paring.count(i)) for i in next_paring)
-#             if first_p1 in rating:
-#                 del rating[first_p1]
-#             if first_p2 in rating:
-#                 del rating[first_p2]
-#             green = 0
-#             yellow = 0
-#             red = 0
-#             for i in sorted_filtered_list:
-#                 if i[2] > 81:
-#                     green += 1
-#                 elif i[2] < 79:
-#                     red += 1
-#                 else:
-#                     yellow += 1
-#             total = green+yellow+red
-#             green_p = green / total * 100
-#             yellow_p = yellow / total * 100
-#             red_p = red / total * 100
-#             ctx = {
-#                 "tournament": tournament,
-#                 "paring": player,
-#                 # "data_list": sorted_list[:6],
-#                 # "data_list_bad": sorted_list[-6:],
-#                 # "filtered_list": sorted_filtered_list,
-#                 "first_p1": first_p1,
-#                 "first_p2": first_p2,
-#                 "first_op1": first_op1,
-#                 "first_op2": first_op2,
-#                 "green": green,
-#                 "yellow": yellow,
-#                 "red": red,
-#                 "green_p": green_p,
-#                 "yellow_p": yellow_p,
-#                 "red_p": red_p,
-#                 "best_armies": rating,
-#                 "p1points": player_points[0],
-#                 "p2points": player_points[1],
-#                 "p3points": player_points[2],
-#                 "p4points": player_points[3],
-#                 "p5points": player_points[4],
-#                 "p6points": player_points[5],
-#                 "p7points": player_points[6],
-#                 "p8points": player_points[7],
-#                 "army_points": army_points,
-#             }
-#             return render(request, "paring_8v8.html", ctx)
