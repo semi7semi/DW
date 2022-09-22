@@ -1168,9 +1168,9 @@ class TParing3v3View(View):
         yellow = 0
         red = 0
         for i in sorted_list:
-            if i[2] > 41:
+            if i[2] > 31:
                 green += 1
-            elif i[2] < 39:
+            elif i[2] < 29:
                 red += 1
             else:
                 yellow += 1
