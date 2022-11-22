@@ -19,7 +19,6 @@
                 {% endfor %}
                 <th class="tab-color-grey">Av</th>
             </tr>
-            {% if request.method == 'GET' %}
             <tr class="tab-my">
                 <th></th>
                 {% for p in teamB %}
@@ -27,16 +26,6 @@
                 {% endfor %}
                 <th></th>
             </tr>
-            {% endif %}
-            {% if request.method == 'POST' %}
-            <tr class="tab-my">
-                <th></th>
-                {% for p in teamBpost %}
-                <th>{{ p }}</th>
-                {% endfor %}
-                <th></th>
-            </tr>
-            {% endif %}
             {% for row in players_points %}
             <tr class="tab-my">
                 <th>{{ row.1.0 }}: {{ row.1.1 }}</th>
