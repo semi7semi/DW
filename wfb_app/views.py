@@ -1198,18 +1198,41 @@ class TParing4v4View(View):
     def get(self, request, id, par):
         tournament = Tournaments.objects.get(pk=id)
         player = Team_of_4.objects.get(pk=par)
+        form = FirstParingsForm()
         result = []
         data_list = []
-        mp = []
+        players_points = []
+        army_points = []
+        for w in range(1, 5):
+            p1points = []
+            attr2 = f'player_name_{w}'
+            attr3 = f'p{w}'
+            for z in range(1, 5):
+                attr1 = f'p{w}{z}'
+                j1 = getattr(player, attr1)
+                p1points.append(j1)
+            av1 = round(sum(p1points) / 4, 2)
+            p1points.append(av1)
+            player_name = getattr(tournament, attr2)
+            player_army = getattr(tournament, attr3)
+            player_data = player_name, player_army
+            player_p = p1points, player_data
+            players_points.append(player_p)
+        for w in range(1, 5):
+            p2points = []
+            for z in range(1, 5):
+                attr2 = f'p{z}{w}'
+                j2 = getattr(player, attr2)
+                p2points.append(j2)
+            av2 = round(sum(p2points) / 4, 2)
+            army_points.append(av2)
         teamA = [tournament.p1, tournament.p2, tournament.p3, tournament.p4]
         teamB = [player.op1, player.op2, player.op3, player.op4]
         for perm in permutations(teamA):
             result.append(list(zip(perm, teamB)))
         for pairing in result:
-            score = []
             total = 0
             for i in pairing:
-                points = []
                 for A in teamA:
                     for B in teamB:
                         if i == (A, B):
@@ -1218,33 +1241,17 @@ class TParing4v4View(View):
                             attr = f"p{x}{y}"
                             j = getattr(player, attr)
                             # i = player.p11 ...
-                        points.append(j)
-                for s in points:
-                    if s == -3:
-                        mp = 1
-                    elif s == -2:
-                        mp = 4
-                    elif s == -1:
-                        mp = 7
-                    elif s == 1:
-                        mp = 13
-                    elif s == 2:
-                        mp = 16
-                    elif s == 3:
-                        mp = 19
-                    else:
-                        mp = 10
-                score.append(mp)
-                total += mp
-            data_list.append([pairing, score, total])
+                total += j
+                average = total / 4
+            data_list.append([pairing, total, average])
         sorted_list = sorted(data_list, key=itemgetter(2), reverse=True)
         green = 0
         yellow = 0
         red = 0
         for i in sorted_list:
-            if i[2] > 41:
+            if i[2] > 0:
                 green += 1
-            elif i[2] < 39:
+            elif i[2] < 0:
                 red += 1
             else:
                 yellow += 1
@@ -1252,17 +1259,54 @@ class TParing4v4View(View):
         green_p = green / total * 100
         yellow_p = yellow / total * 100
         red_p = red / total * 100
+        total_percentage = []
+        for A in teamA:
+            percentage_of_paring = []
+            for B in teamB:
+                hypothetical_list = []
+                for i in range(len(data_list) - 1):
+                    for j in range(4):
+                        if data_list[i][0][j] == (A, B):
+                            hypothetical_list.append(data_list[i])
+                green2 = 0
+                yellow2 = 0
+                red2 = 0
+                for i in hypothetical_list:
+                    if i[2] > 0:
+                        green2 += 1
+                    elif i[2] < 0:
+                        red2 += 1
+                    else:
+                        yellow2 += 1
+                total2 = green2 + yellow2 + red2
+                green_p2 = round(green2 / total2 * 100, 2)
+                yellow_p2 = round(yellow2 / total2 * 100, 2)
+                red_p2 = round(red2 / total2 * 100, 2)
+                data_set = green_p2, yellow_p2, red_p2
+                percentage_of_paring.append(data_set)
+                lista = list(percentage_of_paring)
+            lista.append(A)
+            total_percentage.append(lista)
+            print(hypothetical_list)
+            print("-----------------")
+            print(total_percentage)
         ctx = {
-            "data_list": sorted_list,
-            # "data_list_bad": sorted_list[-6:],
+            "data_list": sorted_list[:5],
+            "data_list_bad": sorted_list[-5:],
             "tournament": tournament,
             "paring": player,
+            "form": form,
             "green": green,
             "yellow": yellow,
             "red": red,
             "green_p": green_p,
             "yellow_p": yellow_p,
             "red_p": red_p,
+            "players_points": players_points,
+            "army_points": army_points,
+            "total_percentage": total_percentage,
+            "teamB": teamB,
+            "range": range(1, 5),
         }
         return render(request, "paring_4v4.html", ctx)
 
