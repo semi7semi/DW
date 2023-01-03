@@ -6,16 +6,7 @@
         <div class="menu-item">
             {% if request.user.is_authenticated %}
             <div class="nav nav-pills nav-justified">
-                <a class="nav-link btn-color" href="{% url 'result' %}">Dodaj wynik</a>
-            </div>
-            {% endif %}
-        </div>
-        <div class="menu-item">
-            {% if request.user.is_authenticated %}
-            <div class="nav nav-pills nav-justified">
-                <a class="nav-link btn-color-excel"
-                   href="https://drive.google.com/file/d/1uVOaH1UD0JWOciopjKO85SbIDS6wBgDH/view?usp=sharing">Excel
-                    ligowy</a>
+                <a class="nav-link btn-color-grey disabled" href="{% url 'result' %}">Dodaj wynik</a>
             </div>
             {% endif %}
         </div>
@@ -24,10 +15,10 @@
         <h4>Rankingi</h4>
         <div class="row">
             <div class="nav flex-column nav-pills m-2">
-                <a class="nav-link btn-color-grey disabled" href="{% url 'main' %}">2023</a>
+                <a class="nav-link btn-color" href="{% url 'main' %}">2023</a>
             </div>
             <div class="nav flex-column nav-pills m-2">
-                <a class="nav-link btn-color" href="{% url 'main-2022' %}">2022</a>
+                <a class="nav-link btn-color-grey disabled" href="{% url 'main-2022' %}">2022</a>
             </div>
             <div class="nav flex-column nav-pills m-2">
                 <a class="nav-link btn-color" href="{% url 'main-2021' %}">2021</a>
@@ -42,7 +33,7 @@
     <div class="col">
     <div class="m-2 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ranking Wałeczków sezon 2023 - Mastery</span>
+            <span>Ranking Wałeczków sezon 2022 - Mastery</span>
         </h2>
         <table class="table css-serial">
             <thead>
@@ -83,7 +74,7 @@
     </div>
     <div class="m-2 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ranking Wałeczków sezon 2023 - Lokale</span>
+            <span>Ranking Wałeczków sezon 2022 - Lokale</span>
         </h2>
         <table class="table css-serial">
             <thead>
@@ -115,7 +106,7 @@
     </div>
     <div class="m-2 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ranking Wałeczków sezon 2023 - Home</span>
+            <span>Ranking Wałeczków sezon 2022 - Home</span>
         </h2>
         <table class="table css-serial">
             <thead>

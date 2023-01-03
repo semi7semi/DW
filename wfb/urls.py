@@ -9,7 +9,7 @@ from wfb_app.views import Index, List, AddUnitView, EditUnitView, RankingList, \
     DeleteTParing3v3View, EditTParing3v3View, TParing4v4View, DeleteTParing4v4View, TParing5v5View, \
     DeleteTParing5v5View, EditTParing4v4View, EditTParing5v5View, ArmyIconsView, TournamentETCView, \
     AddTournamentETCView, EditTournamentETCView, DeleteTournamentETCView, ETCParingsView, TParing8v8View, \
-    DeleteTParing8v8View, EditTParing8v8View
+    DeleteTParing8v8View, EditTParing8v8View, Index_2022, RankingList_2022, UserDetailsView_2022
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,6 +46,10 @@ urlpatterns = [
     path("user_details_2021/<int:id>/", UserDetailsView_2021.as_view(), name="user-details-2021"),
     path("ranking_2021/", RankingList_2021.as_view(), name="ranking-list-2021"),
     path('index_2021/', Index_2021.as_view(), name="main-2021"),
+
+    path("user_details_2022/<int:id>/", UserDetailsView_2022.as_view(), name="user-details-2022"),
+    path("ranking_2022/", RankingList_2022.as_view(), name="ranking-list-2022"),
+    path('index_2022/', Index_2022.as_view(), name="main-2022"),
 
     path("tournaments/", TournamentsView.as_view(), name="tournaments-view"),
     path("tournaments/add/", AddTournamentView.as_view(), name="add-tournament"),
